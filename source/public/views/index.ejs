@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A minimalistic vanilla chat app made in Node.js"
+    />
+    <meta name="robots" content="follow, index" />
+    <meta name="author" content="PxLine Team" />
+    <meta name="theme-color" content="#7A2FFF" />
+    <meta name="keywords" content="chat app, nodejs chat app" />
+    <meta property="og:site_name" content="PxLine" />
+    <meta property="og:image" content="/assets/preview-logo.jpg" />
+    <meta property="og:image:width" content="300" />
+    <meta property="og:image:height" content="300" />
+    <meta property="og:locale" content="en_US" />
+    <title>PxLine — Chat</title>
+    <link rel="icon" href="/assets/logo.jpg" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/style.css" type="text/css" />
+    <script
+      src="https://kit.fontawesome.com/c0b785182d.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <nav>
+      <h1 class="logo">PxLine</h1>
+      <div class="search-container">
+        <input type="text" placeholder="Search chats..." class="search-bar" />
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      </div>
+    </nav>
+    <div class="hero-container">
+      <div class="chat-list-container">
+        <p class="error"></p>
+      </div>
+      <div class="menu-container">
+        <div class="menu-box">
+          <i class="fa-regular fa-message"></i>
+          <i class="fa-solid fa-users"></i>
+          <i class="fa-solid fa-sliders"></i>
+          <span class="indicator"></span>
+        </div>
+      </div>
+    </div>
+    <script>
+        try {
+          const chatTilesContainer = document.querySelector('.chat-list-container');
+          const userData = <%-JSON.stringify(user)%>;
+          if (userData && userData.chats) {
+            userData.chats.forEach((chat) => {
+              const tileData = getUserAssets(chat.user_id);
+              createChatTile(tileData, chat);
+            });
+          } else {
+            document.querySelector('.error').innerText = 'Can\'t load chats, please try again later...';
+          }
+            
+          function createChatTile(chatData, chat) {
+            const [image, display_name, id, chat_type] = chatData;
+            const chatTile = document.createElement('div');
+            chatTile.classList.add('chat-tile');
+            const profilePic = document.createElement('img');
+            profilePic.classList.add('profile-pic');
+            profilePic.setAttribute('src', image);
+            profilePic.setAttribute('alt', `${display_name} chat icon`);
+            chatTile.appendChild(profilePic);
+            const chatInfo = document.createElement('div');
+            chatInfo.classList.add('chat-info');
+            const chatHeader = document.createElement('div');
+            chatHeader.classList.add('chat-header');
+            const title = document.createElement('p');
+            title.classList.add('title');
+            title.textContent = display_name;
+            chatHeader.appendChild(title);
+            chatInfo.appendChild(chatHeader);
+            const message = document.createElement('div');
+            message.classList.add('message');
+            message.textContent = chat.type === 'group' ? `${chat.last_message.username}: ${chat.last_message.message}` : chat.last_message.message;
+            chatInfo.appendChild(message);
+            chatTile.appendChild(chatInfo);
+            chatTile.setAttribute('data-id', JSON.stringify({ id: id, room: (chat_type === 'room') ? true : false }));
+            chatTilesContainer.appendChild(chatTile);
+          }
+
+          function getUserAssets(rid) {
+            const allUsers = <%-JSON.stringify(extchats)%>;
+            const user = allUsers.find(user => user._id === rid);
+            if (!user) {
+              return null; // Return null if user with provided id is not found
+            }
+            return [user.image, user.display_name, user._id];
+          }
+            document.querySelectorAll('.chat-tile').forEach(chatTile => {
+                chatTile.addEventListener('click', () => {
+                    const chatData = JSON.parse(chatTile.dataset.id);
+                    const chatId = chatData.id;
+                    const isRoom = chatData.room;
+                    window.location.href = `/chat/${chatId}/${isRoom}`; //updated endpoint
+                });
+            });
+        } catch(e) {
+          console.error(e);
+        }
+    </script>
+  </body>
+</html>
