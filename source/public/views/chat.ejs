@@ -24,48 +24,35 @@
 
 <body>
   <div class="chat-container">
-    <div class="chat-header"></div>
-    <!-- Message -->
-    <div class="message-container"></div>
-      <!-- Input -->
-      <div class="messageInput">
-        <div class="input">
-          <i class='bx bx-plus'></i>
-          <input type="text" placeholder="Message">
+    <div class="chat-header">
+      <div class="imgcontent">
+        <a href="/"><i class="fa-solid fa-arrow-left"></i></a>
+        <div class="imgBx">
+          <img src="" alt="" />
         </div>
-        <div class="send"><i class='bx bx-send'></i></div>
+        <h3></h3>
+        <i class="fa-solid fa-magnifying-glass search"></i>
       </div>
-      <!-- Input End -->
     </div>
-    <!-- Message End -->
+    <div class="message-container"></div>
+    <div class="messageInput">
+      <div class="input">
+        <i class='bx bx-plus'></i>
+        <input type="text" placeholder="Message">
+      </div>
+      <div class="send"><i class='bx bx-send'></i></div>
+    </div>
+  </div>
   </div>
   <script>
     function createChatHeader(title, icon) {
-  const parentContainer = document.querySelector('.chat-header');
-  const div = document.createElement('div');
-  div.classList.add('imgcontent');
-  const anchor = document.createElement('a');
-  anchor.href = '/';
-  const iArrow = document.createElement('i');
-  iArrow.classList.add('fa-solid', 'fa-arrow-left');
-  anchor.appendChild(iArrow);
-  const divImgBx = document.createElement('div');
-  divImgBx.classList.add('imgBx');
-  const img = document.createElement('img');
-  img.src = icon;
-  img.alt = 'Image';
-  const h3 = document.createElement('h3');
-  h3.textContent = title;
-  const iSearch = document.createElement('i');
-  iSearch.classList.add('fa-solid', 'fa-magnifying-glass', 'search');
-  divImgBx.appendChild(img);
-  div.appendChild(anchor);
-  div.appendChild(divImgBx);
-  div.appendChild(h3);
-  div.appendChild(iSearch);
-  parentContainer.appendChild(div);
+      const parentContainer = document.querySelector('.chat-header');
+      const h3 = parentContainer.querySelector('h3');
+      const img = parentContainer.querySelector('img');
+      h3.textContent = title;
+      img.src = icon;
     }
-    
+
     function appendMessage(url, sender_username, message) {
       const messageContainer = document.querySelector('.message-container');
       const messageDiv = document.createElement('div');
@@ -87,7 +74,7 @@
       messageContainer.appendChild(messageDiv);
       console.log('Message appended!');
     }
-    
+
     function getUserAssets(rid, type) {
       if (type === 'DM') {
         const allUsers = <%-JSON.stringify(load)%>;
@@ -118,13 +105,13 @@
       });
     } else {
       let roomOffload = <%-JSON.stringify(extroom)%> || {};
-      let chats = <%-JSON.stringify(chats)%>;
+      let chats = <%-JSON.stringify(chats)%> ;
       createChatHeader(roomOffload.room_title, offload.icon);
       chats.svd_chats.forEach((chat) => {
         const details = getUserAssets(chat.sender, type);
         appendMessage(details[0], details[1], chat.message);
       });
-    }  
+    }
   </script>
 </body>
 </html>
