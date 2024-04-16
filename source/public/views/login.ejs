@@ -24,19 +24,88 @@
   </nav>
   <div class="hero-container">
     <div class="register-container">
-    <form action="/login" method="POST">
-      <h2>Sign In</h2>
-      <div class="form-group">
-        <input type="username" id="email" name="username" placeholder="Enter username" required>
-      </div>
-      <div class="form-group">
-        <input type="password" id="password" name="password" placeholder="Enter password" required>
-      </div>
-      <button type="submit">Sign In</button>
-      <p>Don't have an account? <a href="/signup">Register</a></p>
-    </form>
+      <form action="/login" method="POST" class="form">
+        <h2>Sign In</h2>
+        <div class="form-group">
+          <input type="username" id="email" name="username" placeholder="Enter username">
+          <i class="bx bxs-check-circle check"></i>
+          <small>Error Message</small>
+        </div>
+        <div class="form-group">
+          <input type="password" id="password" name="password" placeholder="Enter password">
+          <i class='bx bxs-check-circle'></i>
+          <small>Error Message</small>
+        </div>
+        <button type="submit" id="btn"> Sign In</button>
+        <p>Don't have an account? <a href="/signup">Register</a></p>
+      </form>
+    </div>
   </div>
-  </div>
-  <script src="./ui-script.js"></script>
+
+  <script src="/scripts/checks.js"></script>
+  <script>
+    const form = document.querySelector('.form');
+    const username = document.getElementById('email');
+    const password = document.getElementById('password');
+    
+    const fieldValidity = {
+      username: false,
+      password: false
+    };
+
+    function updateButtonState() {
+      const { username, password } = fieldValidity;
+      switchButton(username && password);
+    }
+    updateButtonState();
+    
+    const usrArray = [];
+    username.addEventListener('input', (e) => {
+      if (e.inputType === 'insertText') {
+        usrArray.push(e.data);
+      } else if (e.inputType === 'deleteContentBackward' && usrArray.length > 0) {
+        usrArray.pop();
+      } else {
+        console.error('undefined');
+      }
+      const usernameValue = usrArray.join('');
+      if (/^[a-zA-Z0-9.]{10,}$/.test(usernameValue)) {
+        setSuccessFor(username);
+        fieldValidity.username = true;
+        updateButtonState();
+      } else {
+        setErrorFor(username, 'Invalid username');
+        fieldValidity.username = false;
+        updateButtonState();
+      }
+    });
+
+    const passArray = [];
+    password.addEventListener('input', (e) => {
+      if (e.inputType === 'insertText') {
+        passArray.push(e.data);
+      } else if (e.inputType === 'deleteContentBackward' && passArray.length > 0) {
+        passArray.pop();
+      } else {
+        console.error('undefined');
+      }
+      const val = passArray.join('');
+      if (val) {
+        if (/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{5,}$/.test(val)) {
+          setSuccessFor(password);
+          fieldValidity.password = true;
+          updateButtonState();
+        } else {
+          setWarnFor(password, 'Password too weak');
+          fieldValidity.password = true;
+          updateButtonState();
+        }
+      } else {
+        setErrorFor(password, 'Invalid password');
+        fieldValidity.password = false;
+        updateButtonState();
+      }
+    });
+  </script>
 </body>
 </html>
