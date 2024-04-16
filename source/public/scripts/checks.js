@@ -22,7 +22,7 @@ function switchButton(state) {
   if (state === false) {
     btn.disabled = true;
     btn.classList.add('locked');
-    btn.innerHTML = "<i class='bx bxs-lock-alt locke'></i> Sign in";
+    btn.innerHTML = "<i class='bx bxs-lock-alt lock'></i> Sign in";
   } else {
     btn.disabled = false;
     btn.classList.remove('locked');
