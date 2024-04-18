@@ -18,6 +18,14 @@
   <link rel="stylesheet" href="signup.css">
   <link rel="stylesheet" href="style.css">
   <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+  <style>
+    .form-group small{
+    visibility: hidden;
+    position: relative;
+    bottom: 0;
+    left: -20px;
+  }
+  </style>
 </head>
 <body>
   <nav>
@@ -25,7 +33,7 @@
   </nav>
   <div class="hero-container">
     <div class="register-container">
-    <form action="/login" method="POST" class="form">
+    <form action="/login" method="POST" class="form" id="form">
       <h2>Sign In</h2>
       <div class="form-group">
         <input type="username" id="email" name="username" placeholder="Enter username">
@@ -53,7 +61,7 @@
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      // checkInputs();
+      checkInputs();
     });
 
     function checkInputs() {
@@ -64,10 +72,16 @@
         // show error
         // add error class
         setErrorFor(username, 'User name cannot be blank');
-      }else{
+      }else {
         // success class 
         setSuccessFor(username);
       }
+
+      if (passwordValue === '') {
+        setErrorFor(password, 'Password cannot be blank');
+      }else {
+        setSuccessFor(password);
+      } 
     }
 
     function setErrorFor(input, message) {
@@ -78,10 +92,10 @@
       small.innerText = message;
 
       // add error class
-      formGroup.className = 'form-group error';
+      formGroup.className = 'form-group Error';
     }
   
-    function setErrorFor(input) {
+    function setSuccessFor(input) {
       const formGroup = input.parentElement;
       formGroup.className = 'form-group success';
     }
