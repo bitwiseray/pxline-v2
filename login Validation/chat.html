@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A minimalistic vanilla chat app made in Node.js">
+  <meta name="robots" content="follow, index">
+  <meta name="author" content="PxLine Team">
+  <meta name="theme-color" content="#7A2FFF">
+  <meta name="keywords" content="chat app, nodejs chat app">
+  <meta property="og:site_name" content="PxLine">
+  <meta property="og:image" content="/assets/preview-logo.jpg">
+  <meta property="og:image:width" content="300">
+  <meta property="og:image:height" content="300">
+  <meta property="og:locale" content="en_US">
+  <title>PxLine — Chat</title>
+  <link rel="icon" href="/assets/logo.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="chat.css">
+  <script src="https://kit.fontawesome.com/c0b785182d.js" crossorigin="anonymous"></script>
+  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+</head>
+
+<body>
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="imgcontent">
+        <a href="/"><i class="fa-solid fa-arrow-left"></i></a>
+        <div class="imgBx">
+          <img src="" alt="" />
+        </div>
+        <h3></h3>
+      </div>
+      <div class="actionBtn">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+    </div>
+    <div class="message-container">
+    <div class="messageInput">
+      <div class="input">
+        <i class='bx bx-plus'></i>
+        <input type="text" placeholder="Message">
+      </div>
+      <div class="send"><i class='bx bx-send'></i></div>
+    </div>
+  </div>
+  </div>
+  <script>
+    function createChatHeader(title, icon) {
+      const parentContainer = document.querySelector('.chat-header');
+      const h3 = parentContainer.querySelector('h3');
+      const img = parentContainer.querySelector('img');
+      h3.textContent = title;
+      img.src = icon;
+    }
+
+    function appendMessage(url, sender_username, message) {
+      const messageContainer = document.querySelector('.message-container');
+      const messageDiv = document.createElement('div');
+      const profilePicImg = document.createElement('img');
+      const messageContentDiv = document.createElement('div');
+      const senderDiv = document.createElement('div');
+      const messageTextDiv = document.createElement('div');
+      messageDiv.classList.add('message');
+      profilePicImg.classList.add('profile_pic');
+      profilePicImg.src = url;
+      senderDiv.classList.add('sender');
+      senderDiv.textContent = sender_username;
+      messageTextDiv.classList.add('msg');
+      messageTextDiv.textContent = message;
+      messageContentDiv.appendChild(senderDiv);
+      messageContentDiv.appendChild(messageTextDiv);
+      messageDiv.appendChild(profilePicImg);
+      messageDiv.appendChild(messageContentDiv);
+      messageContainer.appendChild(messageDiv);
+      console.log('Message appended!');
+    }
+
+    function getUserAssets(rid, type) {
+      if (type === 'DM') {
+        const allUsers = <%-JSON.stringify(load)%>;
+        const user = allUsers.find(user => user._id === rid);
+        if (!user) {
+          return null;
+        }
+        return [user.image, user.display_name, user._id];
+      } else {
+        const allUsers = <%-JSON.stringify(chats)%>;
+        const user = allUsers.find(user => user._id === rid);
+        if (!user) {
+          return null;
+        }
+        return [user.image, user.display_name, user._id];
+      }
+    }
+
+    let type = String('<%-extChatType%>');
+    if (type === 'DM') {
+      let offload = <%-JSON.stringify(extuser)%>;
+      createChatHeader(offload.display_name, offload.image);
+      let chats = <%-JSON.stringify(chats)%>;
+      chats.svd_chats.forEach((chat) => {
+        const details = getUserAssets(chat.sender, type);
+        console.log({ url: details[0], name: details[1], message: chat.message });
+        appendMessage(details[0], details[1], chat.message);
+      });
+    } else {
+      let roomOffload = <%-JSON.stringify(extroom)%> || {};
+      let chats = <%-JSON.stringify(chats)%> ;
+      createChatHeader(roomOffload.room_title, offload.icon);
+      chats.svd_chats.forEach((chat) => {
+        const details = getUserAssets(chat.sender, type);
+        appendMessage(details[0], details[1], chat.message);
+      });
+    }
+  </script>
+</body>
+</html>
