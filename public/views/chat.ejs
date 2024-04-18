@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A minimalistic vanilla chat app made in Node.js">
+  <meta name="robots" content="follow, index">
+  <meta name="author" content="PxLine Team">
+  <meta name="theme-color" content="#7A2FFF">
+  <meta name="keywords" content="chat app, nodejs chat app">
+  <meta property="og:site_name" content="PxLine">
+  <meta property="og:image" content="/assets/preview-logo.jpg">
+  <meta property="og:image:width" content="300">
+  <meta property="og:image:height" content="300">
+  <meta property="og:locale" content="en_US">
+  <title>PxLine — Chat</title>
+  <link rel="icon" href="/assets/logo.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="/css/chat.css">
+  <script defer src="/socket.io/socket.io.js"></script>
+  <script src="https://kit.fontawesome.com/c0b785182d.js" crossorigin="anonymous"></script>
+  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+  <script defer src="/scripts/chat.js"></script>
+</head>
+
+<body>
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="imgcontent">
+        <a href="/"><i class="fa-solid fa-arrow-left"></i></a>
+        <div class="imgBx">
+          <img src="" alt="" />
+        </div>
+        <h3></h3>
+        <i class="fa-solid fa-magnifying-glass search"></i>
+      </div>
+    </div>
+    <div class="message-container"></div>
+    <div class="messageInput">
+      <div class="input">
+        <i class='bx bx-plus'></i>
+        <input id="inp" type="text" placeholder="Message">
+      </div>
+      <div class="send"><i class='bx bx-send'></i></div>
+    </div>
+  </div>
+  </div>
+  <script src="/scripts/chat-ui.js"></script>
+  <script>
+    const type = '<%=extType%>';
+    const user = <%-JSON.stringify(user)%>;
+    function initChat() {
+      if (type === 'room') {
+        const room = <%-JSON.stringify(extroom)%>;
+        const chats = <%-JSON.stringify(chats)%>;
+        const members = <%-JSON.stringify(extusers)%>;
+        createChatHeader(room.title, room.icon);
+        if (Array.isArray(chats.svd_chats) && chats.svd_chats.length >= 0) {
+          chats.svd_chats.forEach(chat => {
+            const senderUser = chat.sender === user._id ? user : members.find(member => member._id === chat.sender);
+            appendMessage(senderUser.image, senderUser.display_name, chat.message);
+          });
+        } else {
+          console.error('Invalid chats object or svd_chats array');
+        }
+      } else {
+        console.log('DM')
+        const extuser = <%-JSON.stringify(extusers)%>;
+        const chats = <%-JSON.stringify(chats)%>;
+        createChatHeader(extuser.display_name, extuser.image);
+        if (Array.isArray(chats.svd_chats) && chats.svd_chats.length >= 0) {
+          chats.svd_chats.forEach(chat => {
+            const senderUser = chat.sender === user._id ? user : extuser; // Assuming otherUser is available
+            appendMessage(senderUser.image, senderUser.display_name, chat.message);
+          });
+        } else {
+         console.error('Invalid chats object or svd_chats array');
+        }
+      }
+    }
+    initChat();
+  </script>
+</body>
+</html>

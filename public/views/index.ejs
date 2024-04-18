@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A minimalistic vanilla chat app made in Node.js" />
+  <meta name="robots" content="follow, index" />
+  <meta name="author" content="PxLine Team" />
+  <meta name="theme-color" content="#7A2FFF" />
+  <meta name="keywords" content="chat app, nodejs chat app" />
+  <meta property="og:site_name" content="PxLine" />
+  <meta property="og:image" content="/assets/preview-logo.jpg" />
+  <meta property="og:image:width" content="300" />
+  <meta property="og:image:height" content="300" />
+  <meta property="og:locale" content="en_US" />
+  <title>PxLine — Chat</title>
+  <link rel="icon" href="/assets/logo.jpg" type="image/x-icon" />
+  <link rel="stylesheet" href="/css/style.css" type="text/css" />
+  <script src="https://kit.fontawesome.com/c0b785182d.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <nav>
+    <h1 class="logo">PxLine</h1>
+    <div class="search-container">
+      <input type="text" placeholder="Search chats..." class="search-bar" />
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    </div>
+  </nav>
+  <div class="hero-container">
+    <div class="chat-list-container">
+      <p class="error"></p>
+    </div>
+    <div class="menu-container">
+      <div class="menu-box">
+        <i class="fa-regular fa-message"></i>
+        <i class="fa-solid fa-users"></i>
+        <i class="fa-solid fa-sliders"></i>
+        <span class="indicator"></span>
+      </div>
+    </div>
+  </div>
+  <script>
+    try {
+      const rooms = <%-JSON.stringify(extrooms)%>;
+      const extusers = <%-JSON.stringify(extusers)%>;
+      function initTiles(rooms, users) {
+        
+        rooms.forEach(room => {
+          console.log(room);
+          createChatTile(room);
+        });
+        users.forEach(user => {
+          console.log(user);
+          createChatTile(user);
+        });
+      }
+      initTiles(rooms, extusers)
+      function createChatTile(entity) {
+        if (!entity || !entity.chats) return;
+        const chatTilesContainer = document.querySelector('.chat-list-container');
+        if (!chatTilesContainer) {
+          console.error('Chat list container not found.');
+          return;
+        }
+        const chatTile = document.createElement('div');
+        chatTile.classList.add('chat-tile');
+        const profilePic = document.createElement('img');
+        profilePic.classList.add('profile-pic');
+        let title, messageContent;
+        if (entity.icon) {
+          profilePic.setAttribute('src', entity.icon);
+          profilePic.setAttribute('alt', `${entity.title} chat icon`);
+          title = document.createElement('p');
+          title.classList.add('title');
+          title.textContent = entity.title;
+          chatTile.setAttribute('data-id', JSON.stringify({ id: entity._id, room: true }));
+          if (entity.chats.last_message) {
+            messageContent = `${entity.chats.last_message.user_name}: ${entity.chats.last_message.message}`;
+          }
+        } else if (entity.image) {
+          profilePic.setAttribute('src', entity.image);
+          profilePic.setAttribute('alt', `${entity.display_name} chat icon`);
+          title = document.createElement('p');
+          title.classList.add('title');
+          title.textContent = entity.display_name;
+          chatTile.setAttribute('data-id', JSON.stringify({ id: entity._id }));
+          if (entity.chats.last_message) {
+            messageContent = `${entity.chats.last_message.user_name.trim()}: ${entity.chats.last_message.message}`;
+          }
+        }
+        chatTile.appendChild(profilePic);
+        const chatInfo = document.createElement('div');
+        chatInfo.classList.add('chat-info');
+        const chatHeader = document.createElement('div');
+        chatHeader.classList.add('chat-header');
+        chatHeader.appendChild(title);
+        const message = document.createElement('div');
+        message.classList.add('message');
+        message.textContent = messageContent || 'No message available';
+        chatInfo.appendChild(chatHeader);
+        chatInfo.appendChild(message);
+        chatTile.appendChild(chatInfo);
+        chatTilesContainer.appendChild(chatTile);
+      }
+      document.addEventListener('DOMContentLoaded', () => {
+          const chatTiles = document.querySelectorAll('.chat-tile')
+            chatTiles.forEach(tile => {
+              tile.addEventListener('click', function() {
+                const dataId = JSON.parse(tile.getAttribute('data-id'));
+                const id = dataId.id;
+                window.location.href = `/chat/${id}`;
+              });
+            });
+          });
+    } catch (e) {
+      console.error(e);
+    }
+  </script>
+</body>
+</html>

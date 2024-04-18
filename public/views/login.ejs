@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PxLine sign in!">
+  <meta name="robots" content="nofollow, noindex">
+  <meta name="author" content="PxLine Team">
+  <meta name="keywords" content="chat app, nodejs chat app">
+  <meta name="theme-color" content="#7A2FFF">
+  <meta property="og:site_name" content="PxLine">
+  <meta property="og:image" content="/assets/preview-logo.jpg">
+  <meta property="og:image:width" content="300">
+  <meta property="og:image:height" content="300">
+  <meta property="og:locale" content="en_US">
+  <title>PxLine - Sign In</title>
+  <link rel="icon" href="/assets/logo.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="/css/signup.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav>
+    <h1 class="logo">PxLine</h1>
+  </nav>
+  <div class="hero-container">
+    <div class="register-container">
+    <form action="/login" method="POST">
+      <h2>Sign In</h2>
+      <div class="form-group">
+        <input type="username" id="email" name="username" placeholder="Enter username" required>
+      </div>
+      <div class="form-group">
+        <input type="password" id="password" name="password" placeholder="Enter password" required>
+      </div>
+      <button type="submit">Sign In</button>
+      <p>Don't have an account? <a href="/signup">Register</a></p>
+    </form>
+  </div>
+  </div>
+  <script src="./ui-script.js"></script>
+</body>
+</html>
