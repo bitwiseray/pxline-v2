@@ -1,3 +1,5 @@
+![PxLine logo banner](https://media.discordapp.net/attachments/1025788277120315492/1230558075308609677/20240418_220716.jpg?ex=6633c183&is=66214c83&hm=2df6773d66fed79c68959ceec6e4cefd4668c14c4a13df21cd1f38afc134a7b4&)
+
 ## Full-Stack Chat App
 
 This is a **hobbyist** project for a full-stack chat application built by very "professional and experienced devs" using Node.js, Express.js framework, and Ejs for front-end templating.
