@@ -1,24 +1,36 @@
+p {
+  font-size: 13px;
+  text-align: center;
+}
+
+a { text-decoration: none }
+
 .hero-container
 {
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
     width: 100%;
     height: 70%;
 }
 
 .register-container {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     padding: 20.5px;
     width: 80%;
+    height: 100%;
     /* bottom: -1rem;
     left: 1rem; */
   }
   
   .register-container h2 {
+    margin-top: 0;
     font-size: 35px;
     text-align: center;
   }
@@ -28,9 +40,9 @@
     flex-direction: column;
   }
   
-  .form-group {
-    margin-bottom: 10px;
-  }
+  /* .form-group {
+    margin-bottom: 5px;
+  } */
   
   ::placeholder {
     font-size: 15px;
@@ -41,14 +53,15 @@
     padding: 10px;
     border-radius: 4px;
     border: 2px solid #ccc;
-    width: 92.5%;
+    width: auto;
+    align-self: center;
     outline-color: transparent;/* #FFB9D2 */
     font-size: 15px;
   }
   
   .form-group i{
     position: relative;
-    top: -30px;
+    top: -33px;
     right: -90%;
     visibility: hidden;
   }
@@ -57,20 +70,20 @@
   {
     color: #2ecc71;
     visibility: visible;
+    font-size: 1.5em;
   }
 
   .form-group small{
     visibility: hidden;
     position: relative;
     bottom: 0;
-    left: -10px;
+    left: 0;
   }
 
-  .form-group.error small
+  .form-group.Error small
   {
     visibility: visible;
     color: #e74c3c;
-    left: -38.5%;
   }
 
   .form button {
@@ -93,24 +106,30 @@
     border-color: #2ecc71;
   }
 
-  .form-group.error input
+  .form-group.Error input
   {
     border-color: #e74c3c;
   }
-
-  p {
-    font-size: 13px;
-    text-align: center;
-  }
   
-  a { text-decoration: none }
-  
-  .register-container img {
+  .hero-container .register-container .acc-img
+  {
+    
     position: relative;
-    height: auto;
-    width: 150px;
-    margin: 0 auto;
-    top: -1rem;
-    cursor: pointer;
-    border-radius: 60%;
+    align-self: center;
+    margin-bottom: 10px;
+    width:90px;
+    height:90px;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: #ccc;
+  }
+
+  .hero-container .register-container .acc-img img
+  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
