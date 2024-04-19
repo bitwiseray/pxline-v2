@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Register to PxLine Chats!">
+  <meta name="robots" content="nofollow, noindex">
+  <meta name="author" content="PxLine Team">
+  <meta name="keywords" content="chat app, nodejs chat app">
+  <meta name="theme-color" content="#7A2FFF">
+  <meta property="og:site_name" content="PxLine">
+  <meta property="og:image" content="/assets/preview-logo.jpg">
+  <meta property="og:image:width" content="300">
+  <meta property="og:image:height" content="300">
+  <meta property="og:locale" content="en_US">
+  <title>PxLine - Register</title>
+  <link rel="icon" href="/assets/logo.jpg" type="image/x-icon">
+  <link rel="stylesheet" href="signup.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <h1 class="logo">PxLine</h1>
+  </nav>
+  <div class="hero-container">
+    <div class="register-container">
+    <form action="/signup" method="POST" class="form" id="form">
+      <h2>Register</h2>
+      <div class="acc-img">
+        <img id="profilePicPreview" src="https://media.discordapp.net/attachments/1025788277120315492/1224416622731595938/1711993532064.png?ex=662fded7&is=661d69d7&hm=e2a23e41cd8dfa3669c8096b5c74a0be301db25893198203081814391b1cd16c&" alt="Picture"/>
+
+        <input type="file" id="profilePictureInput" name="image" style="display: none;" accept="image/*">
+      </div>
+      <div class="form-group">
+        <input type="text" id="displayName" name="display_name" placeholder="Display name">
+        <small>Error Message</small>
+      </div>
+      <div class="form-group">
+        <input type="text" id="username" name="username" placeholder="Create username">
+        <small>Error Message</small>
+      </div>
+      <div class="form-group">
+        <input type="password" id="password" name="password" placeholder="Create password">
+        <small>Error Message</small>
+      </div>
+      <button type="submit">Register</button>
+      <p>Already have an account? <a href="/login">Login</a></p>
+    </form>
+  </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const profilePicIcon = document.getElementById('profilePicPreview');
+      const profilePictureInput = document.getElementById('profilePictureInput');
+      profilePicIcon.addEventListener('click', () => {
+        profilePictureInput.click();
+    });
+
+    profilePictureInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+        profilePicIcon.src = e.target.result;
+      }
+      reader.readAsDataURL(file);
+    }
+   });
+ });
+
+    // Validation
+    const form = document.getElementById('form');
+    const displayname = document.getElementById('displayName');
+    const username = document.getElementById('username');
+    const password = document.getElementById('password');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      checkInputs();
+    });
+
+    function checkInputs() {
+      const displaynameValue = displayname.value.trim();
+      const usernameValue = username.value.trim();
+      const passwordValue = password.value.trim();
+      if (displaynameValue === '') {
+        // show error
+        // add error class
+        setErrorFor(displayname, 'Display name cannot be blank');
+      }else {
+        // success class 
+        setSuccessFor(displayname);
+      }
+
+      if (usernameValue === '') {
+        // show error
+        // add error class
+        setErrorFor(username, 'User name cannot be blank');
+      }else {
+        // success class 
+        setSuccessFor(username);
+      }
+
+      if (passwordValue === '') {
+        setErrorFor(password, 'Password cannot be blank');
+      }else {
+        setSuccessFor(password);
+      } 
+    }
+
+    function setErrorFor(input, message) {
+      const formGroup = input.parentElement;
+      const small = formGroup.querySelector('small');
+
+      // add error message inside small
+      small.innerText = message;
+
+      // add error class
+      formGroup.className = 'form-group Error';
+    }
+  
+    function setSuccessFor(input) {
+      const formGroup = input.parentElement;
+      formGroup.className = 'form-group success';
+    }
+  </script>
+</body>
+</html>
