@@ -4,7 +4,7 @@ const chatSchema = new mongoose.Schema({
   timestamp: { type: Date, required: true },
   svd_chats: [
     {
-      message: String,
+      content: String,
       sender: String,
       attachments: String
     },
