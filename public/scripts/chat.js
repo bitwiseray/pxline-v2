@@ -14,13 +14,15 @@ document.querySelector('.send').addEventListener('click', (e) => {
       name: room.title,
       image: room.icon,
       members: room.members,
+      chat_id: room.chat_id,
      }
     } else {
       return {
         id: extuser._id,
         name: extuser.displayname,
         image: extuser.image,
-        members: null
+        members: null,
+        chat_id: extuser.chat_id,
       }
     }
   }
