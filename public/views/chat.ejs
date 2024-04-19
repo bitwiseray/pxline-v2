@@ -59,7 +59,7 @@
         if (Array.isArray(chats.svd_chats) && chats.svd_chats.length >= 0) {
           chats.svd_chats.forEach(chat => {
             const senderUser = chat.sender === user._id ? user : members.find(member => member._id === chat.sender);
-            appendMessage(senderUser.image, senderUser.display_name, chat.message);
+            appendMessage(senderUser.image, senderUser.display_name, chat.content);
           });
         } else {
           console.error('Invalid chats object or svd_chats array');
@@ -70,7 +70,7 @@
         if (Array.isArray(chats.svd_chats) && chats.svd_chats.length >= 0) {
           chats.svd_chats.forEach(chat => {
             const senderUser = chat.sender === user._id ? user : extuser; // Assuming otherUser is available
-            appendMessage(senderUser.image, senderUser.display_name, chat.message);
+            appendMessage(senderUser.image, senderUser.display_name, chat.content);
           });
         } else {
          console.error('Invalid chats object or svd_chats array');
