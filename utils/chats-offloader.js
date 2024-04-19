@@ -1,12 +1,12 @@
 const Chat = require('../schematics/chats');
 
 async function saveChats(id, chats) {
-  const chatModel = await Chat.findById(id);
+  if (!chats) return;
   const toInsertArray = [];
   chats.forEach(chat => {
     toInsertArray.push({
       content: chat.content || null,
-      sender: chat.chat.id,
+      sender: chat.author.id,
       attachments: chat.attachments || null
     });
   });

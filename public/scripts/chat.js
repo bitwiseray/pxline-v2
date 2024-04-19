@@ -29,6 +29,7 @@ document.querySelector('.send').addEventListener('click', (e) => {
   socket.emit('message', {
     content: contents,
     author: {
+      id: user._id,
       displayname: user.display_name,
       username: user.user_name,
       image: user.image,
