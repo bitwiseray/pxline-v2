@@ -48,12 +48,14 @@
   <script src="/scripts/chat-ui.js"></script>
   <script>
     const type = '<%=extType%>';
+    const room = <%-JSON.stringify(extroom)%>;
+    const extuser = <%-JSON.stringify(extusers)%>;
+    const members = <%-JSON.stringify(extusers)%>;
     const user = <%-JSON.stringify(user)%>;
+    
     function initChat() {
       if (type === 'room') {
-        const room = <%-JSON.stringify(extroom)%>;
         const chats = <%-JSON.stringify(chats)%>;
-        const members = <%-JSON.stringify(extusers)%>;
         createChatHeader(room.title, room.icon);
         if (Array.isArray(chats.svd_chats) && chats.svd_chats.length >= 0) {
           chats.svd_chats.forEach(chat => {
@@ -64,8 +66,6 @@
           console.error('Invalid chats object or svd_chats array');
         }
       } else {
-        console.log('DM')
-        const extuser = <%-JSON.stringify(extusers)%>;
         const chats = <%-JSON.stringify(chats)%>;
         createChatHeader(extuser.display_name, extuser.image);
         if (Array.isArray(chats.svd_chats) && chats.svd_chats.length >= 0) {
