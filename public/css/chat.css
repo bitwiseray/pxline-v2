@@ -146,6 +146,7 @@ i {
 }
 
 .message_content .msg {
+  max-width: 450px;
   word-wrap: break-word;
 }
 
