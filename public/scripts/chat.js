@@ -14,7 +14,7 @@ document.querySelector('.send').addEventListener('click', (e) => {
       name: room.title,
       image: room.icon,
       members: room.members,
-      chat_id: room.chat_id,
+      chat_id: room.chats.chat_id || null,
      }
     } else {
       return {
@@ -22,7 +22,7 @@ document.querySelector('.send').addEventListener('click', (e) => {
         name: extuser.displayname,
         image: extuser.image,
         members: null,
-        chat_id: extuser.chat_id,
+        chat_id: extuser.chats.chat_id || null,
       }
     }
   }
