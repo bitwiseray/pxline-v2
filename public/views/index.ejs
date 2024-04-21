@@ -16,107 +16,161 @@
   <meta property="og:locale" content="en_US" />
   <title>PxLine — Chat</title>
   <link rel="icon" href="/assets/logo.jpg" type="image/x-icon" />
-  <link rel="stylesheet" href="/css/style.css" type="text/css" />
+  <link rel="stylesheet" href="/css/style.css"/>
   <script src="https://kit.fontawesome.com/c0b785182d.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <nav>
-    <h1 class="logo">PxLine</h1>
-    <div class="search-container">
-      <input type="text" placeholder="Search chats..." class="search-bar" />
-      <i class="fa-solid fa-magnifying-glass search-icon"></i>
-    </div>
-  </nav>
-  <div class="hero-container">
-    <div class="chat-list-container">
-      <p class="error"></p>
-    </div>
-    <div class="menu-container">
-      <div class="menu-box">
-        <i class="fa-regular fa-message"></i>
-        <i class="fa-solid fa-users"></i>
-        <i class="fa-solid fa-sliders"></i>
-        <span class="indicator"></span>
+  <div class="container">
+    <header>
+      <p class="logo">PxLine</p>
+      <div class="action">
+        <a href="#"><ion-icon name="search-outline"></ion-icon></a>
+      </div>
+    </header>
+    <!-- Under Line -->
+    <div class="underline"></div>
+    <!-- Nav Tav -->
+    <div class="tabs">
+      <input id="chats" type="radio" name="group" checked>
+      <input id="calls" type="radio" name="group">
+      <input id="rooms" type="radio" name="group">
+      <input id="settings" type="radio" name="group">
+      <!-- Nav buttons -->
+      <div class="nav">
+        <div class="nav-content">
+          <div class="nav-list">
+            <a href="#" class="link-item active">
+              <label for="chats"><i class='bx bxs-chat link-icon'></i></label>
+              <span class="link-text">Chats</span>
+            </a>
+          </div>
+          <div class="nav-list">
+            <a href="#" class="link-item">
+              <label for="calls"><i class='bx bxs-phone link-icon'></i></label>
+              <span class="link-text">calls</span>
+            </a>
+          </div>
+          <div class="nav-list">
+            <a href="#" class="link-item">
+              <label for="rooms"><i class='bx bxs-group link-icon'></i></label>
+              <span class="link-text">Rooms</span>
+            </a>
+          </div>
+          <div class="nav-list">
+            <a href="#" class="link-item">
+              <label for="settings"><i class='bx bxs-cog link-icon'></i></label>
+              <span class="link-text">Settings</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="content">
+        <div class="box chats">
+          <div class="data">
+            <div class="chatlist"></div>
+          </div>
+        </div>
+
+        <div class="box calls">
+          <div class="frem">
+            <p>404</p>
+            <h2>Look like developers are chilling</h2>
+            <h5>the page you are looking for not avaible!</h5>
+          </div>
+        </div>
+
+        <div class="box rooms">
+          <div class="frem">
+            <p>404</p>
+            <h2>Look like developers are chilling</h2>
+            <h5>the page you are looking for not avaible!</h5>
+          </div>
+        </div>
+        <div class="box settings">
+          <div class="frem">
+            <p>404</p>
+            <h2>Look like developers are chilling</h2>
+            <h5>the page you are looking for not avaible!</h5>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <script>
-    try {
-      const rooms = <%-JSON.stringify(extrooms)%>;
+    <script src="/scripts/main.js"></script>
+    <script src="/scripts/index-ui.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+      try {
+        const rooms = <%-JSON.stringify(extrooms)%>;
       const extusers = <%-JSON.stringify(extusers)%>;
-      function initTiles(rooms, users) {
-        
-        rooms.forEach(room => {
-          console.log(room);
-          createChatTile(room);
-        });
-        users.forEach(user => {
-          console.log(user);
-          createChatTile(user);
-        });
-      }
-      initTiles(rooms, extusers)
-      function createChatTile(entity) {
-        if (!entity || !entity.chats) return;
-        const chatTilesContainer = document.querySelector('.chat-list-container');
-        if (!chatTilesContainer) {
-          console.error('Chat list container not found.');
-          return;
-        }
-        const chatTile = document.createElement('div');
-        chatTile.classList.add('chat-tile');
-        const profilePic = document.createElement('img');
-        profilePic.classList.add('profile-pic');
-        let title, messageContent;
-        if (entity.icon) {
-          profilePic.setAttribute('src', entity.icon);
-          profilePic.setAttribute('alt', `${entity.title} chat icon`);
-          title = document.createElement('p');
-          title.classList.add('title');
-          title.textContent = entity.title;
-          chatTile.setAttribute('data-id', JSON.stringify({ id: entity._id, room: true }));
-          if (entity.chats.last_message) {
-            messageContent = `${entity.chats.last_message.user_name}: ${entity.chats.last_message.message}`;
-          }
-        } else if (entity.image) {
-          profilePic.setAttribute('src', entity.image);
-          profilePic.setAttribute('alt', `${entity.display_name} chat icon`);
-          title = document.createElement('p');
-          title.classList.add('title');
-          title.textContent = entity.display_name;
-          chatTile.setAttribute('data-id', JSON.stringify({ id: entity._id }));
-          if (entity.chats.last_message) {
-            messageContent = `${entity.chats.last_message.user_name.trim()}: ${entity.chats.last_message.message}`;
-          }
-        }
-        chatTile.appendChild(profilePic);
-        const chatInfo = document.createElement('div');
-        chatInfo.classList.add('chat-info');
-        const chatHeader = document.createElement('div');
-        chatHeader.classList.add('chat-header');
-        chatHeader.appendChild(title);
-        const message = document.createElement('div');
-        message.classList.add('message');
-        message.textContent = messageContent || 'No message available';
-        chatInfo.appendChild(chatHeader);
-        chatInfo.appendChild(message);
-        chatTile.appendChild(chatInfo);
-        chatTilesContainer.appendChild(chatTile);
-      }
-      document.addEventListener('DOMContentLoaded', () => {
-          const chatTiles = document.querySelectorAll('.chat-tile')
-            chatTiles.forEach(tile => {
-              tile.addEventListener('click', function() {
-                const dataId = JSON.parse(tile.getAttribute('data-id'));
-                const id = dataId.id;
-                window.location.href = `/chat/${id}`;
-              });
-            });
-          });
-    } catch (e) {
-      console.error(e);
+      
+  function initTiles(rooms, users) {
+    rooms.forEach(room => {
+      createChatTile(room);
+    });
+    users.forEach(user => {
+      createChatTile(user);
+    });
+  }
+  initTiles(rooms, extusers);
+  function createChatTile(entity) {
+    if (!entity || !entity.chats) return;
+    const chatBlock = document.createElement('div');
+    chatBlock.classList.add('block', 'unread', 'open');
+    const imgBox = document.createElement('div');
+    imgBox.classList.add('imgbx');
+    const img = document.createElement('img');
+    const nameElement = document.createElement('h4');
+    if (entity.icon) {
+      img.src = entity.icon;
+      imgBox.appendChild(img);
+      nameElement.textContent = entity.title;
+    } else if (entity.image) {
+      img.src = entity.image;
+      imgBox.appendChild(img);
+      nameElement.textContent = entity.display_name;
+
     }
-  </script>
+    chatBlock.appendChild(imgBox);
+    const details = document.createElement('div');
+    details.classList.add('details');
+    const listHead = document.createElement('div');
+    listHead.classList.add('listHead');
+    const timeElement = document.createElement('p');
+    timeElement.classList.add('time');
+    timeElement.textContent = 'Today';
+    listHead.appendChild(nameElement);
+    listHead.appendChild(timeElement);
+    details.appendChild(listHead);
+    const messageP = document.createElement('div');
+    messageP.classList.add('message_p');
+    const messageElement = document.createElement('p');
+    messageElement.textContent = 'Start your first message!';
+    const unreadCountElement = document.createElement('b');
+    unreadCountElement.textContent = 2;
+    messageP.appendChild(messageElement);
+    messageP.appendChild(unreadCountElement);
+    details.appendChild(messageP);
+    chatBlock.appendChild(details);
+    const chatList = document.querySelector('.chatlist');
+    chatBlock.setAttribute('data-id', entity._id);
+    chatList.appendChild(chatBlock);
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    const chatTiles = document.querySelectorAll('.chat-tile')
+    chatTiles.forEach(tile => {
+      tile.addEventListener('click', function() {
+        const id = tile.getAttribute('data-id');
+        window.location.href = `/chat/${id}`;
+      });
+    });
+  });
+} catch (e) {
+  console.error(e);
+    }
+    </script>
 </body>
 </html>
