@@ -120,7 +120,7 @@
   function createChatTile(entity) {
     if (!entity || !entity.chats) return;
     const chatBlock = document.createElement('div');
-    chatBlock.classList.add('block', 'unread', 'open');
+    chatBlock.classList.add('block', 'open');
     const imgBox = document.createElement('div');
     imgBox.classList.add('imgbx');
     const img = document.createElement('img');
@@ -150,10 +150,12 @@
     messageP.classList.add('message_p');
     const messageElement = document.createElement('p');
     messageElement.textContent = 'Start your first message!';
+    /*
     const unreadCountElement = document.createElement('b');
     unreadCountElement.textContent = 2;
+    */
     messageP.appendChild(messageElement);
-    messageP.appendChild(unreadCountElement);
+    // messageP.appendChild(unreadCountElement);
     details.appendChild(messageP);
     chatBlock.appendChild(details);
     const chatList = document.querySelector('.chatlist');
