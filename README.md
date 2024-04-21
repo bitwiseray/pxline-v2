@@ -2,7 +2,7 @@
 
 ## Full-Stack Chat App
 
-This is a **hobbyist** project for a full-stack chat application built by very "professional and experienced devs" using Node.js, Express.js framework, and Ejs for front-end templating.
+This is a **hobbyist** project for a full-stack chat application built by very "professional and experienced devs" using Node.js, Express.js framework, and Ejs for front-end templating, and the most important on **Android devices**!.
 
 ### Note
 Please note this app is in it's very early stages and is not stable to use at the moment.
