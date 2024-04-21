@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
   --primary: #171717;
@@ -14,7 +14,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 body {
@@ -28,13 +28,11 @@ body {
 .container {
   position: relative;
   max-width: 360px;
-  /* height: 100vh; */
   height: 91.8vh;
   background: var(--secondary);
   overflow: hidden;
 }
 
-/* Header */
 header {
   position: relative;
   background: var(--primary);
@@ -64,7 +62,6 @@ header .action a {
   text-decoration: none;
 }
 
-/* Under Line  */
 .underline {
   position: relative;
   left: 0;
@@ -282,35 +279,6 @@ header .action a {
   background: transparent;
 }
 
-/* Calls Section  */
-.blue {
-  background-color: var(--main);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--text-color);
-  font-size: 1.5em;
-}
-
-.incoming i {
-  color: #03C988;
-}
-
-.outgoing i {
-  color: #E94560;
-}
-
-.call {
-  font-size: 1.5em;
-  color: var(--main);
-}
-
-.chatlist label {
-  color: var(--text-color);
-  padding: 0px 10px;
-}
-
-/* Error Message */
 .frem {
   width: 100%;
   height: 70vh;
