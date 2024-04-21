@@ -2,7 +2,7 @@
 
 ## Full-Stack Chat App
 
-This is a **hobbyist** project for a full-stack chat application built by very "professional and experienced devs" using Node.js, Express.js framework, and Ejs for front-end templating.
+This is a **hobbyist** project for a full-stack chat application built by very "professional and experienced devs" using Node.js, Express.js framework, and Ejs for front-end templating, and the most important on **Android devices**!.
 
 ### Note
 Please note this app is in it's very early stages and is not stable to use at the moment.
@@ -18,10 +18,3 @@ Please note this app is in it's very early stages and is not stable to use at th
 - **Node.js**: For handling all back-end.
 - **Express.js**: For framework.
 - **Ejs**: For front-end templating.
-
-### Source code?
-<<<<<<< HEAD
-It's [here](https://github.com/bitwiseray/pxline-v2/tree/stable)!
-=======
-It's [here](https://github.com/bitwiseray/pxline-v2/tree/stable)!
->>>>>>> 65aced0e8f7c89bdbe64504064d13804364ee7f7
