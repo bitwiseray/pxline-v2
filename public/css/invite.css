@@ -1,12 +1,13 @@
-*
-{
+@import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
   background-color: #f0f0f0;
 }
 
@@ -19,40 +20,33 @@ body {
 }
 
 .invite-card {
-  position: relative;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 80%;
+  width: 95%;
+  padding: 25px;
   max-width: 400px;
-  height: 350px;
-  padding: 20px;
   text-align: center;
 }
 
 .invite-card img {
-  width: 80px;
+  width: 135px;
   height: auto;
-  margin: 10px 20px;
+  border-radius: 75px;
+  margin-bottom: 10px;
 }
 
 .invite-card h1 {
-  position: relative;
-  font-size: 24px;
   color: #333;
-  top: 15px;
 }
 
 .invite-card p {
   color: grey;
-  font-size: 15px;
-  margin-bottom: 10px;
+  font-size: 13.5px;
 }
 
 .total-members {
-  position: relative;
   color: #666;
-  top: 19px;
 }
 
 .accept-btn,
@@ -61,16 +55,17 @@ body {
   height: 39px;
   position: relative;
   border-radius: 5px;
-  border: 1px solid #000;
-  top: 25px;
-  margin-bottom: 10px;
+  border: none;
+  top: 20px;
+  margin-bottom: 5px;
   background: none;
   cursor: pointer;
   display: block;
   text-align: center;
   justify-items: center;
   transition: 0.2s ease;
-  font-size: 15px;
+  font-size: 15.5px;
+  font-weight: 500;
 }
 
 .accept-btn {
