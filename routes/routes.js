@@ -50,7 +50,12 @@ router.post('/signup', checkNotAuth, async (request, reply) => {
       image: image,
     });
     reply.redirect('/');
-});ñ
+});
+
+router.get('/invite/:id', checkAuth, async (request, reply) => {
+  const room = await Room.findOne({ _id: request.params.id });
+  reply.render('invite', { room: room });
+});
 
 router.post('/invite/:id', checkNotAuth, async (request, reply) => {
   try {
