@@ -16,7 +16,7 @@
   <meta property="og:locale" content="en_US" />
   <title>PxLine — Chat</title>
   <link rel="icon" href="/assets/logo.jpg" type="image/x-icon" />
-  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
   <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
   <script src="https://kit.fontawesome.com/c0b785182d.js" crossorigin="anonymous"></script>
 </head>
@@ -141,7 +141,7 @@
           chatList.appendChild(chatBlock);
         }
         document.addEventListener('DOMContentLoaded', () => {
-          const chatTiles = document.querySelectorAll('.chat-tile')
+          const chatTiles = document.querySelectorAll('.block')
           chatTiles.forEach(tile => {
             tile.addEventListener('click', function() {
               const id = tile.getAttribute('data-id');
