@@ -24,30 +24,35 @@ body {
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 80%;
-  height: 300px;
-  padding: 10px;
+  max-width: 400px;
+  height: 350px;
+  padding: 20px;
   text-align: center;
 }
 
 .invite-card img {
   width: 80px;
   height: auto;
-  margin-bottom: 10px;
+  margin: 10px 20px;
 }
 
 .invite-card h1 {
+  position: relative;
   font-size: 24px;
   color: #333;
+  top: 15px;
 }
 
 .invite-card p {
   color: grey;
-  font-size: 13px;
-  margin-bottom: 5px;
+  font-size: 15px;
+  margin-bottom: 10px;
 }
 
 .total-members {
+  position: relative;
   color: #666;
+  top: 19px;
 }
 
 .accept-btn,
@@ -57,8 +62,8 @@ body {
   position: relative;
   border-radius: 5px;
   border: 1px solid #000;
-  top: 20px;
-  margin-bottom: 5px;
+  top: 25px;
+  margin-bottom: 10px;
   background: none;
   cursor: pointer;
   display: block;
@@ -76,4 +81,4 @@ body {
 .no-thanks-btn:hover {
   background-color: #f44336;
   color: #fff;
-  }
+}
