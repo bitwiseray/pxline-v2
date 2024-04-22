@@ -4,6 +4,7 @@ const passport = require('passport');
 const initGateway = require('../utils/strategy');
 const bcrypt = require('bcrypt');
 const profiler = require('../schematics/profile');
+const Room = require('../schematics/room');
 const { checkAuth, checkNotAuth } = require('../preval/validators');
 const { getIndexes, loadRoom, loadUser, checkIdType } = require('../utils/sourcing');
 
@@ -49,6 +50,21 @@ router.post('/signup', checkNotAuth, async (request, reply) => {
       image: image,
     });
     reply.redirect('/');
+});ñ
+
+router.post('/invite/:id', checkNotAuth, async (request, reply) => {
+  try {
+    const id = request.user._id;
+    const room = await Room.findOne({ _id: request.params.id });
+    if (room.members.includes(id)) {
+      return reply.redirect('/');
+    } else {
+      room.members.push(id);
+      room.save();
+    }
+  } catch (error) {
+    console.error(error)
+  }
 });
 
 router.delete('/logout', checkAuth, (request, reply) => {
