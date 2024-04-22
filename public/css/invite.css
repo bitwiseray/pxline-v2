@@ -1,1 +1,79 @@
+*
+{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+.invite-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.invite-card {
+  position: relative;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  height: 300px;
+  padding: 10px;
+  text-align: center;
+}
+
+.invite-card img {
+  width: 80px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.invite-card h1 {
+  font-size: 24px;
+  color: #333;
+}
+
+.invite-card p {
+  color: grey;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.total-members {
+  color: #666;
+}
+
+.accept-btn,
+.no-thanks-btn {
+  width: 100%;
+  height: 39px;
+  position: relative;
+  border-radius: 5px;
+  border: 1px solid #000;
+  top: 20px;
+  margin-bottom: 5px;
+  background: none;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  justify-items: center;
+  transition: 0.2s ease;
+  font-size: 15px;
+}
+
+.accept-btn {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+.no-thanks-btn:hover {
+  background-color: #f44336;
+  color: #fff;
+  }
