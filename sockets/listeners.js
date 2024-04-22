@@ -4,7 +4,7 @@ module.exports = async function(io) {
   let chats = [];
   let chatId;
   io.on('connection', (socket) => {
-    console.log('A user connected');
+    console.log('A user connected to chat');
     socket.on('message', message => {
       socket.join(message.chat.id);
       socket.broadcast.to(message.chat.id).emit('chat-message', message);
@@ -13,7 +13,7 @@ module.exports = async function(io) {
     });
     socket.on('disconnect', () => {
       saveChat(chatId, chats);
-      console.log('A user disconnected');
+      console.log('A user disconnected from chat');
     });
   });
 };

@@ -1,7 +1,7 @@
 const Chat = require('../schematics/chats');
 
 async function saveChats(id, chats) {
-  if (!chats) return;
+  if (!chats && chats.length === 0) return;
   try {
      const toInsertArray = [];
      chats.forEach(chat => {
