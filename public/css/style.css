@@ -179,6 +179,7 @@ header .action a {
   position: relative;
   height: 100%;
   overflow-y: auto;
+  user-select: none;
 }
 
 .chatlist .block {
