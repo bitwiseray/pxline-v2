@@ -4,7 +4,7 @@ const passport = require('passport');
 const initGateway = require('../utils/strategy');
 const bcrypt = require('bcrypt');
 const profiler = require('../schematics/profile');
-const Room = require('../schematics/room');
+const Room = require('../schematics/rooms');
 const { checkAuth, checkNotAuth } = require('../preval/validators');
 const { getIndexes, loadRoom, loadUser, checkIdType } = require('../utils/sourcing');
 
