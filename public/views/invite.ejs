@@ -21,16 +21,15 @@
 <body>
 <div class="invite-container">
     <div class="invite-card">
-      <img src="<%=room.image%>" alt="OwO Bot Support">
+      <img src="<%=room.icon%>" alt="OwO Bot Support">
       <p>You've been invited to join</p>
       <h1><%=room.title%></h1>
       <p class="total-members"><%=room.members.length%> Members</p>
-      <form action="/invite" method="POST"></form>
-        <div class="buttons">
-          <button class="accept-btn">Accept Invite</button>
-          <button class="no-thanks-btn">No Thanks</button>
-        </div>
+      <form action="/invite" method="POST">
+        <button class="accept-btn">Accept Invite</button>
+      </form>
+        <button class="no-thanks-btn" onclick="window.location.href='/'">No Thanks</button>
     </div>
-  </div>
+</div>
 </body>
 </html>
