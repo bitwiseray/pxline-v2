@@ -10,8 +10,13 @@ const { getIndexes, loadRoom, loadUser, checkIdType } = require('../utils/sourci
 
 initGateway();
 router.get('/', checkAuth, async (request, reply) => {
-  const offload = await getIndexes(request.user);
-  reply.render('index', { user: request.user, extusers: offload.users, extrooms: offload.rooms });
+  try {
+    const offload = await getIndexes(request.user);
+    reply.render('index', { user: request.user, extusers: offload.users, extrooms: offload.rooms });
+  } catch (e) {
+    request.flash('error', 'Something went wrong');
+    console.error({ at: '/', error: e });
+  }
 });
 
 router.get('/login', checkNotAuth, (request, reply) => {
@@ -29,14 +34,18 @@ router.get('/signup', checkNotAuth, (request, reply) => {
 });
 
 router.get('/chat/:id/', checkAuth, async (request, reply) => {
-  const id = request.params.id;
-  const type = await id.checkIdType();
-  if (type === 'room') {
-    const offload = await loadRoom(id);
-    reply.render('chat', { extType: 'room', extusers: offload.members, extroom: offload.room, chats: offload.chats, user: request.user });
-  } else {
-    const usrOffload = await loadUser(id, request.user._id);
-    reply.render('chat', { extType: 'DM', extusers: usrOffload.user, chats: usrOffload.chats, extroom: null, user: request.user });
+  try {
+    const id = request.params.id;
+    const type = await id.checkIdType();
+    if (type === 'room') {
+      const offload = await loadRoom(id);
+      reply.render('chat', { extType: 'room', extusers: offload.members, extroom: offload.room, chats: offload.chats, user: request.user });
+    } else {
+      const usrOffload = await loadUser(id, request.user._id);
+      reply.render('chat', { extType: 'DM', extusers: usrOffload.user, chats: usrOffload.chats, extroom: null, user: request.user });
+    }
+  } catch (e) {
+    request.flash('error', 'Something went wrong' + e);
   }
 });
 
@@ -68,7 +77,8 @@ router.post('/invite/:id', checkNotAuth, async (request, reply) => {
       room.save();
     }
   } catch (error) {
-    console.error(error)
+    request.flash('error', 'Something went wrong');
+    console.error({ at: '/invite/:id', error: error });
   }
 });
 
@@ -82,10 +92,11 @@ router.delete('/delete', checkAuth, (request, reply) => {
   profiler.findByIdAndDelete(request.user._id, (err, user) => {
     if (err) {
       console.error("Error deleting user:", err);
-      reply.status(500).send("Error deleting user");
+      request.flash('error', 'Something went wrong');
     } else {
       console.log("User deleted:", user);
       reply.status(200).send("User deleted successfully");
+      request.flash('success', 'Deleted successful');
     }
   });
 });
