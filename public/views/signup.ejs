@@ -46,10 +46,8 @@
     </form>
   </div>
   </div>
-  <script src="/scripts/main.js"></script>
   <script>
     let messages = <%-JSON.stringify(messages)%>;
-      
     document.addEventListener('DOMContentLoaded', () => {
       const profilePicIcon = document.getElementById('profilePicPreview');
       const profilePictureInput = document.getElementById('profilePictureInput');
@@ -69,5 +67,6 @@
    });
  });
   </script>
+  <script src="/scripts/main.js"></script>
 </body>
 </html>
