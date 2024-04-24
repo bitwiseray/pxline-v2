@@ -17,3 +17,9 @@ function popToast(type, str) {
     toast.remove();
   }, 3000);
 }
+
+if (messages.error) {
+  popToast('error', messages.error);
+} else {
+  popToast(null);
+}
