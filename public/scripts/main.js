@@ -7,22 +7,13 @@ linkItems.forEach((linkItem, index) => {
     })
 })
 
-// Chat Back
-let back = document.querySelector('.back');
-let chatBox = document.querySelector('.chatBox');
-let open = document.querySelector('.open')
-/*
-back.onclick = function()
-{
-    setTimeout(function(){
-        chatBox.classList.add('hide');
-    }, 400);
+const parent = document.querySelector('.toast-container');
+function popToast(type) {
+  let toast = document.createElement('div');
+  toast.classList.add('toast');
+  toast.innerHTML = type === 'error' ? '<i class="fa-regular fa-circle-xmark error"></i> Something went wrong' : `<i class="fa-regular fa-circle-check"></i> Success!`;
+  parent.appendChild(toast);
+  setTimeout(() => {
+    toast.remove();
+  }, 3000);
 }
-// Chat Open 
-open.onclick = function()
-{
-    setTimeout(function(){
-        chatBox.classList.remove('hide');
-    }, 400);    
-}
-*/
