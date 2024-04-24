@@ -86,6 +86,7 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script>
       try {
+        let messages = <%-JSON.stringify(messages)%>;
         const rooms = <%-JSON.stringify(extrooms)%>;
         const extusers = <%-JSON.stringify(extusers)%>;
         function initTiles(rooms, users) {
