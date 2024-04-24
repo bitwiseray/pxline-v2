@@ -17,6 +17,7 @@
   <title>PxLine — Chat</title>
   <link rel="icon" href="/assets/logo.jpg" type="image/x-icon">
   <link rel="stylesheet" href="/css/chat.css">
+  <link rel="stylesheet" href="/css/toast.css">
   <script defer src="/socket.io/socket.io.js"></script>
   <script src="https://kit.fontawesome.com/c0b785182d.js" crossorigin="anonymous"></script>
   <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
@@ -24,6 +25,7 @@
 </head>
 
 <body>
+  <div class="toast-container"></div>
   <div class="chat-container">
     <div class="chat-header">
       <div class="imgcontent">
@@ -46,6 +48,7 @@
   </div>
   </div>
   <script src="/scripts/chat-ui.js"></script>
+  <script src="/scripts/main.js"></script>
   <script>
     const type = '<%=extType%>';
     const room = <%-JSON.stringify(extroom)%>;

@@ -16,20 +16,24 @@
   <meta property="og:locale" content="en_US">
   <title>You have been invited!</title>
   <link rel="stylesheet" href="/css/invite.css">
+  <link rel="stylesheet" href="/css/toast.css">
+  <script src="https://kit.fontawesome.com/c0b785182d.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
+<div class="toast-container"></div>
 <div class="invite-container">
-    <div class="invite-card">
-      <img src="<%=room.icon%>" alt="OwO Bot Support">
-      <p>You've been invited to join</p>
-      <h1><%=room.title%></h1>
-      <p class="total-members"><%=room.members.length%> Members</p>
-      <form action="/invite" method="POST">
-        <button class="accept-btn">Accept Invite</button>
-      </form>
-        <button class="no-thanks-btn" onclick="window.location.href='/'">No Thanks</button>
-    </div>
+  <div class="invite-card">
+    <img src="<%=room.icon%>" alt="OwO Bot Support">
+    <p>You've been invited to join</p>
+    <h1><%=room.title%></h1>
+    <p class="total-members"><%=room.members.length%> Members</p>
+    <form action="/invite" method="POST">
+      <button class="accept-btn">Accept Invite</button>
+    </form>
+      <button class="no-thanks-btn" onclick="window.location.href='/'">No Thanks</button>
+  </div>
 </div>
+<script src="/scripts/main.js"></script>
 </body>
 </html>
