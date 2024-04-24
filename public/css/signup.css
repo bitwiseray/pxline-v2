@@ -1,17 +1,32 @@
-.register-container {
-  position: relative;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  padding: 20.5px;
-  width: 80%;
-  bottom: -1rem;
-  left: 1rem;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.register-container h2 {
-  font-size: 35px;
+body {
+  background: url('/public/assets/img.jpeg');
+  background-size: cover;
+  font-family: 'Poppins', sans-serif;
+  height: 100%;
+  overflow: hidden;
+}
+
+.register-container {
+  position: absolute;
+  background-color: #262626;
+  border-radius: 10px;
+  padding: 20px;
+  width: 80%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.register-container h1 {
   text-align: center;
+  color: #fff;
+  margin-bottom: 30px;
 }
 
 form {
@@ -28,41 +43,70 @@ form {
 }
 
 input {
-  padding: 10px;
+  padding: 12.5px 32px;
   border-radius: 4px;
-  border: 1px solid #ccc;
-  width: 92.5%;
-  outline-color: #FFB9D2;
-  font-size: 15px;
+  border: none;
+  width: 250px;
+  outline: none;
+  font-size: 16.5px;
+  background: #171717;
+  color: #fff;
+  margin: 0;
+}
+
+input:hover {
+  outline: 1px solid #fff;
+}
+
+.input-icon {
+  position: relative;
+  left: 10px;
+  top: 2.7rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon i {
+  font-size: 20px;
 }
 
 button {
-  padding: 10px;
+  padding: 10px 0;
   border: none;
+  background: #27B9C7;
   border-radius: 5px;
-  background-color: #9F93D7;
-  color: white;
+  color: #fff;
   cursor: pointer;
   font-size: 17px;
+  font-weight: 500;
 }
 
 button:hover {
-  background: #8475D2;
+  background: none;
+  border: 1px solid;
 }
 
 p {
   font-size: 13px;
   text-align: center;
+  color: #fff;
+  margin-top: 30px;
 }
 
-a { text-decoration: none }
+a { 
+  color: #fff;
+}
 
 .register-container img {
   position: relative;
-  height: auto;
-  width: 150px;
-  margin: 0 auto;
+  width: 120px;
+  left: 50%;
+  transform: translateX(-50%);
   top: -1rem;
   cursor: pointer;
-  border-radius: 60%;
+  border-radius: 50%;
+  clip-path: circle(50%);
 }
