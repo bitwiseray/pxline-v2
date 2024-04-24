@@ -21,7 +21,7 @@ body {
 }
 
 .invite-card {
-  background-color: #171717;
+  background-color: #262626;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 95%;
@@ -71,7 +71,7 @@ body {
 }
 
 .accept-btn {
-  background-color: #4CAF50;
+  background-color: #5C59FD;
 }
 
 .no-thanks-btn:hover {
