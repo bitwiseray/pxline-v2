@@ -161,6 +161,14 @@ i {
   color: #aaa;
 }
 
+.message_content .img-attachment {
+  position: relative;
+  border-radius: 5px;
+  max-width: 240px;
+  height: auto;
+  margin: 3px;
+}
+
 .messageInput {
   position: absolute;
   bottom: 1px;
