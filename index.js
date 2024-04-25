@@ -25,10 +25,6 @@ app.use(passport.session());
 app.use(flash());
 app.use(override('_method'));
 app.use('/', routes);
-app.use((request, response, next) => {
-  response.locals.messages = req.flash();
-  next();
-});
 
 socServer.listen(3000, async () => {
   await mongoose.connect(process.env.srv);
