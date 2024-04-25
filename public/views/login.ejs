@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Register to PxLine Chats!">
+  <meta name="description" content="PxLine sign in!">
   <meta name="robots" content="nofollow, noindex">
   <meta name="author" content="PxLine Team">
   <meta name="keywords" content="chat app, nodejs chat app">
@@ -13,62 +13,34 @@
   <meta property="og:image:width" content="300">
   <meta property="og:image:height" content="300">
   <meta property="og:locale" content="en_US">
-  <title>PxLine - Register</title>
+  <title>PxLine - Sign In</title>
   <link rel="icon" href="/assets/logo.jpg" type="image/x-icon">
   <link rel="stylesheet" href="/css/signup.css">
-  <link rel="stylesheet" href="/css/toast.css">
   <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="/css/toast.css">
 </head>
 <body>
   <div class="toast-container"></div>
   <nav>
     <h1 class="logo">PxLine</h1>
   </nav>
-  <div class="toast-container"></div>
   <div class="hero-container">
     <div class="register-container">
-    <h1>Register</h1>
-    <form action="/signup" method="POST">
-      <img id="profilePicPreview" src="/public/assets/profile-pic.png" alt="Profile picture icon" />
-      <input type="file" id="profilePictureInput" name="image" style="display: none;" accept="image/*">
-      <div class="form-group">
-        <div class="input-icon"><i class='bx bx-edit' ></i></div>
-        <input type="text" id="displayName" name="display_name" placeholder="Display name">
-      </div>
+    <h1>Sign in</h1>
+    <form action="/login" method="POST">
       <div class="form-group">
         <div class="input-icon"><i class="bx bx-user"></i></div>
-        <input type="text" id="username" name="username" placeholder="Create username" required>
+        <input type="username" id="email" name="username" placeholder="Enter username" required>
       </div>
       <div class="form-group">
         <div class="input-icon"><i class="bx bxs-lock-alt"></i></div>
-        <input type="password" id="password" name="password" placeholder="Create password" required>
+        <input type="password" id="password" name="password" placeholder="Enter password" required>
       </div>
-      <button type="submit">Register</button>
-      <p>Already have an account? <a href="/login">Login</a></p>
+      <button type="submit">Sign In</button>
+      <p>Don't have an account? <a href="/signup">Register</a></p>
     </form>
   </div>
   </div>
-  <script>
-    let messages = <%-JSON.stringify(messages)%>;
-    document.addEventListener('DOMContentLoaded', () => {
-      const profilePicIcon = document.getElementById('profilePicPreview');
-      const profilePictureInput = document.getElementById('profilePictureInput');
-      profilePicIcon.addEventListener('click', () => {
-        profilePictureInput.click();
-    });
-
-    profilePictureInput.addEventListener('change', (event) => {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-        profilePicIcon.src = e.target.result;
-      }
-      reader.readAsDataURL(file);
-    }
-   });
- });
-  </script>
-  <script src="/scripts/main.js"></script>
+  <script src="/public/scripts/main.js"></script>
 </body>
 </html>
