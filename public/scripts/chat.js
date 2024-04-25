@@ -1,7 +1,7 @@
 const socket = io('/');
 
 socket.on('chat-message', message => {
-  appendMessage(message.author.image, message.author.displayname, message.content);
+  appendMessage(message.author.image, message.author.displayname, message.content.text, message.content.timestamp);
 });
 
 let input = document.getElementById('inp');
