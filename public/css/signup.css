@@ -6,7 +6,7 @@
 }
 
 body {
-  background: url('/public/assets/img.jpeg');
+  background: url('/assets/img.jpeg');
   background-size: cover;
   height: 100%;
   overflow: hidden;
