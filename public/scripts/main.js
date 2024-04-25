@@ -20,6 +20,6 @@ function popToast(type, str) {
 
 if (messages.error) {
   popToast('error', messages.error);
-} else {
+} else if (messages.success) {
   popToast(null);
 }
