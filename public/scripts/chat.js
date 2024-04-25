@@ -27,7 +27,7 @@ document.querySelector('.send').addEventListener('click', (e) => {
     }
   }
   socket.emit('message', {
-    content: contents,
+    content: { text: contents, timestamp: Date.now() },
     author: {
       id: user._id,
       displayname: user.display_name,
@@ -37,6 +37,6 @@ document.querySelector('.send').addEventListener('click', (e) => {
     chat: offExport(),
     attachments: null,
   });
-  appendMessage(user.image, user.display_name, contents);
+  appendMessage(user.image, user.display_name, contents, Date.now());
   input.value = '';
 });
