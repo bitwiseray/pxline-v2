@@ -17,7 +17,7 @@ function appendMessage(url, sender_username, message, rawLowerSub) {
   profilePicImg.classList.add('profile_pic');
   profilePicImg.src = url;
   senderDiv.classList.add('sender');
-  senderDiv.textContent = `${sender_username} <span class="timestamp">·&nbsp;${setTimes(null, rawLowerSub)}</span>`;
+  senderDiv.innerHTML = `${sender_username} <span style="color: #aaa; font-size: 0.9em;">·&nbsp;${setTimes(null, rawLowerSub)}</span>`;
   messageTextDiv.classList.add('msg');
   messageTextDiv.textContent = message;
   messageContentDiv.appendChild(senderDiv);
@@ -28,6 +28,13 @@ function appendMessage(url, sender_username, message, rawLowerSub) {
   if (messageContainer) {
     messageContainer.scrollTop = messageContainer.scrollHeight;
   }
+  const timeDiff = Math.abs(Date.now() - rawLowerSub)
+  if (timeDiff === 60*60*1000) {
+    const superTime = document.createElement('div');
+    superTime.classList.add('time');
+    superTime.innerText = formatTimestamp(rawLowerSub, false);
+    messageContainer.appendChild(superTime);
+  } 
 }
 
 function setTimes(superSub, lowerSub) {
@@ -41,19 +48,19 @@ function setTimes(superSub, lowerSub) {
 }
 
 function formatTimestamp(timestamp, compact) {
-    if (!compact) {
-      const now = moment();
-      const date = moment(timestamp);
-      if (now.isSame(date, 'day')) {
-        return `Today at ${date.format('h:mm A')}`;
-      } else if (now.subtract(1, 'days').isSame(date, 'day')) {
-        return `Yesterday at ${date.format('h:mm A')}`;
-      } else {
-        return date.format('MMMM D, YYYY');
-      }
+  if (!compact) {
+    const now = moment();
+    const date = moment(timestamp);
+    if (now.isSame(date, 'day')) {
+      return `Today at ${date.format('h:mm A')}`;
+    } else if (now.subtract(1, 'days').isSame(date, 'day')) {
+      return `Yesterday at ${date.format('h:mm A')}`;
     } else {
-      return moment(timestamp).format('h:mm A');
+      return date.format('MMMM D, YYYY');
     }
+  } else {
+    return moment(timestamp).format('h:mm A');
+  }
 }
 
 /*
