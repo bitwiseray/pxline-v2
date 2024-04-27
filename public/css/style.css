@@ -309,3 +309,22 @@ header .action a {
   bottom: 8rem;
   color: #9c9c9c;
 }
+
+.settings-block {
+  background: #fff;
+  width: 250px;
+  height: auto;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.settings-block button {
+  margin: 10px;
+  background: red;
+  border-radius: 3px;
+  padding: 10px 25px;
+  border: none;
+  color: white;
+}
