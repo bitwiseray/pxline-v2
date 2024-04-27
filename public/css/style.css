@@ -208,7 +208,7 @@ header .action a {
   position: relative;
   top: 0;
   left: 0;
-  min-width: 45px;
+  width: 45px;
   height: 45px;
   object-fit: cover;
 }
