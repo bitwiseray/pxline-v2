@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
 const passport = require('passport');
+const fs = require('fs');
+const path = require('path');
 const initGateway = require('../utils/strategy');
 const bcrypt = require('bcrypt');
 const profiler = require('../schematics/profile');
 const Room = require('../schematics/rooms');
 const { checkAuth, checkNotAuth } = require('../preval/validators');
 const { getIndexes, loadRoom, loadUser, checkIdType } = require('../utils/sourcing');
+const uploadConfig = require('../utils/upload-sys');
 
 initGateway();
 router.get('/', checkAuth, async (request, reply) => {
@@ -49,21 +53,43 @@ router.get('/chat/:id/', checkAuth, async (request, reply) => {
   }
 });
 
-router.post('/signup', checkNotAuth, async (request, reply) => {
-  const { display_name, username, password, image } = request.body;
+const upload = multer({ storage: uploadConfig });
+router.post('/signup', checkNotAuth, upload.single('image'), async (request, reply) => {
+  try {
+    const { display_name, username, password, image } = request.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     await profiler.create({
       user_name: username,
       display_name: display_name,
       password: hashedPassword,
-      image: image,
+      image: null,
+      imgBuff: {
+        data: fs.readFileSync(path.join(__dirname, '../tmp', request.file.filename)),
+        contentType: request.file.mimetype
+      },
     });
+    request.flash('success', 'Account created successfully');
     reply.redirect('/');
+  } catch (e) {
+    request.flash('error', 'Something went wrong');
+    return console.error({ at: '/signup', error: e })
+  }
 });
 
 router.get('/invite/:id', checkAuth, async (request, reply) => {
   const room = await Room.findOne({ _id: request.params.id });
   reply.render('invite', { room: room });
+});
+
+router.get('/cdn/:id', async (request, reply) => {
+  const id = request.params.id;
+  if (id.checkType() === 'room') {
+    const room = await Room.findById(id, 'imgBuff');
+    reply.type('image/jpeg').send(user.imgBuff.data);
+  } else {
+    const user = await profiler.findById(id, 'imgBuff');
+    reply.type('image/jpeg').send(user.imgBuff.data);
+  }
 });
 
 router.post('/invite/:id', checkNotAuth, async (request, reply) => {
