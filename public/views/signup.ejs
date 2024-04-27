@@ -21,14 +21,10 @@
 </head>
 <body>
   <div class="toast-container"></div>
-  <nav>
-    <h1 class="logo">PxLine</h1>
-  </nav>
-  <div class="toast-container"></div>
   <div class="hero-container">
     <div class="register-container">
     <h1>Register</h1>
-    <form action="/signup" method="POST">
+    <form action="/signup" method="POST" enctype="multipart/form-data">
       <img id="profilePicPreview" src="/assets/profile-pic.png" alt="Profile picture icon" />
       <input type="file" id="profilePictureInput" name="image" style="display: none;" accept="image/*">
       <div class="form-group">
