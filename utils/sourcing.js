@@ -68,30 +68,32 @@ async function loadUser(target, meId) {
   }
 }
 
-async function uploadMedia(type, offload, stream) {
+async function uploadMedia(type, offload, stream, request) {
   return new Promise(async (resolve, reject) => {
     try {
+      const domain = `${request.protocol}://${request.get('host')}`;
       if (type === 'profile') {
-        if (offload.file.size > 5 * 1024 * 1024) {
+        if (offload.size > 5 * 1024 * 1024) {
           reject({ error: 'File size exceeds the limit' });
         }
-        const loadPff = Media.create({
+        const loadPff = await Media.create({
+          loadType: type,
           data: stream,
           contentType: offload.mimetype
         });
-        await Media.save();
-        resolve({ status: 'done', url: `/cdn/${loadPff._id}` });
+        resolve({ status: 'done', url: `${domain}/cdn/${loadPff._id}` });
       } else {
-        if (offload.file.size > 30 * 1024 * 1024) {
+        if (offload.size > 10 * 1024 * 1024) {
           reject({ error: 'File size exceeds the limit' });
         }
         const loadAtt = await Media.create({
+          loadType: type,
           data: stream,
           contentType: offload.mimetype,
-          filename: offload.filename
+          filename: offload.filename,
+          createdAt: Date.now()
         });
-        await Media.save();
-        resolve({ status: 'done', url: `/cdn/${loadAtt._id}` });
+        resolve({ status: 'done', url: `${domain}/cdn/${loadAtt._id}` });
       }
     } catch (error) {
       reject(error)
