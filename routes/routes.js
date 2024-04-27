@@ -8,8 +8,9 @@ const initGateway = require('../utils/strategy');
 const bcrypt = require('bcrypt');
 const profiler = require('../schematics/profile');
 const Room = require('../schematics/rooms');
+const Media = require('../schematics/media');
 const { checkAuth, checkNotAuth } = require('../preval/validators');
-const { getIndexes, loadRoom, loadUser, checkIdType } = require('../utils/sourcing');
+const { getIndexes, loadRoom, loadUser, checkIdType, uploadMedia } = require('../utils/sourcing');
 const uploadConfig = require('../utils/upload-sys');
 
 initGateway();
@@ -58,15 +59,12 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
   try {
     const { display_name, username, password, image } = request.body;
     const hashedPassword = await bcrypt.hash(password, 10);
+    const media = await uploadMedia('profile', request.file, fs.readFileSync(path.join(__dirname, '../tmp', request.file.filename)), request);
     await profiler.create({
       user_name: username,
       display_name: display_name,
       password: hashedPassword,
-      image: null,
-      imgBuff: {
-        data: fs.readFileSync(path.join(__dirname, '../tmp', request.file.filename)),
-        contentType: request.file.mimetype
-      },
+      image: media.url,
     });
     request.flash('success', 'Account created successfully');
     reply.redirect('/');
@@ -110,12 +108,21 @@ router.post('/invite/:id', checkNotAuth, async (request, reply) => {
 });
 
 router.delete('/logout', checkAuth, (request, reply) => {
-  request.logOut();
-  reply.redirect('/');
+  request.logOut((err) => {
+    if (err) {
+      request.flash('error', 'Something went wrong');
+      reply.redirect('/');
+      return console.error({ at: '/logout', error: err });
+    }
+    request.flash('success', 'Logged out successfully');
+    reply.redirect('/login');
+  });
 });
 
 router.delete('/delete', checkAuth, (request, reply) => {
-  request.logOut();
+  request.logOut((err) => {
+    throw new Error(err);
+  });
   profiler.findByIdAndDelete(request.user._id, (err, user) => {
     if (err) {
       console.error("Error deleting user:", err);
