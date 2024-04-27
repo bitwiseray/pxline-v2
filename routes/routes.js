@@ -85,7 +85,7 @@ router.get('/cdn/:id', async (request, reply) => {
   const id = request.params.id;
   if (id.checkType() === 'room') {
     const room = await Room.findById(id, 'imgBuff');
-    reply.type('image/jpeg').send(user.imgBuff.data);
+    reply.type('image/jpeg').send(room.imgBuff.data);
   } else {
     const user = await profiler.findById(id, 'imgBuff');
     reply.type('image/jpeg').send(user.imgBuff.data);
