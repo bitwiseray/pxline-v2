@@ -73,9 +73,14 @@
         </div>
         <div class="box settings">
           <div class="frem">
-            <p>404</p>
-            <h2>Look like developers are chilling</h2>
-            <h5>the page you are looking for not avaible!</h5>
+            <div class="settings-block">
+              <form action="/delete" method="POST">
+                <button type="submit">Delete</button>
+              </form>
+              <form action="/logout" method="POST">
+                <button type="submit">Logout</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -110,9 +115,9 @@
             nameElement.textContent = entity.title;
           } else if (entity.image) {
             img.src = entity.image;
+            img.src = entity.image;
             imgBox.appendChild(img);
             nameElement.textContent = entity.display_name;
-
           }
           chatBlock.appendChild(imgBox);
           const details = document.createElement('div');
