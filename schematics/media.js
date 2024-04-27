@@ -1,19 +1,9 @@
 const mongoose = require("mongoose");
 
 const media = new mongoose.Schema({
-  profile_pics: [
-    {
-      data: Buffer,
-      contentType: String
-    },
-  ],
-  attachments: [
-    {
-      data: Buffer,
-      contentType: String,
-      filename: String
-    },
-  ]
+  loadType: { type: String, required: true }, 
+  data: { type: Binary, required: true }, 
+  contentType: { type: String, required: true },
 });
 
 const Media = mongoose.model('media', media);
