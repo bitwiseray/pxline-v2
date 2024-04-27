@@ -1,6 +1,7 @@
 const profiler = require('../schematics/profile');
 const Room = require('../schematics/rooms');
 const Chat = require('../schematics/chats');
+const Media = require('../schematics/media');
 const fs = require('fs');
 
 async function getIndexes(user) {
@@ -59,13 +60,45 @@ async function loadUser(target, meId) {
       return null;
     }
     const chatId = user.chats.find(chat => chat.user_id === meId.toString())?.chat_id;
-    const chats = await Chat.findById(chatId); // Use chatId directly without wrapping it in an array
+    const chats = await Chat.findById(chatId);
     return { user, chats };
   } catch (error) {
     console.error('Error fetching user and chats:', error);
     return null;
   }
 }
+
+async function uploadMedia(type, offload, stream) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const media = Media;
+      if (type === 'profile') {
+        if (offload.file.size > 5 * 1024 * 1024) {
+          reject({ error: 'File size exceeds the limit' });
+        }
+        media.profile_pics.push({
+          data: stream,
+          contentType: offload.mimetype
+        });
+        await media.save();
+        resolve({ status: 'done', url: `/cdn/${media._id}` });
+      } else {
+        if (offload.file.size > 30 * 1024 * 1024) {
+          reject({ error: 'File size exceeds the limit' });
+        }
+        media.attachments.push({
+          data: stream,
+          contentType: offload.mimetype,
+          filename: offload.filename
+        });
+        await media.save();
+        resolve({ status: 'done', url: `/cdn/${media._id}` });
+      }
+    } catch (error) {
+      reject(error)
+    }
+  });
+} 
 
 async function checkIdType() {
   try {
