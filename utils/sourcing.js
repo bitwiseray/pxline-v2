@@ -71,28 +71,27 @@ async function loadUser(target, meId) {
 async function uploadMedia(type, offload, stream) {
   return new Promise(async (resolve, reject) => {
     try {
-      const media = Media;
       if (type === 'profile') {
         if (offload.file.size > 5 * 1024 * 1024) {
           reject({ error: 'File size exceeds the limit' });
         }
-        media.profile_pics.push({
+        const loadPff = Media.create({
           data: stream,
           contentType: offload.mimetype
         });
-        await media.save();
-        resolve({ status: 'done', url: `/cdn/${media._id}` });
+        await Media.save();
+        resolve({ status: 'done', url: `/cdn/${loadPff._id}` });
       } else {
         if (offload.file.size > 30 * 1024 * 1024) {
           reject({ error: 'File size exceeds the limit' });
         }
-        media.attachments.push({
+        const loadAtt = await Media.create({
           data: stream,
           contentType: offload.mimetype,
           filename: offload.filename
         });
-        await media.save();
-        resolve({ status: 'done', url: `/cdn/${media._id}` });
+        await Media.save();
+        resolve({ status: 'done', url: `/cdn/${loadAtt._id}` });
       }
     } catch (error) {
       reject(error)
@@ -102,17 +101,14 @@ async function uploadMedia(type, offload, stream) {
 
 async function checkIdType() {
   try {
-    // Check if the ID belongs to a user
     const user = await profiler.findOne({ _id: this });
     if (user) {
       return 'user';
     }
-    // Check if the ID belongs to a room
     const room = await Room.findOne({ _id: this });
     if (room && room.members) {
       return 'room';
     }
-    // If ID doesn't belong to either, return null
     return null;
   } catch (error) {
     console.error('Error checking ID type:', error);
@@ -121,5 +117,4 @@ async function checkIdType() {
 }
 
 String.prototype.checkIdType = checkIdType;
-
-module.exports = { getIndexes, loadRoom, loadUser, checkIdType };
+module.exports = { getIndexes, loadRoom, loadUser, checkIdType, uploadMedia };
