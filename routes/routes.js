@@ -83,13 +83,14 @@ router.get('/invite/:id', checkAuth, async (request, reply) => {
 
 router.get('/cdn/:id', async (request, reply) => {
   const id = request.params.id;
-  if (id.checkType() === 'room') {
-    const room = await Room.findById(id, 'imgBuff');
-    reply.type('image/jpeg').send(room.imgBuff.data);
-  } else {
-    const user = await profiler.findById(id, 'imgBuff');
-    reply.type('image/jpeg').send(user.imgBuff.data);
+  const media = await Media.findById(id);
+  if (!media) {
+    reply.status(404).send('File not found');
+    return;
   }
+  const { data, contentType } = media;
+  reply.set('Content-Type', contentType);
+  reply.send(data);
 });
 
 router.post('/invite/:id', checkNotAuth, async (request, reply) => {
