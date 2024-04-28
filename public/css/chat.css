@@ -60,6 +60,12 @@ body {
   cursor: pointer;
 }
 
+.chat-header .imgcontent {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .chat-header i {
   color: var(--text-color);
   cursor: pointer;
@@ -136,7 +142,6 @@ body {
     transform: translateX(0);
   }
 }
-
 
 .message .profile_pic {
   position: relative;

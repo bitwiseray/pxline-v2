@@ -37,6 +37,30 @@ function appendMessage(url, sender_username, message, rawLowerSub) {
   } 
 }
 
+function appendTyping(url, sender_username) {
+  const messageDiv = document.createElement('div');
+  messageDiv.classList.add('message');
+  const profilePic = document.createElement('img');
+  profilePic.classList.add('profile_pic');
+  profilePic.src = url;
+  profilePic.alt = `${sender_username}'s profile picture`;
+  const messageContentDiv = document.createElement('div');
+  messageContentDiv.classList.add('message-content');
+  const senderDiv = document.createElement('div');
+  senderDiv.classList.add('sender');
+  senderDiv.textContent = sender_username;
+  const typingAssetImg = document.createElement('img');
+  typingAssetImg.src = '/assets/typing.gif';
+  typingAssetImg.classList.add('typing-asset');
+  messageContentDiv.appendChild(senderDiv);
+  messageContentDiv.appendChild(typingAssetImg);
+  messageDiv.appendChild(profilePic);
+  messageDiv.appendChild(messageContentDiv);
+  const parentDiv = document.querySelector('.message-container');
+  parentDiv.appendChild(messageDiv);
+  return messageDiv;
+}
+
 function setTimes(superSub, lowerSub) {
   if (superSub) {
     const time = document.createElement('div');
