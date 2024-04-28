@@ -7,7 +7,12 @@ const mongoose = require('mongoose');
 const override = require('method-override');
 const app = express();
 const socServer = require('http').Server(app);
-const io = require('socket.io')(socServer);
+const io = require('socket.io')(socServer, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST'],
+  }
+});
 const routes = require('./routes/routes');
 require('./sockets/listeners')(io);
 
@@ -15,7 +20,6 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'public/views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 app.use(session({
   secret: process.env.sessionkey,
   resave: false,
