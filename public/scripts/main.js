@@ -2,10 +2,10 @@
 const linkItems = document.querySelectorAll(".link-item");
 linkItems.forEach((linkItem, index) => {
     linkItem.addEventListener("click", () => {
-        document.querySelector(".active").classList.remove("active");
-        linkItem.classList.add("active");
-    })
-})
+      document.querySelector(".active").classList.remove("active");
+      linkItem.classList.add("active");
+    });
+});
 
 const parent = document.querySelector('.toast-container');
 function popToast(type, str) {
@@ -18,8 +18,10 @@ function popToast(type, str) {
   }, 3000);
 }
 
-if (messages.error) {
+if (messages) {
+  if (messages.error) {
   popToast('error', messages.error);
-} else if (messages.success) {
+  } else if (messages.success) {
   popToast(null);
+  }
 }
