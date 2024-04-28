@@ -1,18 +1,28 @@
 const saveChat = require('../utils/chats-offloader');
 
-module.exports = async function(io) {
+module.exports = async (io) => {
   let chats = [];
   let chatId;
+  let globId;
   io.on('connection', (socket) => {
-    console.log('A user connected to chat');
-    socket.on('message', message => {
-      socket.join(message.chat.id);
-      socket.broadcast.to(message.chat.id).emit('chat-message', message);
-      chats.push(message);
-      chatId = message.chat.chat_id;
+    console.log('A user online');
+    socket.on('joinRoom', load => {
+      if (load && load._id) {
+        socket.join(load._id);
+        globId = load._id;
+        console.log('A user joined the room', load); // Confirming the load object
+      } else {
+        console.log('Error: load object is undefined or missing _id');
+      }
+    });
+    socket.on('message', async message => {
+      console.log('Message received for ', message);
+      io.to(globId).emit('messageAdd', message, (cb) => {
+        console.log(cb);
+      });
     });
     socket.on('disconnect', () => {
-      saveChat(chatId, chats);
+      // saveChat(chatId, chats);
       console.log('A user disconnected from chat');
     });
   });
