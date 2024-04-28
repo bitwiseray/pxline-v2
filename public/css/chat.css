@@ -60,20 +60,24 @@ body {
   cursor: pointer;
 }
 
-.chat-header .imgcontent {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.chat-header .imgcontent i {
+.chat-header i {
   color: var(--text-color);
   cursor: pointer;
   font-size: 1.25em;
+  transition: 0.2s;
+  padding: 4px;
+  -webkit-tap-highlight-color: none;
 }
 
-i {
-  cursor: pointer;
+.chat-header .dots {
+  position: relative;
+  font-size: 1.5em;
+  left: 65%;
+}
+
+.chat-header i:hover {
+  background: #AAAAAACC;
+  border-radius: 60px;
 }
 
 .chat-header .imgcontent .imgBx {
@@ -121,7 +125,18 @@ i {
   border-radius: 10px;
   margin-bottom: 0px;
   width: 100%;
+  animation: slideFromLeft 0.2s ease forwards;
 }
+
+@keyframes slideFromLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 
 .message .profile_pic {
   position: relative;
@@ -169,6 +184,13 @@ i {
   margin: 3px;
 }
 
+.message_content .typing-asset {
+  position: absolute;
+  margin: 9.5px 8px;
+  width: 150px;
+  filter: grayscale(50%)
+}
+
 .messageInput {
   position: absolute;
   bottom: 1px;
@@ -192,7 +214,7 @@ i {
 
 .messageInput .input i {
   cursor: pointer;
-  font-size: 1.5em;
+  font-size: 1.8em;
 }
 
 .messageInput .input input {
@@ -209,7 +231,7 @@ i {
   width: 45px;
   height: 45px;
   right: 10px;
-  background: #4070F4;
+  background: #21949F;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -217,4 +239,11 @@ i {
   font-size: 1.6em;
   border-radius: 50%;
   cursor: pointer;
+  transition: 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.send:active {
+  background: none;
+  border: 1px solid #fff;
 }
