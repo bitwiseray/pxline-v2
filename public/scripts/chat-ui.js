@@ -28,7 +28,7 @@ function appendMessage(url, sender_username, message, rawLowerSub) {
   if (messageContainer) {
     messageContainer.scrollTop = messageContainer.scrollHeight;
   }
-  const timeDiff = Math.abs(Date.now() - rawLowerSub)
+  const timeDiff = Date.now() - rawLowerSub;
   if (timeDiff === 60*60*1000) {
     const superTime = document.createElement('div');
     superTime.classList.add('time');
