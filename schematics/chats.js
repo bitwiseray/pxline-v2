@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const chatSchema = new mongoose.Schema({
-  timestamp: { type: Date, required: true },
+  timestamp: { type: Number, required: true },
   svd_chats: [
     {
       content: { text: String, timestamp: Number },
