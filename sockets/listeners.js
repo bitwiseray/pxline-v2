@@ -15,12 +15,18 @@ module.exports = async (io) => {
         console.log('Error: load object is undefined or missing _id');
       }
     });
+
     socket.on('message', async message => {
       console.log('Message received for ', message);
       io.to(globId).emit('messageAdd', message, (cb) => {
         console.log(cb);
       });
     });
+    
+    socket.on('messageTyping', payload => {
+      socket.broadcast.to(globId).emit('messageTyping', payload);
+    });
+
     socket.on('disconnect', () => {
       // saveChat(chatId, chats);
       console.log('A user disconnected from chat');

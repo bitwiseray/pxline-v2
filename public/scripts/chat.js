@@ -22,7 +22,14 @@ if (type === 'room' || type === 'DM') {
   }
 }
 
+let typingEl;
+socket.on('messageTyping', (payload, cb) => {
+  const { image, displayname } = payload;
+  typingEl = appendTyping(image, displayname);
+});
+
 socket.on('messageAdd', (message, cb) => {
+  typingEl.remove();
   appendMessage(message.author.image, message.author.displayname, message.content.text, message.content.timestamp);
   cb(`Message recived by ${message.author.displayname}`);
 });
@@ -65,3 +72,7 @@ document.querySelector('.send').addEventListener('click', (e) => {
   input.value = '';
   // appendMessage(user.image, user.display_name, contents, Date.now());
 });
+
+document.querySelector('#inp').addEventListener('input', (e) => {
+  socket.emit('messageTyping', { displayname: user.display_name, image: user.image });
+}, { once: true });
