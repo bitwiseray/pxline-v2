@@ -1,7 +1,30 @@
 const socket = io('/');
 
-socket.on('chat-message', message => {
+let thisDMChat;
+if (type === 'room' || type === 'DM') {
+  let roomId;
+  if (type === 'room') {
+    roomId = room._id;
+  } else {
+    for (const chat of extuser.chats) {
+      if (chat.user_id === user._id) {
+        roomId = chat.chat_id;
+        break;
+      }
+    }
+  }
+  if (roomId) {
+    console.log('Joining room', roomId);
+    socket.emit('joinRoom', { _id: roomId });
+    console.log(`Joined ${type}: ${roomId}`);
+  } else {
+    console.log('User not found in the chats array.');
+  }
+}
+
+socket.on('messageAdd', (message, cb) => {
   appendMessage(message.author.image, message.author.displayname, message.content.text, message.content.timestamp);
+  cb(`Message recived by ${message.author.displayname}`);
 });
 
 let input = document.getElementById('inp');
@@ -14,7 +37,7 @@ document.querySelector('.send').addEventListener('click', (e) => {
       name: room.title,
       image: room.icon,
       members: room.members,
-      chat_id: room.chats.chat_id || null,
+      chat_id: room.chats.chat_id || 'Not found',
      }
     } else {
       return {
@@ -22,7 +45,7 @@ document.querySelector('.send').addEventListener('click', (e) => {
         name: extuser.displayname,
         image: extuser.image,
         members: null,
-        chat_id: extuser.chats.chat_id || null,
+        chat_id: thisDMChat || 'Not found',
       }
     }
   }
@@ -36,7 +59,9 @@ document.querySelector('.send').addEventListener('click', (e) => {
     },
     chat: offExport(),
     attachments: null,
+  }, (cb) => {
+    console.log('For emit#message', cb);
   });
-  appendMessage(user.image, user.display_name, contents, Date.now());
   input.value = '';
+  // appendMessage(user.image, user.display_name, contents, Date.now());
 });
