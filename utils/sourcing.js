@@ -71,7 +71,7 @@ async function loadUser(target, meId) {
 async function uploadMedia(type, offload, stream, request) {
   return new Promise(async (resolve, reject) => {
     try {
-      const domain = `${request.protocol}://${request.get('host')}`;
+      const domain = `https://${request.get('host')}`;
       if (type === 'profile') {
         if (offload.size > 5 * 1024 * 1024) {
           reject({ error: 'File size exceeds the limit' });
