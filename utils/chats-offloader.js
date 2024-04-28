@@ -29,11 +29,13 @@ async function saveChats(id, chats) {
       });
       const currentDate = Date.now()
       chat.timestamp = currentDate;
+      /*
       chat.forEach(nowChat => {
         if (currentDate - nowChat.timestamp > 24 * 60 * 60 * 1000) {
           nowChat.svd_chats = [];
         }
       });
+      */
       await chat.save();
     }
   } catch (error) {
