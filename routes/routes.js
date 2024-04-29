@@ -55,7 +55,11 @@ router.get('/chat/:id/', checkAuth, async (request, reply) => {
 });
 
 const upload = multer({ storage: uploadConfig });
-router.post('/signup', checkNotAuth, upload.single('image'), async (request, reply) => {
+router.post('/signup', checkNotAuth, upload.single('image'), passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/signup',
+  failureFlash: true
+}), async (request, reply) => {
   try {
     const { display_name, username, password, image } = request.body;
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -66,7 +70,7 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
       password: hashedPassword,
       image: media.url,
     });
-    request.flash('success', 'Account created successfully');
+    request.flash('success', 'Account created!');
     reply.redirect('/');
   } catch (e) {
     request.flash('error', 'Something went wrong');
@@ -79,11 +83,12 @@ router.get('/invite/:id', checkAuth, async (request, reply) => {
   reply.render('invite', { room: room });
 });
 
-router.post('/invite/:id', checkNotAuth, async (request, reply) => {
+router.post('/invite/:id', checkAuth, async (request, reply) => {
   try {
     let room = await Room.findById(request.params.id);
     await addToRoom(request.user._id, room);
-    request.flash('success', 'Success!');
+    request.flash('success', `Joined ${room.title}!`);
+    reply.redirect('/');
   } catch (error) {
     request.flash('error', 'Something went wrong');
     console.error({ at: '/invite/:id', error: error });
