@@ -45,7 +45,7 @@ function appendTyping(url, sender_username) {
   profilePic.src = url;
   profilePic.alt = `${sender_username}'s profile picture`;
   const messageContentDiv = document.createElement('div');
-  messageContentDiv.classList.add('message-content');
+  messageContentDiv.classList.add('message_content');
   const senderDiv = document.createElement('div');
   senderDiv.classList.add('sender');
   senderDiv.textContent = sender_username;
