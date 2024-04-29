@@ -18,9 +18,7 @@ module.exports = async (io) => {
 
     socket.on('message', async message => {
       console.log('Message received for ', message);
-      io.to(globId).emit('messageAdd', message, (cb) => {
-        console.log(cb);
-      });
+      io.to(globId).emit('messageAdd', message);
     });
     
     socket.on('messageTyping', payload => {
