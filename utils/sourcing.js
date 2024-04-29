@@ -105,8 +105,8 @@ async function addToRoom(userId, room) {
         reject({ status: 'failed', error: 'User is already an member, cannot add.'});
       }
       const user = await profiler.findById(userId);
-      room.members.push(userId);
-      user.chats.push({ chat_id: roomId, chat_type: 'room' });
+      room.members.push(userId.toString());
+      user.chats.push({ chat_id: room._id.toString(), chat_type: 'room' });
       await room.save();
       await user.save();
       resolve({ status: 'success' });
