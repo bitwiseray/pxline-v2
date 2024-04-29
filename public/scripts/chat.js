@@ -28,10 +28,9 @@ socket.on('messageTyping', (payload, cb) => {
   typingEl = appendTyping(image, displayname);
 });
 
-socket.on('messageAdd', (message, cb) => {
+socket.on('messageAdd', (message) => {
   typingEl.remove();
   appendMessage(message.author.image, message.author.displayname, message.content.text, message.content.timestamp);
-  cb(`Message recived by ${message.author.displayname}`);
 });
 
 let input = document.getElementById('inp');
