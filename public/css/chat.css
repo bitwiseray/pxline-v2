@@ -168,7 +168,7 @@ body {
 .message_content .msg {
   max-width: 450px;
   word-wrap: break-word;
-  font-size: 0.8em;
+  font-size: 0.9em;
 }
 
 .message_content .sender {
