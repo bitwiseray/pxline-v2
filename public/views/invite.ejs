@@ -28,7 +28,7 @@
     <p>You've been invited to join</p>
     <h1><%=room.title%></h1>
     <p class="total-members"><%=room.members.length%> Members</p>
-    <form action="/invite/<%=room._id%>" method="POST">
+    <form action="/invite/<%=room._id.toString()%>" method="POST">
       <button class="accept-btn">Accept Invite</button>
     </form>
       <button class="no-thanks-btn" onclick="window.location.href='/'">No Thanks</button>
