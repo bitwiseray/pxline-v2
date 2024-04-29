@@ -5,10 +5,7 @@ const Media = require('../schematics/media');
 const fs = require('fs');
 
 async function getIndexes(user) {
-  if (!user || !user.chats) {
-    return {};
-  }
-  
+  if (!user || !user.chats) return {};
   const roomChatIds = user.chats
     .filter(chat => chat.chat_type === 'room')
     .map(chat => chat.chat_id);
@@ -101,6 +98,46 @@ async function uploadMedia(type, offload, stream, request) {
   });
 } 
 
+async function addToRoom(userId, room) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (room.members.includes(userId)) {
+        reject({ status: 'failed', error: 'User is already an member, cannot add.'});
+      }
+      const user = await profiler.findById(userId);
+      room.members.push(userId);
+      user.chats.push({ chat_id: roomId, chat_type: 'room' });
+      await room.save();
+      await user.save();
+      resolve({ status: 'success' });
+    } catch (error) {
+      reject({ status: 'failed', error: error });
+    }
+  });
+}
+
+async function removeMemberFromRoom(userId, roomId) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const room = await Room.findById(roomId);
+      const user = await profiler.findById(userId);
+      const index = room.members.indexOf(user._id);
+      if (index > -1) {
+        room.members.splice(index, 1);
+      }
+      const index2 = user.chats.findIndex(chat => chat.chat_id === roomId);
+      if (index2 > -1) {
+        user.chats.splice(index2, 1);
+      }
+      await room.save();
+      await user.save();
+      resolve({ status: 'done' });
+    } catch (error) {
+      reject({ status: 'failed', error: error });
+    }
+  });
+}
+
 async function checkIdType() {
   try {
     const user = await profiler.findOne({ _id: this });
@@ -119,4 +156,4 @@ async function checkIdType() {
 }
 
 String.prototype.checkIdType = checkIdType;
-module.exports = { getIndexes, loadRoom, loadUser, checkIdType, uploadMedia };
+module.exports = { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom };
