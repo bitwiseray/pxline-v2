@@ -10,7 +10,7 @@ const profiler = require('../schematics/profile');
 const Room = require('../schematics/rooms');
 const Media = require('../schematics/media');
 const { checkAuth, checkNotAuth } = require('../preval/validators');
-const { getIndexes, loadRoom, loadUser, checkIdType, uploadMedia } = require('../utils/sourcing');
+const { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom } = require('../utils/sourcing');
 const uploadConfig = require('../utils/upload-sys');
 
 initGateway();
@@ -79,28 +79,11 @@ router.get('/invite/:id', checkAuth, async (request, reply) => {
   reply.render('invite', { room: room });
 });
 
-router.get('/cdn/:id', async (request, reply) => {
-  const id = request.params.id;
-  const media = await Media.findById(id);
-  if (!media) {
-    reply.status(404).send('File not found');
-    return;
-  }
-  const { data, contentType } = media;
-  reply.set('Content-Type', contentType);
-  reply.send(data);
-});
-
 router.post('/invite/:id', checkNotAuth, async (request, reply) => {
   try {
-    const id = request.user._id;
-    const room = await Room.findOne({ _id: request.params.id });
-    if (room.members.includes(id)) {
-      return reply.redirect('/');
-    } else {
-      room.members.push(id);
-      room.save();
-    }
+    let room = await Room.findById(request.params.id);
+    await addToRoom(request.user._id, room);
+    request.flash('success', 'Success!');
   } catch (error) {
     request.flash('error', 'Something went wrong');
     console.error({ at: '/invite/:id', error: error });
@@ -133,6 +116,18 @@ router.delete('/delete', checkAuth, (request, reply) => {
       request.flash('success', 'Deleted successful');
     }
   });
+});
+
+router.get('/cdn/:id', async (request, reply) => {
+  const id = request.params.id;
+  const media = await Media.findById(id);
+  if (!media) {
+    reply.status(404).send('File not found');
+    return;
+  }
+  const { data, contentType } = media;
+  reply.set('Content-Type', contentType);
+  reply.send(data);
 });
 
 module.exports = router;
