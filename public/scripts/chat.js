@@ -70,7 +70,7 @@ document.querySelector('.send').addEventListener('click', (e) => {
     console.log('For emit#message', cb);
   });
   input.value = '';
-  // appendMessage(user.image, user.display_name, contents, Date.now());
+  appendMessage(user.image, user.display_name, contents, Date.now());
 });
 
 document.querySelector('#inp').addEventListener('input', (e) => {
