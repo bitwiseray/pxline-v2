@@ -41,8 +41,10 @@
     <div class="message-container"></div>
     <div class="messageInput">
       <div class="input">
-        <i class='bx bx-image-add'></i>
-        <input id="inp" type="text" placeholder="Message">
+        <i class='bx bx-image-add' id='fileAddI'></i>
+        <form action="/upload/profile" method="POST" enctype="multipart/form-data">
+          <input type="file" id="attachmentInput" name="upload" style="display: none;" accept="image/*">
+        </form>
       </div>
       <div class="send"><i class='bx bx-send'></i></div>
     </div>
@@ -56,9 +58,17 @@
     const extuser = <%-JSON.stringify(extusers)%>;
     const members = <%-JSON.stringify(extusers)%>;
     const user = <%-JSON.stringify(user)%>;
+    const chats = <%-JSON.stringify(chats)%>;
+      
+    document.addEventListener('DOMContentLoaded', () => {
+      const uploadIcon = document.getElementById('fileAddI');
+      const uploadInput = document.getElementById('profilePictureInput');
+      uploadIcon.addEventListener('click', () => {
+        uploadInput.click();
+    });
+      
     function initChat() {
       if (type === 'room') {
-        const chats = <%-JSON.stringify(chats)%>;
         createChatHeader(room.title, room.icon);
         if (Array.isArray(chats.svd_chats) && chats.svd_chats.length >= 0) {
           chats.svd_chats.forEach(chat => {
@@ -69,9 +79,8 @@
           console.error('Invalid chats object or svd_chats array');
         }
       } else {
-        const chats = <%-JSON.stringify(chats)%>;
         createChatHeader(extuser.display_name, extuser.image);
-        if (Array.isArray(chats.svd_chats) && chats.svd_chats.length >= 0) {
+        if (Array.isArray(chats.svd_chats) && chats.svd_chats.length > 0) {
           chats.svd_chats.forEach(chat => {
             const senderUser = chat.sender === user._id ? user : extuser; // Assuming otherUser is available
             appendMessage(senderUser.image, senderUser.display_name, chat.content.text, chat.content.timestamp);
