@@ -45,6 +45,7 @@
         <form action="/upload/profile" method="POST" enctype="multipart/form-data">
           <input type="file" id="attachmentInput" name="upload" style="display: none;" accept="image/*">
         </form>
+        <input id="inp" type="text" placeholder="Message">
       </div>
       <div class="send"><i class='bx bx-send'></i></div>
     </div>
@@ -58,15 +59,7 @@
     const extuser = <%-JSON.stringify(extusers)%>;
     const members = <%-JSON.stringify(extusers)%>;
     const user = <%-JSON.stringify(user)%>;
-    const chats = <%-JSON.stringify(chats)%>;
-      
-    document.addEventListener('DOMContentLoaded', () => {
-      const uploadIcon = document.getElementById('fileAddI');
-      const uploadInput = document.getElementById('profilePictureInput');
-      uploadIcon.addEventListener('click', () => {
-        uploadInput.click();
-    });
-      
+    const chats = <%-JSON.stringify(chats)%>;  
     function initChat() {
       if (type === 'room') {
         createChatHeader(room.title, room.icon);
@@ -90,6 +83,13 @@
         }
       }
     }
+    document.addEventListener('DOMContentLoaded', () => {
+      const uploadIcon = document.getElementById('fileAddI');
+      const uploadInput = document.getElementById('profilePictureInput');
+      uploadIcon.addEventListener('click', () => {
+        uploadInput.click();
+      });
+    });
     initChat();
   </script>
   <script src="/scripts/main.js"></script>
