@@ -1,45 +1,47 @@
 const Chat = require('../schematics/chats');
 
+function isMatchFn(chats, svdChatsFromDB) {
+  console.log('Fn invoked');
+  for (const chatFromDB of svdChatsFromDB) {
+    for (const localChat of chats) {
+      if (localChat.content.text === chatFromDB.content.text &&
+        Number(localChat.content.timestamp) === Number(chatFromDB.content.timestamp) && // Convert timestamp to number
+        localChat.sender === chatFromDB.sender) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 async function saveChats(id, chats) {
   if (!chats || !chats.length) return;
   try {
     let chat = await Chat.findById(id);
-    if (!chat) return;
+    if (!chat) {
+      console.log('No chat found with the given ID:', id);
+      return;
+    }
     const toInsertArray = [];
-    const noneMatch = chats.every(newChat => {
-      if (!chat.svd_chats.some(existingChat => (
-        existingChat.content.text === newChat.content.text &&
-        existingChat.content.timestamp === newChat.content.timestamp &&
-        existingChat.sender === newChat.author.id
-      ))) {
+    const isMatch = isMatchFn(chats, chat.svd_chats);
+    if (!isMatch) {
+      chats.forEach(message => {
         toInsertArray.push({
-          content: { text: newChat.content.text || null, timestamp: newChat.content.timestamp },
-          sender: newChat.author.id,
-          attachments: newChat.attachments || null
+          content: {
+            text: message.content.text,
+            timestamp: message.content.timestamp,
+          },
+          sender: message.author.id,
         });
-        return true;
-      }
-      return false;
-    });
-    if (noneMatch) {
-      await chat.updateOne({ _id: id }, { 
+      });
+      await chat.updateOne({ 
         $push: { 
           svd_chats: { $each: toInsertArray } 
         }
       });
-      const currentDate = Date.now()
-      chat.timestamp = currentDate;
-      /*
-      chat.forEach(nowChat => {
-        if (currentDate - nowChat.timestamp > 24 * 60 * 60 * 1000) {
-          nowChat.svd_chats = [];
-        }
-      });
-      */
-      await chat.save();
     }
   } catch (error) {
-    console.error(error);
+    console.error('Error saving chats:', error);
   }
 }
 
