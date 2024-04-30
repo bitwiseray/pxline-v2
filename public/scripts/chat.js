@@ -14,10 +14,9 @@ if (type === 'room' || type === 'DM') {
     }
   }
   if (roomId) {
-    console.log('Joining room', roomId);
     socket.emit('joinRoom', { _id: roomId });
-    console.log(`Joined ${type}: ${roomId}`);
   } else {
+    popToast('error', 'Failed to connect to the room');
     console.log('User not found in the chats array.');
   }
 }
