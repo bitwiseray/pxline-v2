@@ -15,7 +15,7 @@ function popToast(type, str) {
   parent.appendChild(toast);
   setTimeout(() => {
     toast.remove();
-  }, 3000);
+  }, 3500);
 }
 
 if (messages) {
