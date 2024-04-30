@@ -62,6 +62,10 @@ router.post('/signup', checkNotAuth, upload.single('image'), passport.authentica
 }), async (request, reply) => {
   try {
     const { display_name, username, password, image } = request.body;
+    if (username === await profiler.findOne({ username })) {
+      request.flash('error', 'Username already exists');
+      return;
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
     const media = await uploadMedia('profile', request.file, fs.readFileSync(path.join(__dirname, '../tmp', request.file.filename)), request);
     await profiler.create({
