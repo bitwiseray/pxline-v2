@@ -32,6 +32,7 @@ async function saveChats(id, chats) {
             timestamp: message.content.timestamp,
           },
           sender: message.author.id,
+          attachments: message.attachments
         });
       });
       await chat.updateOne({ 
