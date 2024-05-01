@@ -61,7 +61,7 @@ router.post('/signup', checkNotAuth, upload.single('image'), passport.authentica
   failureFlash: true
 }), async (request, reply) => {
   try {
-    const { display_name, username, password, image } = request.body;
+    const { display_name, username, password } = request.body;
     if (username === await profiler.findOne({ username })) {
       request.flash('error', 'Username already exists');
       return;
@@ -137,6 +137,19 @@ router.get('/cdn/:id', async (request, reply) => {
   const { data, contentType } = media;
   reply.set('Content-Type', contentType);
   reply.send(data);
+});
+
+router.post('/cdn', upload.single('upload'), async (request, reply) => {
+  try {
+    const upload = await uploadMedia('attachment', request.file, fs.readFileSync(path.join(__dirname, '../tmp', request.file.filename)), request);
+    reply.status(200).send(upload.url);
+    setTimeout(async () => {
+      const doc = await Media.findByIdAndDelete(upload.id);
+      console.log('del', doc)
+    }, 10 * 1000)
+  } catch (error) {
+    reply.status(500).send('Error uploading file');
+  }
 });
 
 module.exports = router;
