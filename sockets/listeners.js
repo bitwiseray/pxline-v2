@@ -27,7 +27,7 @@ module.exports = async (io) => {
     });
 
     socket.on('disconnect', () => {
-      saveChats(chatId, chats);
+      // saveChats(chatId, chats);
     });
   });
 };
