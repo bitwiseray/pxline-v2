@@ -78,7 +78,7 @@ async function uploadMedia(type, offload, stream, request) {
           data: stream,
           contentType: offload.mimetype
         });
-        resolve({ status: 'done', url: `${domain}/cdn/${loadPff._id}` });
+        resolve({ status: 'done', url: `${domain}/cdn/${loadPff._id}`, id: loadPff._id });
       } else {
         if (offload.size > 10 * 1024 * 1024) {
           reject({ error: 'File size exceeds the limit' });
@@ -90,7 +90,7 @@ async function uploadMedia(type, offload, stream, request) {
           filename: offload.filename,
           createdAt: Date.now()
         });
-        resolve({ status: 'done', url: `${domain}/cdn/${loadAtt._id}` });
+        resolve({ status: 'done', url: `${domain}/cdn/${loadAtt._id}`, id: loadAtt._id });
       }
     } catch (error) {
       reject(error)
