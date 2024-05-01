@@ -184,8 +184,9 @@ body {
 .message_content .img-attachment {
   position: relative;
   border-radius: 5px;
-  max-width: 240px;
-  height: auto;
+  width: 250px;
+  height: 280px;
+  max-height: 340px;
   margin: 3px;
 }
 
