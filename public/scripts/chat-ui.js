@@ -6,7 +6,7 @@ function createChatHeader(title, icon) {
   img.src = icon;
 }
 
-function appendMessage(url, sender_username, message, rawLowerSub) {
+function appendMessage(url, sender_username, message, rawLowerSub, attachments) {
   const messageContainer = document.querySelector('.message-container');
   const messageDiv = document.createElement('div');
   const profilePicImg = document.createElement('img');
@@ -20,16 +20,24 @@ function appendMessage(url, sender_username, message, rawLowerSub) {
   senderDiv.innerHTML = `${sender_username} <span style="color: #aaa; font-size: 0.9em;">·&nbsp;${setTimes(null, rawLowerSub)}</span>`;
   messageTextDiv.classList.add('msg');
   messageTextDiv.textContent = message;
+  messageContentDiv.classList.add('message_content');
+  console.log(attachments || 'No url')
   messageContentDiv.appendChild(senderDiv);
   messageContentDiv.appendChild(messageTextDiv);
   messageDiv.appendChild(profilePicImg);
+  if (attachments) {
+    const imgEl = document.createElement('img');
+    imgEl.classList.add('img-attachment');
+    imgEl.src = attachments;
+    messageContentDiv.appendChild(imgEl);
+  }
   messageDiv.appendChild(messageContentDiv);
   messageContainer.appendChild(messageDiv);
   if (messageContainer) {
     messageContainer.scrollTop = messageContainer.scrollHeight;
   }
   const timeDiff = Date.now() - rawLowerSub;
-  if (timeDiff === 60*60*1000) {
+  if (timeDiff >= 60*60*1000) {
     const superTime = document.createElement('div');
     superTime.classList.add('time');
     superTime.innerText = formatTimestamp(rawLowerSub, false);
