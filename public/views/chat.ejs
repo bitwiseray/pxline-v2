@@ -42,7 +42,7 @@
     <div class="messageInput">
       <div class="input">
         <i class='bx bx-image-add' id='fileAddI'></i>
-        <form action="/upload/profile" method="POST" enctype="multipart/form-data">
+        <form action="/cdn" method="POST" enctype="multipart/form-data">
           <input type="file" id="attachmentInput" name="upload" style="display: none;" accept="image/*">
         </form>
         <input id="inp" type="text" placeholder="Message">
@@ -66,7 +66,8 @@
         if (Array.isArray(chats.svd_chats) && chats.svd_chats.length >= 0) {
           chats.svd_chats.forEach(chat => {
             const senderUser = chat.sender === user._id ? user : members.find(member => member._id === chat.sender);
-            appendMessage(senderUser.image, senderUser.display_name, chat.content.text, chat.content.timestamp);
+            console.log(chat.attachments)
+            appendMessage(senderUser.image, senderUser.display_name, chat.content.text, chat.content.timestamp, chat.attachments);
           });
         } else {
           console.error('Invalid chats object or svd_chats array');
@@ -76,20 +77,47 @@
         if (Array.isArray(chats.svd_chats) && chats.svd_chats.length > 0) {
           chats.svd_chats.forEach(chat => {
             const senderUser = chat.sender === user._id ? user : extuser; // Assuming otherUser is available
-            appendMessage(senderUser.image, senderUser.display_name, chat.content.text, chat.content.timestamp);
+            appendMessage(senderUser.image, senderUser.display_name, chat.content.text, chat.content.timestamp, chat.attachments);
           });
         } else {
          console.error('Invalid chats object or svd_chats array');
         }
       }
     }
+    let isAttached;
     document.addEventListener('DOMContentLoaded', () => {
       const uploadIcon = document.getElementById('fileAddI');
-      const uploadInput = document.getElementById('profilePictureInput');
+      const uploadInput = document.getElementById('attachmentInput');
       uploadIcon.addEventListener('click', () => {
         uploadInput.click();
       });
-    });
+      uploadInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        const formData = new FormData();
+        const reader = new FileReader();
+        /*
+        reader.onload = (e) => {
+          appendTyping(user.image, user.display_name, 'awaitUpload', e.target.result)
+        };
+        */
+        formData.append('upload', file);
+          try {
+            const response = await fetch('/cdn', {
+              method: 'POST',
+              body: formData
+            });
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            isAttached = JSON.stringify(data);
+            console.log(isAttached)
+          } catch (error) {
+            alert('Something went wrong. Please try again later.');
+            console.error('Fetch error:', error);
+          }
+        });
+      });
     initChat();
   </script>
   <script src="/scripts/main.js"></script>
