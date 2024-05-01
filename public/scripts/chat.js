@@ -28,13 +28,14 @@ socket.on('messageTyping', (payload, cb) => {
 });
 
 socket.on('messageAdd', (message) => {
-  typingEl.remove();
-  appendMessage(message.author.image, message.author.displayname, message.content.text, message.content.timestamp);
+  if (typingEl) typingEl.remove();
+  appendMessage(message.author.image, message.author.displayname, message.content.text, message.content.timestamp, message.attachments);
 });
 
 let input = document.getElementById('inp');
 document.querySelector('.send').addEventListener('click', (e) => {
   let contents = input.value;
+  let attachments = isAttached.url;
   let offExport = () => {
     if (type === 'room') {
       return {
@@ -63,12 +64,12 @@ document.querySelector('.send').addEventListener('click', (e) => {
       image: user.image,
     },
     chat: offExport(),
-    attachments: null,
+    attachments: attachments || null,
   }, (cb) => {
     console.log('For emit#message', cb);
   });
   input.value = '';
-  appendMessage(user.image, user.display_name, contents, Date.now());
+  appendMessage(user.image, user.display_name, contents, Date.now(), attachments);
 });
 
 document.querySelector('#inp').addEventListener('input', (e) => {
