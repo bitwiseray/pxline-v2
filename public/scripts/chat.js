@@ -69,8 +69,8 @@ document.querySelector('.send').addEventListener('click', (e) => {
     console.log('For emit#message', cb);
   });
   input.value = '';
-  console.log(attachments)
-  appendMessage(user.image, user.display_name, contents, Date.now(), attachments.url);
+  isAttached = {};
+  // appendMessage(user.image, user.display_name, contents, Date.now(), attachments.url || null);;
 });
 
 document.querySelector('#inp').addEventListener('input', (e) => {
