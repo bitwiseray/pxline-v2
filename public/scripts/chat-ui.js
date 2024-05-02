@@ -21,7 +21,6 @@ function appendMessage(url, sender_username, message, rawLowerSub, attachments) 
   messageTextDiv.classList.add('msg');
   messageTextDiv.textContent = message;
   messageContentDiv.classList.add('message_content');
-  console.log(attachments || 'No url')
   messageContentDiv.appendChild(senderDiv);
   messageContentDiv.appendChild(messageTextDiv);
   messageDiv.appendChild(profilePicImg);
