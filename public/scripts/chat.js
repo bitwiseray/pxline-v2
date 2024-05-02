@@ -35,7 +35,7 @@ socket.on('messageAdd', (message) => {
 let input = document.getElementById('inp');
 document.querySelector('.send').addEventListener('click', (e) => {
   let contents = input.value;
-  let attachments = isAttached.url;
+  let attachments = isAttached;
   let offExport = () => {
     if (type === 'room') {
       return {
@@ -64,12 +64,13 @@ document.querySelector('.send').addEventListener('click', (e) => {
       image: user.image,
     },
     chat: offExport(),
-    attachments: attachments || null,
+    attachments: attachments.url || null,
   }, (cb) => {
     console.log('For emit#message', cb);
   });
   input.value = '';
-  appendMessage(user.image, user.display_name, contents, Date.now(), attachments);
+  console.log(attachments)
+  appendMessage(user.image, user.display_name, contents, Date.now(), attachments.url);
 });
 
 document.querySelector('#inp').addEventListener('input', (e) => {
