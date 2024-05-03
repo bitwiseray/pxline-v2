@@ -35,8 +35,8 @@ socket.on('messageAdd', (message) => {
 let input = document.getElementById('inp');
 document.querySelector('.send').addEventListener('click', (e) => {
   let contents = input.value;
-  if (contents.trim() === '') return popToast('error', 'Cannot send an empty message!');
   let attachments = isAttached;
+  if (contents.trim() === '' && attachments) return popToast('error', 'Cannot send empty message!');
   let offExport = () => {
     if (type === 'room') {
       return {
