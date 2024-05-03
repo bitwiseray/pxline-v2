@@ -66,7 +66,6 @@
         if (Array.isArray(chats.svd_chats) && chats.svd_chats.length >= 0) {
           chats.svd_chats.forEach(chat => {
             const senderUser = chat.sender === user._id ? user : members.find(member => member._id === chat.sender);
-            console.log(chat.attachments)
             appendMessage(senderUser.image, senderUser.display_name, chat.content.text, chat.content.timestamp, chat.attachments);
           });
         } else {
@@ -111,7 +110,6 @@
             }
             const data = await response.json();
             isAttached = data;
-            console.log(isAttached)
           } catch (error) {
             alert('Something went wrong. Please try again later.');
             console.error('Fetch error:', error);
