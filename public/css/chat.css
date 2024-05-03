@@ -120,7 +120,7 @@ body {
 .message-container .time {
   color: var(--gray);
   text-align: center;
-  font-size: 13.5px;
+  font-size: 13px;
 }
 
 .message-container .message {
@@ -168,11 +168,11 @@ body {
 .message_content .msg {
   max-width: 450px;
   word-wrap: break-word;
-  font-size: 0.9em;
+  font-size: 0.85em;
 }
 
 .message_content .sender {
-  font-size: 1.1em;
+  font-size: 1em;
   font-weight: 500;
 }
 
