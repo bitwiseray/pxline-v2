@@ -10,14 +10,23 @@ const profiler = require('../schematics/profile');
 const Room = require('../schematics/rooms');
 const Media = require('../schematics/media');
 const { checkAuth, checkNotAuth } = require('../preval/validators');
-const { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom } = require('../utils/sourcing');
+const { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom, getLastMessages } = require('../utils/sourcing');
 const uploadConfig = require('../utils/upload-sys');
 
 initGateway();
 router.get('/', checkAuth, async (request, reply) => {
   try {
     const offload = await getIndexes(request.user);
-    reply.render('index', { user: request.user, extusers: offload.users, extrooms: offload.rooms });
+    let collectedIds = [];
+    offload.rooms.forEach(room => {
+      collectedIds.push(room.chats.chat_id);
+    });
+    offload.users.forEach(user => {
+      collectedIds.push(user.chats.chat_id);
+    });
+    console.log(collectedIds)
+    const lastMessages = await getLastMessages(collectedIds);
+    reply.render('index', { user: request.user, extusers: offload.users, extrooms: offload.rooms, lastMessages: lastMessages });
   } catch (e) {
     request.flash('error', 'Something went wrong');
     console.error({ at: '/', error: e });
