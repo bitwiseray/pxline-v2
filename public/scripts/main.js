@@ -25,3 +25,9 @@ if (messages) {
   popToast(null);
   }
 }
+
+function toUrl() {
+  return `${window.location.origin}/cdn/${this}`;
+}
+
+String.prototype.toUrl = toUrl;
