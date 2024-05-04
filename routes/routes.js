@@ -72,7 +72,7 @@ router.post('/signup', checkNotAuth, upload.single('image'), passport.authentica
       user_name: username,
       display_name: display_name,
       password: hashedPassword,
-      image: media.url,
+      image: media.id,
     });
     request.flash('success', 'Account created!');
     reply.redirect('/');
@@ -143,7 +143,6 @@ router.post('/cdn', upload.single('upload'), async (request, reply) => {
   try {
     const upload = await uploadMedia('attachment', request.file, fs.readFileSync(path.join(__dirname, '../tmp', request.file.filename)), request);
     const responseData = {
-      url: upload.url,
       id: upload.id || null,
     };
     reply.status(200).json(responseData);
