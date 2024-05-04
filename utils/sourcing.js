@@ -27,7 +27,7 @@ async function getUsersWithId(objectIds) {
 
 async function getRoomsFromChats(ids) {
    try {
-     const rooms = await Room.find({ _id: { $in: ids } }, '_id title icon members chats');
+     const rooms = await Room.find({ _id: { $in: ids } }, '_id title icon members anonymousmode chats');
      return rooms;
    } catch (error) {
      console.error('Error fetching rooms:', e);
@@ -96,7 +96,7 @@ async function uploadMedia(type, offload, stream, request) {
       reject(error)
     }
   });
-} 
+}
 
 async function addToRoom(userId, room) {
   return new Promise(async (resolve, reject) => {
