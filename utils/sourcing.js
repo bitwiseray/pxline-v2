@@ -155,5 +155,24 @@ async function checkIdType() {
   }
 }
 
+async function getLastMessages(entityIds) {
+  let toReturnArray = [];
+  await Promise.all(entityIds.map(async (entity) => {
+    if (entity) {
+      let chat = await Chat.findById(entity.toString());
+      if (!chat) return { message: 'Chat does not exist'};
+      const lastObj = chat.svd_chats[chat.svd_chats.length - 1];
+      const username = await profiler.findById(lastObj.sender, 'display_name');
+      toReturnArray.push({
+        lastFor: entity,
+        content: lastObj.content.text,
+        createdAt: lastObj.content.timestamp,
+        sender: username.display_name,
+      });
+    }
+  }));
+  return toReturnArray;
+}
+
 String.prototype.checkIdType = checkIdType;
-module.exports = { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom };
+module.exports = { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom, getLastMessages };
