@@ -75,10 +75,12 @@ body {
   -webkit-tap-highlight-color: none;
 }
 
-.chat-header .dots {
+.chat-header .options-container {
   position: relative;
-  font-size: 1.5em;
-  left: 47%;
+  display: flex;
+  font-size: 1.2em;
+  left: 100px;
+  gap: 5px;
 }
 
 .chat-header i:hover {
