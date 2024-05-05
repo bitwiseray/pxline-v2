@@ -54,12 +54,6 @@ body {
   margin-bottom: 5.5px;
 }
 
-.chat-header .search {
-  color: var(--text-color);
-  margin-left: 125px;
-  cursor: pointer;
-}
-
 .chat-header .imgcontent {
   display: flex;
   align-items: center;
