@@ -431,6 +431,7 @@ header .action a {
   font-weight: 400;
 }
 
+/* quick buttos  */
 .quickBtn {
   position: absolute;
   bottom: 100px;
@@ -447,9 +448,19 @@ header .action a {
   justify-content: center;
   align-items: center;
   color: var(--text-color);
-  font-size: 1.3em;
+  font-size: 1.35em;
   cursor: pointer;
   display: none;
+  animation: slide-in .2s cubic-bezier(0.165, -1, 0.44, 1);
+}
+
+@keyframes slide-in {
+  from{
+    margin-left: 100%;  
+  }
+  to{
+    margin-left: 0%; 
+  }
 }
 
 .tabs input:nth-child(1):checked ~ .quickBtn .btn:nth-child(1) {
