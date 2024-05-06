@@ -310,7 +310,7 @@ header .action a {
   color: #9c9c9c;
 }
 
-le-card{
+.profile-card{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -372,10 +372,12 @@ le-card{
 
 /* Buttons */
 .profile-card .buttons{
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 100px;
+  top: 40px;
 }
 
 .buttons .btn1,.btn2{
@@ -403,18 +405,23 @@ le-card{
 
 /* Line */
 #line{
+   position: relative;
    display:block;
    width:50%;
    margin-top: 5px;
+   top: 40px;
    border-radius: 10px;
    border-top: 3px solid var(--unread);
 }
 
 /* Description */
 .profile-card .about{
+  position: relative;
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 5px;
+  top: 40px;
+  
 }
 
 .about .abt-text{
