@@ -14,6 +14,7 @@ const io = require('socket.io')(socServer, {
   }
 });
 const routes = require('./routes/routes');
+require('dotenv').config();
 require('./sockets/listeners')(io);
 
 app.set('view engine', 'ejs');
