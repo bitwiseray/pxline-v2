@@ -32,7 +32,7 @@ app.use(flash());
 app.use(override('_method'));
 app.use('/', routes);
 
-socServer.listen(3000, async () => {
+socServer.listen(8080, async () => {
   await mongoose.connect(process.env.srv);
   console.log('Server is running on port 3000');
 });
