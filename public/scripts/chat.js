@@ -65,7 +65,7 @@ document.querySelector('.send').addEventListener('click', (e) => {
       image: user.image,
     },
     chat: offExport(),
-    attachments: attachments.url || null,
+    attachments: attachments?.url || null,
   }, (cb) => {
     console.log('For emit#message', cb);
   });
