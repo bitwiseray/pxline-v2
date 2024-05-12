@@ -3,7 +3,7 @@ function createChatHeader(title, icon) {
   const h3 = parentContainer.querySelector('h3');
   const img = parentContainer.querySelector('img');
   h3.textContent = title;
-  img.src = icon;
+  img.src = `${window.origin}/cdn/${icon}`;
 }
 
 function appendMessage(url, sender_username, message, rawLowerSub, attachments) {
