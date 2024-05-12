@@ -1,7 +1,6 @@
 const Chat = require('../schematics/chats');
 
 function isMatchFn(chats, svdChatsFromDB) {
-  console.log('Fn invoked');
   for (const chatFromDB of svdChatsFromDB) {
     for (const localChat of chats) {
       if (localChat.content.text === chatFromDB.content.text &&
