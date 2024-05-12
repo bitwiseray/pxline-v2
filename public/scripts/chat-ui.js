@@ -15,7 +15,7 @@ function appendMessage(url, sender_username, message, rawLowerSub, attachments) 
   const messageTextDiv = document.createElement('div');
   messageDiv.classList.add('message');
   profilePicImg.classList.add('profile_pic');
-  profilePicImg.src = url;
+  profilePicImg.src = `${window.origin}/cdn/${url}`;
   senderDiv.classList.add('sender');
   senderDiv.innerHTML = `${sender_username} <span style="color: #aaa; font-size: 0.9em;">·&nbsp;${setTimes(null, rawLowerSub)}</span>`;
   messageTextDiv.classList.add('msg');
@@ -49,7 +49,7 @@ function appendTyping(url, sender_username) {
   messageDiv.classList.add('message');
   const profilePic = document.createElement('img');
   profilePic.classList.add('profile_pic');
-  profilePic.src = url;
+  profilePic.src = `${window.origin}/cdn/${url}`;
   profilePic.alt = `${sender_username}'s profile picture`;
   const messageContentDiv = document.createElement('div');
   messageContentDiv.classList.add('message_content');
