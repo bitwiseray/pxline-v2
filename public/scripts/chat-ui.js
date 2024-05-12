@@ -27,7 +27,7 @@ function appendMessage(url, sender_username, message, rawLowerSub, attachments) 
   if (attachments) {
     const imgEl = document.createElement('img');
     imgEl.classList.add('img-attachment');
-    imgEl.src = attachments;
+    imgEl.src = `${window.origin}/cdn/${attachments}`;
     messageContentDiv.appendChild(imgEl);
   }
   messageDiv.appendChild(messageContentDiv);
