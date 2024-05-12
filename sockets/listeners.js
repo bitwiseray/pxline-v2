@@ -13,7 +13,6 @@ module.exports = async (io) => {
         console.log('Error: load object is undefined or missing _id');
       }
     });
-
     socket.on('message', async message => {
       if (message && message.content && message.author) {
         chats.push(message);
@@ -21,13 +20,11 @@ module.exports = async (io) => {
       }
       io.to(globId).emit('messageAdd', message);
     });
-    
     socket.on('messageTyping', payload => {
       socket.broadcast.to(globId).emit('messageTyping', payload);
     });
-
     socket.on('disconnect', () => {
-      saveChats(chatId, chats);
+      // saveChats(chatId, chats);
     });
   });
 };
