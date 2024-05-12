@@ -17,7 +17,6 @@ module.exports = async (io) => {
     socket.on('message', async message => {
       if (message && message.content && message.author) {
         chats.push(message);
-        console.log('message passed', { text: message.content.text, attachments: message.attachments });
         chatId = message.chat.chat_id;
       }
       io.to(globId).emit('messageAdd', message);
