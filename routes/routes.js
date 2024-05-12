@@ -24,7 +24,6 @@ router.get('/', checkAuth, async (request, reply) => {
     offload.users.forEach(user => {
       collectedIds.push(user.chats.chat_id);
     });
-    console.log(collectedIds)
     const lastMessages = await getLastMessages(collectedIds);
     reply.render('index', { user: request.user, extusers: offload.users, extrooms: offload.rooms, lastMessages: lastMessages });
   } catch (e) {
@@ -64,11 +63,7 @@ router.get('/chat/:id/', checkAuth, async (request, reply) => {
 });
 
 const upload = multer({ storage: uploadConfig });
-router.post('/signup', checkNotAuth, upload.single('image'), passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/signup',
-  failureFlash: true
-}), async (request, reply) => {
+router.post('/signup', checkNotAuth, upload.single('image')), async (request, reply) => {
   try {
     const { display_name, username, password } = request.body;
     if (username === await profiler.findOne({ username })) {
@@ -89,7 +84,7 @@ router.post('/signup', checkNotAuth, upload.single('image'), passport.authentica
     request.flash('error', 'Something went wrong');
     return console.error({ at: '/signup', error: e })
   }
-});
+};
 
 router.get('/invite/:id', checkAuth, async (request, reply) => {
   const room = await Room.findOne({ _id: request.params.id });
