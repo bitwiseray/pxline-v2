@@ -310,6 +310,7 @@ header .action a {
   color: #9c9c9c;
 }
 
+/* Settings block */
 .profile-card{
   display: flex;
   flex-direction: column;
