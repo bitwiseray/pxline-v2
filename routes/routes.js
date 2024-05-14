@@ -63,7 +63,7 @@ router.get('/chat/:id/', checkAuth, async (request, reply) => {
 });
 
 const upload = multer({ storage: uploadConfig });
-router.post('/signup', checkNotAuth, upload.single('image')), async (request, reply) => {
+router.post('/signup', checkNotAuth, upload.single('image'), async (request, reply) => {
   try {
     const { display_name, username, password } = request.body;
     if (username === await profiler.findOne({ username })) {
@@ -84,7 +84,7 @@ router.post('/signup', checkNotAuth, upload.single('image')), async (request, re
     request.flash('error', 'Something went wrong');
     return console.error({ at: '/signup', error: e })
   }
-};
+});
 
 router.get('/invite/:id', checkAuth, async (request, reply) => {
   const room = await Room.findOne({ _id: request.params.id });
