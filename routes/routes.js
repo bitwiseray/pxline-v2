@@ -150,10 +150,12 @@ router.post('/cdn', upload.single('upload'), async (request, reply) => {
       id: upload.id || null,
     };
     reply.status(200).json(responseData);
+    /*
     setTimeout(async () => {
       const doc = await Media.findByIdAndDelete(upload.id);
       console.log('deleted')
-    }, 50 * 1000)
+    }, 60 * 1000)
+    */
   } catch (error) {
     reply.status(500).send('Error uploading file');
   }
