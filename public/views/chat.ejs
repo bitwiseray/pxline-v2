@@ -36,17 +36,15 @@
         </div>
         <h3></h3>
         <div class="options-container">
-          <input type="checkbox" id="dots">
-          <label for="dots"><i class='bx bxs-hide'></i></label>
           <i class='bx bx-dots-vertical-rounded dots'></i>
         </div>
       </div>
     </div>
     <div class="message-container"></div>
     <div class="messageInput">
+      <i class='bx bx-image-add' id='fileAddI'></i>
       <div class="input">
-        <i class='bx bx-image-add' id='fileAddI'></i>
-        <form action="/cdn" method="POST" enctype="multipart/form-data">
+        <form action="/upload/profile" method="POST" enctype="multipart/form-data">
           <input type="file" id="attachmentInput" name="upload" style="display: none;" accept="image/*">
         </form>
         <input id="inp" type="text" placeholder="Message">
