@@ -21,6 +21,7 @@ if (type === 'room' || type === 'DM') {
   }
 }
 
+
 let typingEl;
 socket.on('messageTyping', (payload, cb) => {
   const { image, displayname } = payload;
@@ -29,7 +30,7 @@ socket.on('messageTyping', (payload, cb) => {
 
 socket.on('messageAdd', (message) => {
   if (typingEl) typingEl.remove();
-  appendMessage(message.author.image, message.author.displayname, message.content.text, message.content.timestamp, message.attachments);
+  appendMessage(message.author.image, message.author.displayname, message.author.username, message.content.text, message.content.timestamp, message.attachments);
 });
 
 let input = document.getElementById('inp');
