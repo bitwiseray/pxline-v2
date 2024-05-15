@@ -3,11 +3,7 @@ const mongoose = require('mongoose');
 const profile_schema = new mongoose.Schema({
   user_name: { type: String, required: true, unique: true },
   display_name: { type: String },
-  socials: {
-    friends: Number,
-    interactions: Number,
-    bio: String 
-  },
+  socials: { type: Object },
   password: { type: String, required: true },
   authority: { type: String },
   image: { type: String },

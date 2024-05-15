@@ -91,7 +91,7 @@ router.get('/:username', async (request, reply) => {
   try {
     const userId = await profiler.findOne({ user_name: request.params.username });
     const offload = await loadUser(userId._id);
-    console.log({ raw: request.params.username, id: userId, off: offload})
+    console.log({ off: offload})
     reply.render('profile', { user: offload, base: `https://${request.get('host')}`});
   } catch (e) {
     request.flash('error', 'Something went wrong');
