@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" prefix="og: https://ogp.me/ns#">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,52 +20,54 @@
   <link rel="stylesheet" href="/css/toast.css">
   <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 </head>
-<body>
+
+<body scroll="no">
   <div class="toast-container"></div>
   <div class="hero-container">
     <div class="register-container">
-    <h1>Register</h1>
-    <form action="/signup" method="POST" enctype="multipart/form-data">
-      <img id="profilePicPreview" src="/assets/profile-pic.png" alt="Profile picture icon" />
-      <input type="file" id="profilePictureInput" name="image" style="display: none;" accept="image/*">
-      <div class="form-group">
-        <div class="input-icon"><i class='bx bx-edit' ></i></div>
-        <input type="text" id="displayName" name="display_name" placeholder="Display name">
-      </div>
-      <div class="form-group">
-        <div class="input-icon"><i class="bx bx-user"></i></div>
-        <input type="text" id="username" name="username" placeholder="Create username" required>
-      </div>
-      <div class="form-group">
-        <div class="input-icon"><i class="bx bxs-lock-alt"></i></div>
-        <input type="password" id="password" name="password" placeholder="Create password" required>
-      </div>
-      <button type="submit">Register</button>
-      <p>Already have an account? <a href="/login">Login</a></p>
-    </form>
-  </div>
+      <h1>Register</h1>
+      <form action="/signup" method="POST" enctype="multipart/form-data">
+        <img id="profilePicPreview" src="/public/assets/profile-pic.png" alt="Profile picture icon" />
+        <input type="file" id="profilePictureInput" name="image" style="display: none;" accept="image/*">
+        <div class="form-group">
+          <input type="text" id="displayName" name="display_name" placeholder="Display name">
+          <span><i class='bx bx-edit'></i></span>
+        </div>
+        <div class="form-group">
+          <input type="text" id="username" name="username" placeholder="Create username" required>
+          <span><i class="bx bx-user"></i></span>
+        </div>
+        <div class="form-group">
+          <input type="password" id="password" name="password" placeholder="Create password" required>
+          <span><i class="bx bxs-lock-alt"></i></span>
+        </div>
+        <button type="submit">Register</button>
+        <p>Already have an account? <a href="/login">Login</a></p>
+      </form>
+    </div>
   </div>
   <script>
-    let messages = <%-JSON.stringify(messages)%>;
+    let messages = <% -JSON.stringify(messages) %>;
     document.addEventListener('DOMContentLoaded', () => {
       const profilePicIcon = document.getElementById('profilePicPreview');
       const profilePictureInput = document.getElementById('profilePictureInput');
       profilePicIcon.addEventListener('click', () => {
         profilePictureInput.click();
-    });
+      });
 
-    profilePictureInput.addEventListener('change', (event) => {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-        profilePicIcon.src = e.target.result;
-      }
-      reader.readAsDataURL(file);
-    }
-   });
- });
+      profilePictureInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            profilePicIcon.src = e.target.result;
+          }
+          reader.readAsDataURL(file);
+        }
+      });
+    });
   </script>
   <script src="/scripts/main.js"></script>
 </body>
+
 </html>

@@ -86,7 +86,7 @@ header .action a {
   background: var(--primary);
   padding: 10.5px 15px;
   box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.15);
-  z-index: 1;
+  z-index: 2000;
 }
 
 .nav-content {
@@ -310,6 +310,7 @@ header .action a {
   color: #9c9c9c;
 }
 
+/* Settings block */
 .profile-card{
   display: flex;
   flex-direction: column;
@@ -376,8 +377,7 @@ header .action a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 100px;
-  top: 40px;
+  top: 20%;
 }
 
 .buttons .btn1,.btn2{
@@ -409,7 +409,7 @@ header .action a {
    display:block;
    width:50%;
    margin-top: 5px;
-   top: 40px;
+   top: 21%;
    border-radius: 10px;
    border-top: 3px solid var(--unread);
 }
@@ -420,7 +420,7 @@ header .action a {
   display: flex;
   align-items: center;
   margin-top: 5px;
-  top: 40px;
+  top: 21%;
   
 }
 
@@ -430,4 +430,43 @@ header .action a {
   color: var(--unread);
   font-size: 13px;
   font-weight: 400;
+}
+
+/* quick buttos  */
+.quickBtn {
+  position: absolute;
+  bottom: 100px;
+  right: 10px;
+  z-index: 1000;
+}
+
+.quickBtn .btn {
+  background: var(--main);
+  width: 45px;
+  height: 45px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-color);
+  font-size: 1.35em;
+  cursor: pointer;
+  display: none;
+  animation: slide-in .2s cubic-bezier(0.165, -1, 0.44, 1);
+}
+
+@keyframes slide-in {
+  from{
+    margin-left: 100%;  
+  }
+  to{
+    margin-left: 0%; 
+  }
+}
+
+.tabs input:nth-child(1):checked ~ .quickBtn .btn:nth-child(1) {
+  display: flex;
+}
+.tabs input:nth-child(2):checked ~ .quickBtn .btn:nth-child(2) {
+  display: flex;
 }

@@ -31,14 +31,28 @@
     <form action="/invite/<%=room._id.toString()%>" method="POST">
       <button class="accept-btn">Accept Invite</button>
     </form>
+  <div class="toast-container"></div>
+  <div class="invite-container">
+    <div class="invite-card">
+      <img src="<%=room.icon%>" alt="<%=room.title%> icon">
+      <p>You've been invited to join</p>
+      <h1>
+        <%=room.title%>
+      </h1>
+      <p class="total-members">
+        <%=room.members.length%> Members
+      </p>
+      <form action="/invite/<%=room._id.toString()%>" method="POST">
+        <button class="accept-btn">Accept Invite</button>
+      </form>
       <button class="no-thanks-btn" onclick="window.location.href='/'">No Thanks</button>
+    </div>
   </div>
-</div>
-<script>
-  let messages = <%-JSON.stringify(messages)%>;
+  <script>
+    let messages = <% -JSON.stringify(messages) %>;
   let room = <%-JSON.stringify(room)%>;
   document.getElementById('img').src = `${window.location.origin}/cdn/${room.icon}`;
-</script>
-<script src="/scripts/main.js"></script> 
+  </script>
+  <script src="/scripts/main.js"></script>
 </body>
 </html>

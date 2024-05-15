@@ -20,6 +20,10 @@
   <script src="https://kit.fontawesome.com/c0b785182d.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="/css/toast.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js" integrity="sha512-4F1cxYdMiAW98oomSLaygEwmCnIP38pb4Kx70yQYqRwLVCs3DbRumfBq82T08g/4LJ/smbFGFpmeFlQgoDccgg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="/public/css/toast.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js"
+    integrity="sha512-4F1cxYdMiAW98oomSLaygEwmCnIP38pb4Kx70yQYqRwLVCs3DbRumfBq82T08g/4LJ/smbFGFpmeFlQgoDccgg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body>
@@ -36,6 +40,12 @@
       <input id="chats" type="radio" name="group" checked>
       <input id="rooms" type="radio" name="group">
       <input id="settings" type="radio" name="group">
+
+      <div class="quickBtn">
+        <div class="btn message" onclick="location.href='#'"><ion-icon name="person-add-outline"></ion-icon></div>
+        <div class="btn group" onclick="location.href='#'"><ion-icon name="add-circle-outline"></ion-icon></div>
+      </div>
+
       <div class="nav">
         <div class="nav-content">
           <div class="nav-list">
@@ -50,7 +60,7 @@
               <span class="link-text">Rooms</span>
             </a>
           </div>
-          <div class="nav-list">
+          <div class="nav-list" onclick="show_hide()">
             <a href="#" class="link-item">
               <label for="settings"><i class='bx bxs-cog link-icon'></i></label>
               <span class="link-text">Settings</span>
@@ -75,12 +85,14 @@
           <!-- Profile Section -->
           <div class="profile-card">
             <div class="image">
+              <img src="/public/assets/profile-pic.png" alt="My image" class="profile-img">
+            </div>
               <img src="/assets/profile-pic.png" alt="My image" class="profile-img">
             </div>         
             <div class="text-data">
               <span class="name">Fin1te</span>
               <span class="user_id">Fin1te@01</span>
-            </div>        
+            </div>
             <!-- Buttons -->
             <div class="buttons">
               <form action="/logout?_method=DELETE" method="POST">
@@ -89,9 +101,9 @@
 
               <form action="/delete?_method=DELETE" method="POST">
                 <button type="submit" class="btn2">Delete Account</button></a>
-              </form>     
+              </form>
             </div>
-            <span id="line"></span>      
+            <span id="line"></span>
             <!-- Description -->
             <div class="about">
               <p class="abt-text">
@@ -106,7 +118,7 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="/scripts/chat-ui.js"></script>
     <script>
-      let messages = <%-JSON.stringify(messages)%>;
+      let messages = <% -JSON.stringify(messages) %>;
       try {
         const rooms = <%-JSON.stringify(extrooms)%>;
         const extusers = <%-JSON.stringify(extusers)%>;
@@ -121,7 +133,7 @@
           });
         }
         function getLastFor(chatId) {
-          return lastMessages.find(chat => chat.lastFor === chatId) || { };
+          return lastMessages.find(chat => chat.lastFor === chatId) || {};
         }
         initTiles(rooms, extusers);
         function createChatTile(entity) {
@@ -172,7 +184,7 @@
         document.addEventListener('DOMContentLoaded', () => {
           const chatTiles = document.querySelectorAll('.block')
           chatTiles.forEach(tile => {
-            tile.addEventListener('click', function() {
+            tile.addEventListener('click', function () {
               const id = tile.getAttribute('data-id');
               window.location.href = `/chat/${id}`;
             });
@@ -184,4 +196,5 @@
     </script>
     <script src="/scripts/main.js"></script>
 </body>
+
 </html>
