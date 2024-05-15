@@ -24,7 +24,7 @@
 <div class="toast-container"></div>
 <div class="invite-container">
   <div class="invite-card">
-    <img src="<%=room.icon%>" alt="<%=room.title%> icon">
+    <img src="" alt="<%=room.title%> icon" id="img">
     <p>You've been invited to join</p>
     <h1><%=room.title%></h1>
     <p class="total-members"><%=room.members.length%> Members</p>
@@ -36,6 +36,8 @@
 </div>
 <script>
   let messages = <%-JSON.stringify(messages)%>;
+  let room = <%-JSON.stringify(room)%>;
+  document.getElementById('img').src = `${window.location.origin}/cdn/${room.icon}`;
 </script>
 <script src="/scripts/main.js"></script> 
 </body>
