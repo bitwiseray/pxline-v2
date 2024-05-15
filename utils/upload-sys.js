@@ -1,5 +1,5 @@
 const multer = require('multer');
-const path = require('path');
+const fs = require('fs');
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'tmp');
@@ -9,4 +9,9 @@ const storage = multer.diskStorage({
   }
 });
 
-module.exports = storage;
+async function clearTMP() {
+  fs.rmSync('../tmp', { recursive: true, force: true });
+  fs.mkdirSync('../tmp');
+}
+
+module.exports = { storage, clearTMP };
