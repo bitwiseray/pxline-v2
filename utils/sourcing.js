@@ -52,9 +52,12 @@ async function loadRoom(id) {
 
 async function loadUser(target, meId) {
   try {
-    const user = await profiler.findById(target, '_id user_name display_name image chats');
+    const user = await profiler.findById(target, '_id user_name display_name image chats createdAt socials');
     if (!user) {
       return null;
+    }
+    if (!meId) {
+      return user;
     }
     const chatId = user.chats.find(chat => chat.user_id === meId.toString())?.chat_id;
     const chats = await Chat.findById(chatId);
