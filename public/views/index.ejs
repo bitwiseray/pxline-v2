@@ -118,7 +118,7 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="/scripts/chat-ui.js"></script>
     <script>
-      let messages = <% -JSON.stringify(messages) %>;
+      let messages = <%-JSON.stringify(messages)%>;
       try {
         const rooms = <%-JSON.stringify(extrooms)%>;
         const extusers = <%-JSON.stringify(extusers)%>;
