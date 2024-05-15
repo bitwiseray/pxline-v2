@@ -90,8 +90,11 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
 router.get('/:username', async (request, reply) => {
   try {
     const userId = await profiler.findOne({ user_name: request.params.username });
+    if (!userId) {
+      request.redirect('/');
+      return request.flash('error', 'Profile doesn\'t exist');
+    }
     const offload = await loadUser(userId._id);
-    console.log({ off: offload})
     reply.render('profile', { user: offload, base: `https://${request.get('host')}`});
   } catch (e) {
     request.flash('error', 'Something went wrong');
