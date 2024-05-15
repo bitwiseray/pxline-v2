@@ -29,7 +29,7 @@
   </div>
   <div class="profile-card">
     <div class="image">
-      <img src="<%=`${base}/cdn/${user.image}`%>" alt="Profile Picture" class="profile-img">
+      <img src="" alt="Profile Picture" class="profile-img">
     </div>
     <div class="achievements">
       <div class="friends">
@@ -59,13 +59,36 @@
     </div>
   </div>
   <script>
-    const messages = <%-JSON.stringify(messages)%>
+    const messages = <%-JSON.stringify(messages)%>;
+    const user = <%-JSON.stringify(user)%>;
     const timestamp = <%=user.createdAt%>;
     const createdAt = moment(timestamp);
-    const timeAgo = createdAt.fromNow();
+    const now = moment();
+    const diffYears = now.diff(createdAt, 'years');
+    const diffMonths = now.diff(createdAt, 'months');
+    const diffWeeks = Math.floor(now.diff(createdAt, 'weeks'));
+    const diffDays = Math.floor(now.diff(createdAt, 'days'));
+    let timeAgo;
+    switch (true) {
+      case diffYears > 0:
+        timeAgo = `${diffYears}y`;
+        break;
+      case diffMonths > 0:
+        timeAgo = `${diffMonths}m`;
+        break;
+      case diffWeeks > 0:
+        timeAgo = `${diffWeeks}w`;
+        break;
+      case diffDays > 0:
+        timeAgo = `${diffDays}d`;
+        break;
+      default:
+        timeAgo = '0d';
+    }
     document.getElementById("created-at").innerText = timeAgo;
+    document.querySelector('.profile-img').src = `${window.location.origin}/cdn/${user.image}`
   </script>
-  <script src="/scripts/main.js"></script> 
+  <script src="/scripts/main.js"></script>
 </body>
 
 </html>
