@@ -77,6 +77,12 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
       display_name: display_name,
       password: hashedPassword,
       image: media.id,
+      createdAt: Date.now(),
+      socials: {
+        bio: '',
+        interactions: 0,
+        friends: 0
+      }
     });
     request.flash('success', 'Account created!');
     reply.redirect('/');
