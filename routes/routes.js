@@ -11,7 +11,7 @@ const Room = require('../schematics/rooms');
 const Media = require('../schematics/media');
 const { checkAuth, checkNotAuth } = require('../preval/validators');
 const { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom, getLastMessages } = require('../utils/sourcing');
-const uploadConfig = require('../utils/upload-sys');
+const { storage, clearTMP } = require('../utils/upload-sys');
 
 initGateway();
 router.get('/', checkAuth, async (request, reply) => {
@@ -62,7 +62,7 @@ router.get('/chat/:id/', checkAuth, async (request, reply) => {
   }
 });
 
-const upload = multer({ storage: uploadConfig });
+const upload = multer({ storage: storage });
 router.post('/signup', checkNotAuth, upload.single('image'), async (request, reply) => {
   try {
     const { display_name, username, password } = request.body;
@@ -80,9 +80,22 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
     });
     request.flash('success', 'Account created!');
     reply.redirect('/');
+    clearTMP();
   } catch (e) {
     request.flash('error', 'Something went wrong');
     return console.error({ at: '/signup', error: e })
+  }
+});
+
+router.get('/:username', async (request, reply) => {
+  try {
+    const userId = await profiler.findOne({ user_name: request.params.username });
+    const offload = await loadUser(userId._id);
+    console.log({ raw: request.params.username, id: userId, off: offload})
+    reply.render('profile', { user: offload, base: `https://${request.get('host')}`});
+  } catch (e) {
+    request.flash('error', 'Something went wrong');
+    console.error({ at: '/:username', error: e });
   }
 });
 
@@ -150,6 +163,7 @@ router.post('/cdn', upload.single('upload'), async (request, reply) => {
       id: upload.id || null,
     };
     reply.status(200).json(responseData);
+    clearTMP();
     /*
     setTimeout(async () => {
       const doc = await Media.findByIdAndDelete(upload.id);

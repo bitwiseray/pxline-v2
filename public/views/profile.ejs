@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ray's profile card">
+  <meta name="author" content="Ray">
+  <meta property="og:title" content="Ray - Profile Card">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ray">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="<%=`${base}/cdn/${user.image}`%>">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="icon" href="<%=`${base}/cdn/${user.image}`%>" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js"></script>
+  <title><%=`${user.display_name} (@${user.user_name})`%></title>
+  <link rel="stylesheet" href="/css/profile.css">
+  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="/css/toast.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js" integrity="sha512-4F1cxYdMiAW98oomSLaygEwmCnIP38pb4Kx70yQYqRwLVCs3DbRumfBq82T08g/4LJ/smbFGFpmeFlQgoDccgg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+  <div class="toast-container"></div>
+  <div class="profile-header">
+    <a href="/"><i class='bx bx-arrow-back'></i></a>
+    <i class='bx bx-dots-vertical-rounded dots'></i>
+  </div>
+  <div class="profile-card">
+    <div class="image">
+      <img src="<%=`${base}/cdn/${user.image}`%>" alt="Profile Picture" class="profile-img">
+    </div>
+    <div class="achievements">
+      <div class="friends">
+        <span class="count"><%=user.socials.friends%></span>
+        <span class="label">Friends</span>
+      </div>
+      <div class="posts">
+        <span class="count"><%=user.socials.interactions%></span>
+        <span class="label">Interactions</span>
+      </div>
+      <div class="created">
+        <span class="count" id="created-at">0d</span>
+        <span class="label">Created</span>
+      </div>
+    </div>
+    <div class="text-data">
+      <span id="name-type" class="name"><%=user.display_name%></span>
+      <span class="username">@<%=user.user_name%></span>
+    </div>
+    <div class="action-buttons">
+      <a class="btn" href="/chat/<%=user._id%>"><i class='bx bxs-chat'></i> Message</a>
+      <a class="btn" id="show-more"><i class='bx bxs-user-plus'></i> Add Friend</a>
+    </div>
+    <span class="line"></span>
+    <div class="bio">
+      <p><%=user.socials.bio%></p>
+    </div>
+  </div>
+  <script>
+    const messages = <%-JSON.stringify(messages)%>
+    const timestamp = <%=user.createdAt%>;
+    const createdAt = moment(timestamp);
+    const timeAgo = createdAt.fromNow();
+    document.getElementById("created-at").innerText = timeAgo;
+  </script>
+  <script src="/scripts/main.js"></script> 
+</body>
+
+</html>
