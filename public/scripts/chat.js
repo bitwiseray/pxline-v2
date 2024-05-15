@@ -33,19 +33,19 @@ socket.on('messageAdd', (message) => {
 });
 
 let input = document.getElementById('inp');
-document.querySelector('.send').addEventListener('click', (e) => {
+function sendMessage() {
   let contents = input.value;
   let attachments = isAttached;
   if (contents.trim() === '' && attachments) return popToast('error', 'Cannot send empty message!');
   let offExport = () => {
     if (type === 'room') {
       return {
-      id: room._id,
-      name: room.title,
-      image: room.icon,
-      members: room.members,
-      chat_id: room.chats.chat_id || 'Not found',
-     }
+        id: room._id,
+        name: room.title,
+        image: room.icon,
+        members: room.members,
+        chat_id: room.chats.chat_id || 'Not found',
+      }
     } else {
       return {
         id: extuser._id,
@@ -66,12 +66,17 @@ document.querySelector('.send').addEventListener('click', (e) => {
     },
     chat: offExport(),
     attachments: attachments?.url || null,
-  }, (cb) => {
-    console.log('For emit#message', cb);
   });
   input.value = '';
   isAttached = {};
   // appendMessage(user.image, user.display_name, contents, Date.now(), attachments.url || null);;
+}
+
+document.querySelector('.send').addEventListener('click', sendMessage);
+input.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    sendMessage();
+  }
 });
 
 document.querySelector('#inp').addEventListener('input', (e) => {
