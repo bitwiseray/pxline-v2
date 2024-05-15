@@ -10,7 +10,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   height: 100vh;
-  width: 100vh;
+  width: 100%;
   overflow: hidden;
 }
 
@@ -22,11 +22,12 @@ body {
   justify-content: center;
   align-items: center;
 }
+
 .register-container {
   position: relative;
   background-color: #262626;
-  width: 390px;
-  height: 67%;
+  width: 80%;
+  height: 50%;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -35,28 +36,16 @@ body {
 }
 
 .register-container h1 {
-  text-align: center;
-  color: #fff;
-  margin-bottom: 30px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.register-container h1 {
   position: absolute;
-  top: 10px;
+  top: 30px;
   text-align: center;
   color: #fff;
 }
 
 form {
   position: absolute;
-  top: 15%;
+  top: 30%;
+  bottom: 50%;
 }
 
 .form-group {
@@ -66,7 +55,7 @@ form {
   align-items: center;
 }
 
-.form-group > input {
+.form-group>input {
   position: relative;
   width: calc(100% - 30px);
   height: 40px;
@@ -81,13 +70,13 @@ form {
   margin-bottom: 15px;
 }
 
-input, span::placeholder {
+input::placeholder {
   font-size: 17px;
 }
 
 .form-group span {
   position: absolute;
-  width: 30.50px;
+  width: 30.5px;
   height: 40px;
   display: flex;
   justify-content: center;
@@ -111,32 +100,22 @@ input, span::placeholder {
   cursor: pointer;
   font-size: 17px;
   font-weight: 500;
-  margin-top: 10px;
+  margin-top: 15px;
   transition: all 0.3s ease;
 }
+
 button:hover {
   background: none;
   border: 1px solid;
 }
+
 p {
   font-size: 13px;
   text-align: center;
   color: #fff;
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
 a {
   color: #fff;
-}
-
-.register-container img {
-  position: relative;
-  width: 90px;
-  height: 90px;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-bottom: 10px;
-  cursor: pointer;
-  border-radius: 50%;
-  object-fit: cover;
 }
