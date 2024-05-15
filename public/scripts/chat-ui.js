@@ -6,7 +6,7 @@ function createChatHeader(title, icon) {
   img.src = `${window.origin}/cdn/${icon}`;
 }
 
-function appendMessage(url, sender_username, message, rawLowerSub, attachments) {
+function appendMessage(url, sender_username, drUsername, message, rawLowerSub, attachments) {
   const messageContainer = document.querySelector('.message-container');
   const messageDiv = document.createElement('div');
   const profilePicImg = document.createElement('img');
@@ -17,7 +17,10 @@ function appendMessage(url, sender_username, message, rawLowerSub, attachments) 
   profilePicImg.classList.add('profile_pic');
   profilePicImg.src = `${window.origin}/cdn/${url}`;
   senderDiv.classList.add('sender');
-  senderDiv.innerHTML = `${sender_username} <span style="color: #aaa; font-size: 0.9em;">·&nbsp;${setTimes(null, rawLowerSub)}</span>`;
+  let atag = document.createElement('a');
+  atag.href = `/${drUsername}`;
+  atag.appendChild(profilePicImg);
+  senderDiv.innerHTML = `<a href='/${drUsername}' target='_blank'>${sender_username}</a> <span style="color: #aaa; font-size: 0.9em;">·&nbsp;${setTimes(null, rawLowerSub)}</span>`;
   messageTextDiv.classList.add('msg');
   messageTextDiv.textContent = message;
   messageContentDiv.classList.add('message_content');
