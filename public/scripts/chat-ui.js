@@ -6,7 +6,7 @@ function createChatHeader(title, icon) {
   img.src = `${window.origin}/cdn/${icon}`;
 }
 
-function appendMessage(url, sender_username, drUsername, message, rawLowerSub, attachments) {
+function appendMessage(url, sender_username, drUsername, message, rawLowerSub, attachments, id) {
   const messageContainer = document.querySelector('.message-container');
   const messageDiv = document.createElement('div');
   const profilePicImg = document.createElement('img');
@@ -24,6 +24,13 @@ function appendMessage(url, sender_username, drUsername, message, rawLowerSub, a
   messageTextDiv.classList.add('msg');
   messageTextDiv.textContent = message;
   messageContentDiv.classList.add('message_content');
+  const timeDiff = Date.now() - rawLowerSub;
+  if (timeDiff >= 60*60*1000) {
+    const superTime = document.createElement('div');
+    superTime.classList.add('time');
+    superTime.innerText = formatTimestamp(rawLowerSub, false);
+    messageContainer.appendChild(superTime);
+  } 
   messageContentDiv.appendChild(senderDiv);
   messageContentDiv.appendChild(messageTextDiv);
   messageDiv.appendChild(profilePicImg);
@@ -34,17 +41,11 @@ function appendMessage(url, sender_username, drUsername, message, rawLowerSub, a
     messageContentDiv.appendChild(imgEl);
   }
   messageDiv.appendChild(messageContentDiv);
+  messageDiv.id = id;
   messageContainer.appendChild(messageDiv);
   if (messageContainer) {
     messageContainer.scrollTop = messageContainer.scrollHeight;
   }
-  const timeDiff = Date.now() - rawLowerSub;
-  if (timeDiff >= 60*60*1000) {
-    const superTime = document.createElement('div');
-    superTime.classList.add('time');
-    superTime.innerText = formatTimestamp(rawLowerSub, false);
-    messageContainer.appendChild(superTime);
-  } 
 }
 
 function appendTyping(url, sender_username) {
