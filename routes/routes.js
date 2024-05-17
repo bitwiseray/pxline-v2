@@ -116,12 +116,13 @@ router.get('/invite/:id', checkAuth, async (request, reply) => {
 router.post('/invite/:id', checkAuth, async (request, reply) => {
   try {
     let room = await Room.findById(request.params.id);
-    await addToRoom(request.user._id, room);
+    let added = await addToRoom(request.user._id, room);
+    if (added.canFlash) request.flash('error', added.message)
     request.flash('success', `Joined ${room.title}!`);
     reply.redirect('/');
   } catch (error) {
-    request.flash('error', 'Something went wrong');
     console.error({ at: '/invite/:id', error: error });
+    return request.flash('error', 'Something went wrong');
   }
 });
 
