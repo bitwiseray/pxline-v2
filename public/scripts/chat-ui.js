@@ -102,7 +102,7 @@ const textarea = document.getElementById('inp');
 textarea.addEventListener('input', () => {
   textarea.style.height = '';
   const scrollHeight = textarea.scrollHeight;
-  const maxHeight = 85;
+  const maxHeight = 90;
   if (scrollHeight > maxHeight) {
     textarea.parentElement.style.borderRadius = '20px'
     textarea.style.height = `${maxHeight}px`;
@@ -111,7 +111,6 @@ textarea.addEventListener('input', () => {
     textarea.style.height = `${scrollHeight}px`;
   }
 });
-
 
 /*
 if (container) {
