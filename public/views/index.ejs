@@ -29,6 +29,7 @@
       <p class="logo">PxLine</p>
       <div class="action">
         <a href="#"><ion-icon name="search-outline"></ion-icon></a>
+        <a href="http://" target="_blank" rel="noopener noreferrer"><i class='bx bx-bell'></i></a>
       </div>
     </header>
     <div class="underline"></div>
@@ -51,7 +52,7 @@
           <div class="nav-list">
             <a href="#" class="link-item">
               <label for="rooms"><i class='bx bxs-group link-icon'></i></label>
-              <span class="link-text">Rooms</span>
+              <span class="link-text">Friends</span>
             </a>
           </div>
           <div class="nav-list" onclick="show_hide()">
@@ -69,11 +70,7 @@
           </div>
         </div>
         <div class="box rooms">
-          <div class="frem">
-            <p>404</p>
-            <h2>Look like developers are chilling</h2>
-            <h5>the page you are looking for not avaible!</h5>
-          </div>
+          <h2>No Friends? (/_ \)</h2>
         </div>
         <div class="box settings">
           <!-- Profile Section -->
@@ -115,6 +112,7 @@
         const rooms = <%-JSON.stringify(extrooms)%>;
         const extusers = <%-JSON.stringify(extusers)%>;
         const user = <%-JSON.stringify(user)%>;
+        const friends = <%-JSON.stringify(friends)%>;
         const lastMessages = <%-JSON.stringify(lastMessages)%>;
         function initTiles(rooms, users) {
           rooms.forEach(room => {
