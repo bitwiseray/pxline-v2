@@ -81,7 +81,7 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
       socials: {
         bio: '',
         interactions: 0,
-        friends: 0
+        friends: []
       }
     });
     request.flash('success', 'Account created!');
