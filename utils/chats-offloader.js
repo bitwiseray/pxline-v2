@@ -4,7 +4,7 @@ function isMatchFn(chats, svdChatsFromDB) {
   for (const chatFromDB of svdChatsFromDB) {
     for (const localChat of chats) {
       if (localChat.content.text === chatFromDB.content.text &&
-        Number(localChat.content.timestamp) === Number(chatFromDB.content.timestamp) && // Convert timestamp to number
+        Number(localChat.content.timestamp) === Number(chatFromDB.content.timestamp) &&
         localChat.sender === chatFromDB.sender) {
         return true;
       }
