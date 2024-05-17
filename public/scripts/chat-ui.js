@@ -99,7 +99,7 @@ function formatTimestamp(timestamp, compact) {
 }
 
 const textarea = document.getElementById('inp');
-textarea.addEventListener('input', () => {
+textarea?.addEventListener('input', () => {
   textarea.style.height = '';
   const scrollHeight = textarea.scrollHeight;
   const maxHeight = 90;
