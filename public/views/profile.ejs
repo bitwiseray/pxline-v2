@@ -31,7 +31,7 @@
     </div>
     <div class="achievements">
       <div class="friends">
-        <span class="count"><%=user.socials.friends.length%></span>
+        <span class="count"><%=user.socials.friends?.length || 0%></span>
         <span class="label">Friends</span>
       </div>
       <div class="posts">
