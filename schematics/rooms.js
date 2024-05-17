@@ -4,7 +4,7 @@ const rooms_schema = new mongoose.Schema({
   title: { type: String, required: true, unique: true },
   icon: { type: String },
   members: { type: Array },
-  anonymousmode: { type: Boolean },
+  settings: { type: Object },
   chats: { chat_id: String, chat_type: String, total_length: Number },
 });
 

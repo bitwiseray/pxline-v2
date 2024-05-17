@@ -27,7 +27,7 @@ async function getUsersWithId(objectIds) {
 
 async function getRoomsFromChats(ids) {
    try {
-     const rooms = await Room.find({ _id: { $in: ids } }, '_id title icon members anonymousmode chats');
+     const rooms = await Room.find({ _id: { $in: ids } }, '_id title icon members settings chats');
      return rooms;
    } catch (error) {
      console.error('Error fetching rooms:', e);
