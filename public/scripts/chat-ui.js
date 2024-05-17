@@ -41,7 +41,7 @@ function appendMessage(url, sender_username, drUsername, message, rawLowerSub, a
     messageContentDiv.appendChild(imgEl);
   }
   messageDiv.appendChild(messageContentDiv);
-  messageDiv.id = id;
+  messageDiv.setAttribute('data-id', id);
   messageContainer.appendChild(messageDiv);
   if (messageContainer) {
     messageContainer.scrollTop = messageContainer.scrollHeight;
@@ -97,20 +97,6 @@ function formatTimestamp(timestamp, compact) {
     return moment(timestamp).format('h:mm A');
   }
 }
-
-const textarea = document.getElementById('inp');
-textarea?.addEventListener('input', () => {
-  textarea.style.height = '';
-  const scrollHeight = textarea.scrollHeight;
-  const maxHeight = 90;
-  if (scrollHeight > maxHeight) {
-    textarea.parentElement.style.borderRadius = '20px'
-    textarea.style.height = `${maxHeight}px`;
-  } else {
-    textarea.parentElement.style.borderRadius = `30px`
-    textarea.style.height = `${scrollHeight}px`;
-  }
-});
 
 /*
 if (container) {
