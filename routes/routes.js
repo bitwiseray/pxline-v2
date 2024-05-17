@@ -86,7 +86,7 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
     });
     request.flash('success', 'Account created!');
     reply.redirect('/');
-    clearTMP();
+    // clearTMP();
   } catch (e) {
     request.flash('error', 'Something went wrong');
     return console.error({ at: '/signup', error: e })
@@ -97,7 +97,7 @@ router.get('/:username', async (request, reply) => {
   try {
     const userId = await profiler.findOne({ user_name: request.params.username });
     if (!userId) {
-      request.redirect('/');
+      reply.redirect('/');
       return request.flash('error', 'Profile doesn\'t exist');
     }
     const offload = await loadUser(userId._id);
