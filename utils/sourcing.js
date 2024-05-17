@@ -105,7 +105,7 @@ async function addToRoom(userId, room) {
   return new Promise(async (resolve, reject) => {
     try {
       if (room.members.includes(userId)) {
-        reject({ canFlash: true, status: 'failed', error: 'User is already an member, cannot add.'});
+        return reject({ status: 'halted', error: 'User is already an member, cannot add.'});
       }
       const user = await profiler.findById(userId);
       room.members.push(userId.toString());
@@ -134,7 +134,32 @@ async function removeMemberFromRoom(userId, roomId) {
       }
       await room.save();
       await user.save();
-      resolve({ status: 'done' });
+      resolve({ status: 'success' });
+    } catch (error) {
+      reject({ status: 'failed', error: error });
+    }
+  });
+}
+
+async function addFriend(userId, targetId) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const user = await profiler.findById(userId);
+      const target = await profiler.findById(targetId);
+      if (user.socials.friends?.includes(targetId) && target.socials.friends?.includes(userId)) {
+        reject({ status: 'halted', error: 'Already friends' });
+      }
+      user.socials.friends.push({
+        id: targetId,
+        since: Date.now()
+      });
+      target.socials.friends.push({
+        id: userId,
+        since: Date.now()
+      });
+      await user.save();
+      await target.save()
+      resolve({ status: 'success' });
     } catch (error) {
       reject({ status: 'failed', error: error });
     }
