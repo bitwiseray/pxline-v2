@@ -27,7 +27,7 @@
     <div class="register-container">
       <h1>Register</h1>
       <form action="/signup" method="POST" enctype="multipart/form-data">
-        <img id="profilePicPreview" src="/public/assets/profile-pic.png" alt="Profile picture icon" />
+        <img id="profilePicPreview" src="/assets/profile-pic.png" alt="Profile picture icon" />
         <input type="file" id="profilePictureInput" name="image" style="display: none;" accept="image/*">
         <div class="form-group">
           <input type="text" id="displayName" name="display_name" placeholder="Display name">
@@ -47,14 +47,13 @@
     </div>
   </div>
   <script>
-    let messages = <% -JSON.stringify(messages) %>;
+    let messages = <%-JSON.stringify(messages)%>;
     document.addEventListener('DOMContentLoaded', () => {
       const profilePicIcon = document.getElementById('profilePicPreview');
       const profilePictureInput = document.getElementById('profilePictureInput');
       profilePicIcon.addEventListener('click', () => {
         profilePictureInput.click();
       });
-
       profilePictureInput.addEventListener('change', (event) => {
         const file = event.target.files[0];
         if (file) {
