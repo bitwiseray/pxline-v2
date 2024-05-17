@@ -47,7 +47,7 @@
         <form action="/upload/profile" method="POST" enctype="multipart/form-data">
           <input type="file" id="attachmentInput" name="upload" style="display: none;" accept="image/*">
         </form>
-        <input id="inp" type="text" placeholder="Message">
+        <textarea id="inp" placeholder="Message"></textarea>
       </div>
       <div class="send"><i class='bx bx-send'></i></div>
     </div>
@@ -68,7 +68,7 @@
         if (Array.isArray(chats.svd_chats) && chats.svd_chats.length >= 0) {
           chats.svd_chats.forEach(chat => {
             const senderUser = chat.sender === user._id ? user : members.find(member => member._id === chat.sender);
-            appendMessage(senderUser.image, senderUser.display_name, senderUser.user_name, chat.content.text, chat.content.timestamp, chat.attachments);
+            appendMessage(senderUser.image, senderUser.display_name, senderUser.user_name, chat.content.text, chat.content.timestamp, chat.attachments, chat._id);
           });
         } else {
           console.error('Invalid chats object or svd_chats array');
@@ -77,8 +77,8 @@
         createChatHeader(extuser.display_name, extuser.image);
         if (Array.isArray(chats.svd_chats) && chats.svd_chats.length > 0) {
           chats.svd_chats.forEach(chat => {
-            const senderUser = chat.sender === user._id ? user : extuser; // Assuming otherUser is available
-            appendMessage(senderUser.image, senderUser.display_name, senderUser.user_name, chat.content.text, chat.content.timestamp, chat.attachments);
+            const senderUser = chat.sender === user._id ? user : extuser;
+            appendMessage(senderUser.image, senderUser.display_name, senderUser.user_name, chat.content.text, chat.content.timestamp, chat.attachments, chat._id);
           });
         } else {
          console.error('Invalid chats object or svd_chats array');
