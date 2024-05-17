@@ -105,7 +105,7 @@ async function addToRoom(userId, room) {
   return new Promise(async (resolve, reject) => {
     try {
       if (room.members.includes(userId)) {
-        reject({ status: 'failed', error: 'User is already an member, cannot add.'});
+        reject({ canFlash: true, status: 'failed', error: 'User is already an member, cannot add.'});
       }
       const user = await profiler.findById(userId);
       room.members.push(userId.toString());
