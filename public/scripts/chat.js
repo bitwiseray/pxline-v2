@@ -21,7 +21,6 @@ if (type === 'room' || type === 'DM') {
   }
 }
 
-
 let typingEl;
 socket.on('messageTyping', (payload, cb) => {
   const { image, displayname } = payload;
@@ -37,7 +36,8 @@ let input = document.getElementById('inp');
 function sendMessage() {
   let contents = input.value;
   let attachments = isAttached;
-  if (contents.trim() === '' && attachments) return popToast('error', 'Cannot send empty message!');
+  if (!contents && attachments) contents = '';
+  if (contents.trim() === '') return;
   let offExport = () => {
     if (type === 'room') {
       return {
@@ -66,11 +66,11 @@ function sendMessage() {
       image: user.image,
     },
     chat: offExport(),
-    attachments: attachments?.url || null,
+    attachments: attachments ? attachments.id : null,
   });
   input.value = '';
+  console.log(attachments)
   isAttached = {};
-  // appendMessage(user.image, user.display_name, contents, Date.now(), attachments.url || null);;
 }
 
 document.querySelector('.send').addEventListener('click', sendMessage);
