@@ -10,7 +10,7 @@ const profiler = require('../schematics/profile');
 const Room = require('../schematics/rooms');
 const Media = require('../schematics/media');
 const { checkAuth, checkNotAuth } = require('../preval/validators');
-const { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom, getLastMessages } = require('../utils/sourcing');
+const { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom, getLastMessages, loadFriends } = require('../utils/sourcing');
 const { storage, clearTMP } = require('../utils/upload-sys');
 
 initGateway();
@@ -25,7 +25,8 @@ router.get('/', checkAuth, async (request, reply) => {
       collectedIds.push(user.chats.chat_id);
     });
     const lastMessages = await getLastMessages(collectedIds);
-    reply.render('index', { user: request.user, extusers: offload.users, extrooms: offload.rooms, lastMessages: lastMessages });
+    const friends = await loadFriends(request.user.socials.friends);
+    reply.render('index', { user: request.user, extusers: offload.users, extrooms: offload.rooms, lastMessages: lastMessages, friends: friends });
   } catch (e) {
     request.flash('error', 'Something went wrong');
     console.error({ at: '/', error: e });
@@ -124,7 +125,6 @@ router.post('/invite/:id', checkAuth, async (request, reply) => {
     reply.redirect('/');
   }
 });
-
 
 router.delete('/logout', checkAuth, (request, reply) => {
   request.logOut((err) => {

@@ -68,6 +68,14 @@ async function loadUser(target, meId) {
   }
 }
 
+async function loadFriends(base) {
+  const friendsDetails = await Promise.all(base.map(async (friendObj) => {
+    const friendData = await loadUser(friendObj.friend);
+    return friendData;
+  }));
+  return friendsDetails;
+};
+
 async function uploadMedia(type, offload, stream, request) {
   return new Promise(async (resolve, reject) => {
     try {
@@ -203,4 +211,4 @@ async function getLastMessages(entityIds) {
 }
 
 String.prototype.checkIdType = checkIdType;
-module.exports = { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom, getLastMessages };
+module.exports = { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom, getLastMessages, loadFriends };
