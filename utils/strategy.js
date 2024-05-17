@@ -24,7 +24,7 @@ async function initGateway() {
     done(null, user.id);
   });
   passport.deserializeUser(async (id, done) => {
-    let user = await profiler.findById(id, '_id display_name user_name image bio chats');
+    let user = await profiler.findById(id, '_id display_name user_name image socials chats createdAt');
     return done(null, user);
   });
 }
