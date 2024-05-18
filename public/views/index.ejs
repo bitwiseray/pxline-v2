@@ -119,12 +119,12 @@
           rooms.forEach(room => {
             createChatTile(room, user);
           });
-          users.forEach(user => {
-            createChatTile(user, user);
+          users.forEach(currentUser => {
+            createChatTile(currentUser, user._id);
           });
         }
         function getLastFor(chatId) {
-          return lastMessages.find(chat => chat.lastFor === chatId) || {};
+          return lastMessages.find(chat => chat.lastFor == chatId) || {};
         }
         initTiles(rooms, extusers);
         document.addEventListener('DOMContentLoaded', () => {
