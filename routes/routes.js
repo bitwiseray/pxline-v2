@@ -10,7 +10,7 @@ const profiler = require('../schematics/profile');
 const Room = require('../schematics/rooms');
 const Media = require('../schematics/media');
 const { checkAuth, checkNotAuth } = require('../preval/validators');
-const { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom, getLastMessages, loadFriends } = require('../utils/sourcing');
+const { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom, getLastMessages, loadFriends, removeMemberFromRoom } = require('../utils/sourcing');
 const { storage, clearTMP } = require('../utils/upload-sys');
 
 initGateway();
@@ -127,6 +127,16 @@ router.post('/invite/:id', checkAuth, async (request, reply) => {
   } catch (error) {
     request.flash('error', error.status == 'halted' ? error.message : 'Something went wrong');
     reply.redirect('/');
+  }
+});
+
+router.delete('/leave/:id', checkAuth, async (request, reply) => {
+  try {
+    await removeMemberFromRoom(request.user._id, request.params.id);
+    reply.status(200).send({ status: 'success', error: null });
+  } catch (error) {
+    reply.status(200).send({ status: 'success', error: error });
+    console.log(error)
   }
 });
 
