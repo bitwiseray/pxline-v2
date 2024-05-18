@@ -75,7 +75,7 @@
         }
       } else {
         createChatHeader(extuser.display_name, extuser.image);
-        if (Array.isArray(chats.svd_chats) && chats.svd_chats.length > 0) {
+        if (Array.isArray(chats.svd_chats)) {
           chats.svd_chats.forEach(chat => {
             const senderUser = chat.sender === user._id ? user : extuser;
             appendMessage(senderUser.image, senderUser.display_name, senderUser.user_name, chat.content.text, chat.content.timestamp, chat.attachments, chat._id);
