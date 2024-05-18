@@ -3,8 +3,8 @@
 :root {
   --primary: #202124;
   --secondary: #262626;
-  --main: #4070F4;
-  --text-color: #FFF;
+  --main: #4070f4;
+  --text-color: #fff;
   --hover: #131313;
   --gray: #949494;
   --unread: #aea9a9;
@@ -14,11 +14,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
 }
 
 body {
   background: var(--secondary);
+  font-family: "Poppins", sans-serif;
 }
 
 .chat-container {
@@ -28,12 +28,14 @@ body {
   width: 100%;
   height: 100%;
   z-index: 10000;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url('/assets/chat-bg.jpg');
+  /* background: url("/assets/chat-bg.jpg"), linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)); */
+  background-image: url("/assets/chat-bg.jpg"), radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%);
   background-size: cover;
+  overflow: hidden;
 }
 
 .chat-container::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -57,10 +59,10 @@ body {
 .chat-header .imgcontent {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 }
 
-.chat-header i {
+.chat-header .imgcontent i {
   color: var(--text-color);
   cursor: pointer;
   font-size: 1.25em;
@@ -69,17 +71,13 @@ body {
   -webkit-tap-highlight-color: none;
 }
 
-.chat-header .options-container {
-  position: relative;
-  display: flex;
-  font-size: 1.2em;
-  left: 100px;
-  gap: 5px;
-}
-
 .chat-header i:active {
-  background: #AAAAAACC;
-  border-radius: 60px;
+  background: #aaaaaacc;
+  border-radius: 50px;
+}
+.chat-header i:hover {
+  background: #aaaaaa34;
+  border-radius: 50px;
 }
 
 .chat-header .imgcontent .imgBx {
@@ -94,17 +92,73 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 40px;
-  height: 40px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
 .chat-header .imgcontent h3 {
   color: var(--text-color);
-  font-size: 1.3em;
+  font-size: 1em;
   font-weight: 500;
   line-height: 1.1em;
-  word-wrap: none;
+  width: 161px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Hamburger menu */
+.menu-container {
+  position: relative;
+  display: inline-block;
+}
+
+.options-container{
+  position: relative;
+  display: flex;
+  color: white;
+  font-size: 1.5em;
+  transition: 0.2s;
+}
+
+.hamburger-menu {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.menu {
+  display: none;
+  position: absolute;
+  top: 51px;
+  right: -10px;
+  width: 40vw;
+  background-color: var(--primary);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  z-index: 1;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease-out;
+}
+
+.menu a {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: white;
+}
+
+.menu a:hover {
+  background-color: #333;
+}
+
+.menu.show {
+  display: block;
+  max-height: 300px;
+  /* Adjust this value based on your content */
+  transition: max-height 0.3s ease-in;
 }
 
 .message-container {
@@ -122,7 +176,7 @@ body {
 .message-container .message {
   position: relative;
   display: flex;
-  color: #FFF;
+  color: #fff;
   padding: 10px;
   border-radius: 10px;
   margin-bottom: 0px;
@@ -131,7 +185,7 @@ body {
 }
 
 .message-container .message:active {
-  background: #7A7A7AAD;
+  background: #7a7a7aad;
 }
 
 @keyframes slideFromLeft {
@@ -199,14 +253,14 @@ body {
   position: absolute;
   margin: 22px 8px;
   width: 160px;
-  filter: grayscale(50%)
+  filter: grayscale(50%);
 }
 
 .messageInput {
   position: absolute;
   bottom: 1px;
-  left: 5px;
-  padding: 5px 10px;
+  left: 0px;
+  padding: 5px 0px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -214,7 +268,7 @@ body {
 
 .messageInput > i {
   position: absolute;
-  left: 5px;
+  left: 0px;
   cursor: pointer;
   font-size: 2em;
   color: #fff;
@@ -228,11 +282,11 @@ body {
 
 .messageInput .input {
   position: relative;
-  background: #FFF;
-  padding: 10px 10px;
+  background: #fff;
+  padding: 7px 18px;
   width: 230px;
   display: flex;
-  align-items: center;
+  text-align: center;
   border-radius: 40px;
   margin-left: 40px;
 }
@@ -244,7 +298,8 @@ body {
   height: 25px;
   top: 3%;
   outline: none;
-  font-size: 1em;
+  font-size: 1.3em;
+  text-align: start;
   resize: none;
   overflow-y: scroll;
 }
@@ -255,15 +310,15 @@ body {
 
 .send {
   position: relative;
-  margin-left: 10px;
-  width: 45px;
-  height: 45px;
-  border: 1px solid #fff;
+  margin-left: 5px;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #fff;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #FFF;
-  font-size: 1.6em;
+  color: #fff;
+  font-size: 1.4em;
   border-radius: 50%;
   cursor: pointer;
   transition: 0.2s;
@@ -271,6 +326,6 @@ body {
 }
 
 .send:active {
-  background: #6471FF;
+  background: #6471ff;
   border: none;
 }
