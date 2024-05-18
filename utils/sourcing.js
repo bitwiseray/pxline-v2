@@ -2,7 +2,7 @@ const profiler = require('../schematics/profile');
 const Room = require('../schematics/rooms');
 const Chat = require('../schematics/chats');
 const Media = require('../schematics/media');
-const fs = require('fs');
+const mongoose = require('mongoose');
 
 async function getIndexes(user) {
   if (!user || !user.chats) return {};
@@ -174,6 +174,7 @@ async function addFriend(userId, targetId) {
 
 async function checkIdType() {
   try {
+    if (!mongoose.Types.ObjectId.isValid(this)) return null;
     const user = await profiler.findOne({ _id: this });
     if (user) {
       return 'user';
@@ -188,6 +189,7 @@ async function checkIdType() {
     return null;
   }
 }
+
 
 async function getLastMessages(entityIds) {
   let toReturnArray = [];
