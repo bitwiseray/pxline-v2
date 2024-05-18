@@ -27,7 +27,11 @@
   </div>
   <div class="profile-card">
     <div class="image">
-      <img src="" alt="Profile Picture" class="profile-img">
+      <img src="/assets/profile-pic.png" alt="Profile Picture" class="profile-img">
+    </div>
+    <div class="text-data">
+      <span id="name-type" class="name"><%=user.display_name%></span>
+      <span class="username">@<%=user.user_name%></span>
     </div>
     <div class="achievements">
       <div class="friends">
@@ -42,10 +46,6 @@
         <span class="count" id="created-at">0d</span>
         <span class="label">Created</span>
       </div>
-    </div>
-    <div class="text-data">
-      <span id="name-type" class="name"><%=user.display_name%></span>
-      <span class="username">@<%=user.user_name%></span>
     </div>
     <div class="action-buttons">
       <a class="btn" href="/chat/<%=user._id%>"><i class='bx bxs-chat'></i> Message</a>

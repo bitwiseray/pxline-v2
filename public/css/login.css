@@ -44,8 +44,11 @@ body {
 
 form {
   position: absolute;
-  top: 30%;
+  top: 28%;
   bottom: 50%;
+  height: 220px;
+  width: 90%;
+  padding: 10px;
 }
 
 .form-group {
