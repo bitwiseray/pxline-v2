@@ -25,12 +25,12 @@ function appendMessage(url, sender_username, drUsername, message, rawLowerSub, a
   messageTextDiv.textContent = message;
   messageContentDiv.classList.add('message_content');
   const timeDiff = Date.now() - rawLowerSub;
-  if (timeDiff >= 60*60*1000) {
+  if (timeDiff >= 60 * 60 * 1000) {
     const superTime = document.createElement('div');
     superTime.classList.add('time');
     superTime.innerText = formatTimestamp(rawLowerSub, false);
     messageContainer.appendChild(superTime);
-  } 
+  }
   messageContentDiv.appendChild(senderDiv);
   messageContentDiv.appendChild(messageTextDiv);
   messageDiv.appendChild(profilePicImg);
@@ -126,16 +126,16 @@ function formatTimestamp(timestamp, compact) {
 
 const textarea = document.getElementById('inp');
 textarea?.addEventListener('input', () => {
-    textarea.style.height = '';
-    const scrollHeight = textarea.scrollHeight;
-    const maxHeight = 90;
-    if (scrollHeight > maxHeight) {
-        textarea.parentElement.style.borderRadius = '20px'
-        textarea.style.height = `${maxHeight}px`;
-    } else {
-        textarea.parentElement.style.borderRadius = `30px`
-        textarea.style.height = `${scrollHeight}px`;
-    }
+  textarea.style.height = '';
+  const scrollHeight = textarea.scrollHeight;
+  const maxHeight = 90;
+  if (scrollHeight > maxHeight) {
+    textarea.parentElement.style.borderRadius = '20px'
+    textarea.style.height = `${maxHeight}px`;
+  } else {
+    textarea.parentElement.style.borderRadius = `30px`
+    textarea.style.height = `${scrollHeight}px`;
+  }
 });
 
 /*
@@ -149,34 +149,31 @@ if (container) {
 }
 */
 
-// Chat Hamburger
 document.addEventListener('DOMContentLoaded', () => {
   const hamburgerMenu = document.getElementById('hamburger-menu');
   const menu = document.getElementById('menu');
-
-  hamburgerMenu.addEventListener('click', () => {
-      if (menu.classList.contains('show')) {
-          menu.classList.remove('show');
-          setTimeout(() => {
-              menu.style.display = 'none';
-          }, 150); // Duration should match the CSS transition duration
-      } else {
-          menu.style.display = 'block';
-          setTimeout(() => {
-              menu.classList.add('show');
-          }, 10); // Small delay to allow the display property to take effect
-      }
+  hamburgerMenu?.addEventListener('click', () => {
+    if (menu.classList.contains('show')) {
+      menu.classList.remove('show');
+      setTimeout(() => {
+        menu.style.display = 'none';
+      }, 150);
+    } else {
+      menu.style.display = 'block';
+      setTimeout(() => {
+        menu.classList.add('show');
+      }, 10);
+    }
   });
 
-  // Close the menu if clicked outside
   window.addEventListener('click', (e) => {
-      if (!e.target.matches('#hamburger-menu')) {
-          if (menu.classList.contains('show')) {
-              menu.classList.remove('show');
-              setTimeout(() => {
-                  menu.style.display = 'none';
-              }, 300);
-          }
+    if (!e.target.matches('#hamburger-menu')) {
+      if (menu.classList.contains('show')) {
+        menu.classList.remove('show');
+        setTimeout(() => {
+          menu.style.display = 'none';
+        }, 300);
       }
+    }
   });
 });
