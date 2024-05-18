@@ -17,13 +17,19 @@ function createChatTile(entity, user) {
     }
     chatBlock.appendChild(imgBox);
     const details = document.createElement('div');
-    const last = getLastFor(entity.chats.chat_id);
+    let offsetForLast;
+    if (Array.isArray(entity.chats)) {
+        offsetForLast = entity.chats.find(thisObj => thisObj.user_id === user);
+    } else {
+        offsetForLast = entity.chats;
+    }
+    const last = getLastFor(offsetForLast.chat_id);
     details.classList.add('details');
     const listHead = document.createElement('div');
     listHead.classList.add('listHead');
     const timeElement = document.createElement('p');
     timeElement.classList.add('time');
-    timeElement.textContent = formatTimestamp(last.createdAt || '1714548258854', true);
+    timeElement.textContent = formatTimestamp(last.createdAt, true);
     listHead.appendChild(nameElement);
     listHead.appendChild(timeElement);
     details.appendChild(listHead);
@@ -48,17 +54,3 @@ function createFriendTile(entity) {
     if (!entity) return;
     friendBlock.setAttribute('data-id', entity._id);
 }
-
-const textarea = document.getElementById('inp');
-textarea?.addEventListener('input', () => {
-    textarea.style.height = '';
-    const scrollHeight = textarea.scrollHeight;
-    const maxHeight = 90;
-    if (scrollHeight > maxHeight) {
-        textarea.parentElement.style.borderRadius = '20px'
-        textarea.style.height = `${maxHeight}px`;
-    } else {
-        textarea.parentElement.style.borderRadius = `30px`
-        textarea.style.height = `${scrollHeight}px`;
-    }
-});
