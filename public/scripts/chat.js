@@ -1,8 +1,7 @@
 const socket = io('/');
 
-let thisDMChat;
+let roomId;
 if (type === 'room' || type === 'DM') {
-  let roomId;
   if (type === 'room') {
     roomId = room._id;
   } else {
@@ -53,7 +52,7 @@ function sendMessage() {
         name: extuser.displayname,
         image: extuser.image,
         members: null,
-        chat_id: thisDMChat || 'Not found',
+        chat_id: roomId || 'Not found',
       }
     }
   }
