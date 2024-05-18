@@ -95,6 +95,7 @@
       }
     }
     let isAttached;
+    let mediaCache;
     document.addEventListener('DOMContentLoaded', () => {
       const uploadIcon = document.getElementById('fileAddI');
       const uploadInput = document.getElementById('attachmentInput');
@@ -104,20 +105,21 @@
       uploadInput.addEventListener('change', async (e) => {
         const file = e.target.files[0];
         const formData = new FormData();
-        const reader = new FileReader();
-        /*
-        reader.onload = (e) => {
-          appendTyping(user.image, user.display_name, 'awaitUpload', e.target.result)
-        };
-        */
+        mediaCache = appendMediaCache(user.image, user.display_name, URL.createObjectURL(file));
         formData.append('upload', file);
-        try {
-          const response = await fetch('/cdn', {
-            method: 'POST',
-            body: formData
-          });
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
+          try {
+            const response = await fetch('/cdn', {
+              method: 'POST',
+              body: formData
+            });
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            isAttached = data;
+            sendMessage();
+          } catch (error) {
+            console.error('Fetch error:', error);
           }
           const data = await response.json();
           isAttached = data;
