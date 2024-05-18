@@ -1,6 +1,6 @@
 const Chat = require('../schematics/chats');
 const { QuickDB } = require("quick.db");
-const db = new QuickDB();
+const Cache = new QuickDB();
 
 function isMatchFn(chats, svdChatsFromDB) {
   for (const chatFromDB of svdChatsFromDB) {
@@ -48,8 +48,8 @@ async function saveChats(id, chats) {
 }
 
 function setCacheFor (id) {
-  if (db.get(id)) {
-    db.set(id, {
+  if (Cache.get(id)) {
+    Cache.set(id, {
       id: id,
       timestamp: Date.now(),
       svd_chats: []
@@ -76,11 +76,9 @@ async function cacheChats(id, chats) {
           attachments: message.attachments
         });
       });
-      await Cache.push('cache.svd_chats', {
-        toInsertArray
-      });
+      await Cache.push(`${id}.svd_chats`, ...toInsertArray);
     }
-    console.log(db.get(id));
+    console.log(await Cache.get(id));
   } catch (error) {
     console.error('Error saving chats:', error);
   }
