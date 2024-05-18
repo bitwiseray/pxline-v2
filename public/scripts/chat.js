@@ -22,12 +22,12 @@ if (type === 'room' || type === 'DM') {
 }
 
 let typingEl;
-socket.on('messageTyping', (payload, cb) => {
+socket.on('typing', (payload, cb) => {
   const { image, displayname } = payload;
   typingEl = appendTyping(image, displayname);
 });
 
-socket.on('messageAdd', (message) => {
+socket.on('messageCreate', (message) => {
   if (typingEl) typingEl.remove();
   appendMessage(message.author.image, message.author.displayname, message.author.username, message.content.text, message.content.timestamp, message.attachments);
 });

@@ -18,13 +18,10 @@ module.exports = async (io) => {
         chats.push(message);
         chatId = message.chat.chat_id;
       }
-      io.to(globId).emit('messageAdd', message);
+      io.to(globId).emit('messageCreate', message);
     });
     socket.on('messageTyping', payload => {
-      socket.broadcast.to(globId).emit('messageTyping', payload);
-    });
-    socket.on('disconnect', () => {
-      // saveChats(chatId, chats);
+      socket.broadcast.to(globId).emit('typing', payload);
     });
   });
 };
