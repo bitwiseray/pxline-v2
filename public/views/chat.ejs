@@ -43,9 +43,9 @@
             <i class='bx bx-dots-vertical-rounded dots'></i>
         </div>
         <div class="menu" id="menu">
-            <a href="#">See Profile</a>
-            <a href="#">Report</a>
-            <a href="#">Remove</a>
+          <a href="" id="redirectOpt"></a>
+          <a href="#">Report</a>
+          <a href="#" id="leaveOpt"></a>
         </div>
     </div>
     </div>
@@ -64,13 +64,16 @@
   </div>
   <script src="/scripts/chat-ui.js"></script>
   <script>
-    let messages = <% -JSON.stringify(messages) %>;
+    let messages = <%-JSON.stringify(messages)%>;
+  </script>
+  <script src="/scripts/main.js"></script>
+  <script>
     const type = '<%=extType%>';
-    const room = <% -JSON.stringify(extroom) %>;
-    const extuser = <% -JSON.stringify(extusers) %>;
-    const members = <% -JSON.stringify(extusers) %>;
-    const user = <% -JSON.stringify(user) %>;
-    const chats = <% -JSON.stringify(chats) %>;
+    const room = <%-JSON.stringify(extroom)%>;
+    const extuser = <%-JSON.stringify(extusers)%>;
+    const members = <%-JSON.stringify(extusers)%>;
+    const user = <%-JSON.stringify(user)%>;
+    const chats = <%-JSON.stringify(chats)%>;
     function initChat() {
       if (type === 'room') {
         createChatHeader(room.title, room.icon);
@@ -99,6 +102,33 @@
     document.addEventListener('DOMContentLoaded', () => {
       const uploadIcon = document.getElementById('fileAddI');
       const uploadInput = document.getElementById('attachmentInput');
+      let optRed = document.getElementById('redirectOpt');
+      let optLeave = document.getElementById('leaveOpt');
+      if (type === 'DM') {
+        optRed.textContent = 'See profile'
+        optRed.href = `/${extuser.user_name}`;
+        optLeave.textContent = 'Block'
+      } else {
+        optRed.textContent = 'Group info'
+        optLeave.textContent = 'Leave'
+      }
+      optLeave.addEventListener('click', async (e) => {
+        if (type === 'room') {
+          try {
+            const response = await fetch(`/leave/${room._id}`, {
+              method: 'DELETE',
+            });
+            if (response.ok) {
+              popToast('success', 'Successfully left the room');
+              window.location.href = '/';
+            } else {
+              popToast('error', response.statusText);
+            }
+          } catch (error) {
+            console.error('An error occurred:', error);
+          }
+        }
+      });
       uploadIcon.addEventListener('click', () => {
         uploadInput.click();
       });
@@ -121,17 +151,10 @@
           } catch (error) {
             console.error('Fetch error:', error);
           }
-          const data = await response.json();
-          isAttached = data;
-        } catch (error) {
-          alert('Something went wrong. Please try again later.');
-          console.error('Fetch error:', error);
-        }
+        });
       });
-    });
     initChat();
   </script>
-  <!-- <script src="scripts/main.js"></script> -->
 </body>
 
 </html>
