@@ -15,30 +15,23 @@ function isMatchFn(chats, svdChatsFromDB) {
   return false;
 }
 
-async function saveChats(id, chats) {
-  if (!chats || !chats.length) return;
+async function saveChats(id) {
+  if (!id) return;
+  const chats = await Cache.get(id);
+  if (!chats) return;
+  console.log(chats.svd_chats)
+  
   try {
     let chat = await Chat.findById(id);
     if (!chat) {
       console.log('No chat found with the given ID:', id);
       return;
     }
-    const toInsertArray = [];
-    const isMatch = isMatchFn(chats, chat.svd_chats);
+    const isMatch = isMatchFn(chats.svd_chats, chat.svd_chats);
     if (!isMatch) {
-      chats.forEach(message => {
-        toInsertArray.push({
-          content: {
-            text: message.content.text,
-            timestamp: message.content.timestamp,
-          },
-          sender: message.author.id,
-          attachments: message.attachments
-        });
-      });
       await chat.updateOne({ 
         $push: { 
-          svd_chats: { $each: toInsertArray } 
+          svd_chats: { $each: chats.svd_chats } 
         }
       });
     }
@@ -49,20 +42,20 @@ async function saveChats(id, chats) {
 
 function setCacheFor (id) {
   if (Cache.get(id)) {
-    Cache.set(id, {
-      id: id,
-      timestamp: Date.now(),
-      svd_chats: []
-    });
+    return new Promise((resolve, reject) => {
+      Cache.set(id, {
+        id: id,
+        timestamp: Date.now(),
+        svd_chats: []
+      });
+    })
   }
 }
 async function cacheChats(id, chats) {
-  if (!chats || !chats.length) return;
+  if (!chats || !chats.length > 0) return;
   try {
     let chat = await Cache.get(id);
-    if (!chat) {
-      setCacheFor(id);
-    }
+    if (!chat) await setCacheFor(id);
     const toInsertArray = [];
     const isMatch = isMatchFn(chats, chat.svd_chats);
     if (!isMatch) {
@@ -78,7 +71,6 @@ async function cacheChats(id, chats) {
       });
       await Cache.push(`${id}.svd_chats`, ...toInsertArray);
     }
-    console.log(await Cache.get(id));
   } catch (error) {
     console.error('Error saving chats:', error);
   }
