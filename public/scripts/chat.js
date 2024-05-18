@@ -69,7 +69,6 @@ function sendMessage() {
     attachments: attachments ? attachments.id : null,
   });
   input.value = '';
-  console.log(attachments)
   isAttached = {};
 }
 
