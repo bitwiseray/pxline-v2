@@ -128,26 +128,24 @@ async function addToRoom(userId, room) {
 }
 
 async function removeMemberFromRoom(userId, roomId) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const room = await Room.findById(roomId);
-      const user = await profiler.findById(userId);
-      const index = room.members.indexOf(user._id);
-      if (index > -1) {
-        room.members.splice(index, 1);
-      }
-      const index2 = user.chats.findIndex(chat => chat.chat_id === roomId);
-      if (index2 > -1) {
-        user.chats.splice(index2, 1);
-      }
-      await room.save();
-      await user.save();
-      resolve({ status: 'success' });
-    } catch (error) {
-      reject({ status: 'failed', error: error });
+  try {
+    const room = await Room.findById(roomId);
+    const user = await profiler.findById(userId);
+    const roomIndex = room.members.indexOf(user._id);
+    if (roomIndex > -1) {
+      room.members.splice(roomIndex, 1);
     }
-  });
+    const chatIndex = user.chats.findIndex(chat => chat.chat_id === roomId);
+    if (chatIndex > -1) {
+      user.chats.splice(chatIndex, 1);
+    }
+    await Promise.all([room.save(), user.save()]);
+    return { status: 'success' };
+  } catch (error) {
+    throw { status: 'failed', error: error };
+  }
 }
+
 
 async function addFriend(userId, targetId) {
   return new Promise(async (resolve, reject) => {
@@ -211,4 +209,4 @@ async function getLastMessages(entityIds) {
 }
 
 String.prototype.checkIdType = checkIdType;
-module.exports = { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom, getLastMessages, loadFriends };
+module.exports = { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom, getLastMessages, loadFriends, removeMemberFromRoom };
