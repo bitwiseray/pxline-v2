@@ -76,11 +76,11 @@
           <!-- Profile Section -->
           <div class="profile-card">
             <div class="image">
-              <img src="/assets/profile-pic.png" alt="My image" class="profile-img">
+              <img src="" alt="My image" class="profile-img">
             </div>  
             <div class="text-data">
-              <span class="name">Fin1te</span>
-              <span class="user_id">Fin1te@01</span>
+              <span class="name"><%=user.display_name%></span>
+              <span class="user_id"><%=user.user_name%></span>
             </div>
             <!-- Buttons -->
             <div class="buttons">
@@ -128,6 +128,7 @@
         }
         initTiles(rooms, extusers);
         document.addEventListener('DOMContentLoaded', () => {
+          document.querySelector('.profile-img').src = `${window.location.origin}/cdn/${user.image}`;
           const chatTiles = document.querySelectorAll('.block')
           chatTiles.forEach(tile => {
             tile.addEventListener('click', function () {
