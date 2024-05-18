@@ -22,8 +22,12 @@ router.get('/', checkAuth, async (request, reply) => {
       collectedIds.push(room.chats.chat_id);
     });
     offload.users.forEach(user => {
-      collectedIds.push(user.chats.chat_id);
+      let obj = user.chats.find(thisObj => thisObj.user_id == request.user._id);
+      if (obj) {
+        collectedIds.push(obj.chat_id);
+      }
     });
+
     const lastMessages = await getLastMessages(collectedIds);
     const friends = await loadFriends(request.user.socials.friends);
     reply.render('index', { user: request.user, extusers: offload.users, extrooms: offload.rooms, lastMessages: lastMessages, friends: friends });
@@ -102,7 +106,7 @@ router.get('/:username', async (request, reply) => {
       return request.flash('error', 'Profile doesn\'t exist');
     }
     const offload = await loadUser(userId._id);
-    reply.render('profile', { user: offload, base: `https://${request.get('host')}`});
+    reply.render('profile', { user: offload, base: `https://${request.get('host')}` });
   } catch (e) {
     request.flash('error', 'Something went wrong');
     console.error({ at: '/:username', error: e });
