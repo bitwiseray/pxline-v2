@@ -98,15 +98,20 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
   }
 });
 
-router.get('/:username', async (request, reply) => {
+router.get('/:offset', async (request, reply) => {
   try {
-    const userId = await profiler.findOne({ user_name: request.params.username });
-    if (!userId) {
-      reply.redirect('/');
-      return request.flash('error', 'Profile doesn\'t exist');
+    if (offset.checkIdType() === 'user') {
+      const userId = await profiler.findOne({ user_name: request.params.username });
+      if (!userId) {
+        reply.redirect('/');
+        return request.flash('error', 'Profile doesn\'t exist');
+      }
+      const offload = await loadUser(userId._id);
+      reply.render('profile', { user: offload, base: `https://${request.get('host')}` });
+    } else {
+      const offload = await loadRoom(request.params.offset);
+      reply.render('room', { room: offload, chatLength: offload.chats.length });
     }
-    const offload = await loadUser(userId._id);
-    reply.render('profile', { user: offload, base: `https://${request.get('host')}` });
   } catch (e) {
     request.flash('error', 'Something went wrong');
     console.error({ at: '/:username', error: e });

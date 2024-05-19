@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ray's profile card">
+  <meta name="author" content="Ray">
+  <meta property="og:title" content="Ray - Profile Card">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Ray">
+  <meta property="og:locale" content="en_US">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="icon" href="<%=`${base}/cdn/${user.image}`%>" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js"></script>
+  <title>The Morons</title>
+  <link rel="stylesheet" href="/css/profile.css">
+  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="/css/toast.css">
+  <link rel="stylesheet" href="/css/hamburger.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js" integrity="sha512-4F1cxYdMiAW98oomSLaygEwmCnIP38pb4Kx70yQYqRwLVCs3DbRumfBq82T08g/4LJ/smbFGFpmeFlQgoDccgg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+  <div class="toast-container"></div>
+  <div class="profile-header">
+    <a href="/"><i class='bx bx-arrow-back'></i></a>
+    <i class='bx bx-dots-vertical-rounded dots' id="hamburger-menu"></i>
+  </div>
+  <div class="menu" id="menu">
+    <a onclick="navigator.clipboard.writeText(<%=`/invite/${room._id}`%>)"><i class='bx bxs-user-plus' style="font-size: 1.5em;"></i> Invite</a>
+    <a href="/chat/<%=room._id%>"><i class='bx bxs-chat'></i> Message</a>
+    <a href="#" style="color: red;"><i class='bx bx-error-alt'></i> Report</a>
+  </div>
+  </div>
+  <div class="profile-card">
+    <div class="image">
+      <img src="/public/assets/ik.jpg" alt="Profile Picture" class="profile-img">
+    </div>
+    <div class="achievements">
+      <div class="members">
+        <span class="count"><%=room.members.length%></span>
+        <span class="label">Members</span>
+      </div>
+      <div class="posts">
+        <span class="count"><%chatlength%></span>
+        <span class="label">Interactions</span>
+      </div>
+      <div class="created">
+        <span class="count" id="created-at"></span>
+        <span class="label">Created</span>
+      </div>
+    </div>
+    <div class="text-data">
+      <span id="name-type" class="name"><%=room.title%></span>
+      <span class="username">Group</span>
+    </div>
+    <div class="action-buttons">
+      <a class="btn" href="/chat/<%=room._id%>"><i class='bx bxs-share'></i> Share</a>
+      <a class="btn" href="/invite/<%=room._id%>"><i class='bx bxs-user-plus'></i> Join Group</a>
+    </div>
+    <span class="line"></span>
+    <div class="bio">
+      <p><%=room.socials?.description || 'We like kittens'%></p>
+    </div>
+  </div>
+  <script src="/scripts/main.js"></script>
+  <script>
+    const messages = <%-JSON.stringify(messages)%>;
+    const user = <%-JSON.stringify(user)%>;
+    const timestamp = <%=user.createdAt%>;
+    const createdAt = moment(timestamp);
+    const now = moment();
+    const diffYears = now.diff(createdAt, 'years');
+    const diffMonths = now.diff(createdAt, 'months');
+    const diffWeeks = Math.floor(now.diff(createdAt, 'weeks'));
+    const diffDays = Math.floor(now.diff(createdAt, 'days'));
+    let timeAgo;
+    switch (true) {
+      case diffYears > 0:
+        timeAgo = `${diffYears}y`;
+        break;
+      case diffMonths > 0:
+        timeAgo = `${diffMonths}m`;
+        break;
+      case diffWeeks > 0:
+        timeAgo = `${diffWeeks}w`;
+        break;
+      case diffDays > 0:
+        timeAgo = `${diffDays}d`;
+        break;
+      default:
+        timeAgo = '0d';
+    }
+    document.getElementById("created-at").innerText = timeAgo;
+    document.querySelector('.profile-img').src = `${window.location.origin}/cdn/${user.image}`
+  </script>
+</body>
+</html>
