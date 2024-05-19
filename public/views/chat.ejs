@@ -18,9 +18,9 @@
   <link rel="icon" href="/assets/logo.jpg" type="image/x-icon">
   <link rel="stylesheet" href="/css/chat.css">
   <link rel="stylesheet" href="/css/toast.css">
+  <link rel="stylesheet" href="/css/hamburger.css">
   <script defer src="/socket.io/socket.io.js"></script>
   <script defer src="/scripts/chat.js"></script>
-  <script src="https://kit.fontawesome.com/c0b785182d.js" crossorigin="anonymous"></script>
   <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js" integrity="sha512-4F1cxYdMiAW98oomSLaygEwmCnIP38pb4Kx70yQYqRwLVCs3DbRumfBq82T08g/4LJ/smbFGFpmeFlQgoDccgg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
@@ -30,7 +30,7 @@
   <div class="chat-container">
     <div class="chat-header">
       <div class="imgcontent">
-        <a href="/"><i class="fa-solid fa-arrow-left"></i></a>
+        <a onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i></a>
         <div class="imgBx">
           <img src="" alt="" />
         </div>
@@ -42,8 +42,8 @@
         </div>
         <div class="menu" id="menu">
           <a href="" id="redirectOpt"></a>
-          <a href="#">Report</a>
-          <a href="#" id="leaveOpt"></a>
+          <a href="#" style="color: red;"><i class='bx bx-error-alt'></i> Report</a>
+          <a href="#" id="leaveOpt" style="color: red;"></a>
         </div>
     </div>
     </div>
@@ -103,12 +103,12 @@
       let optRed = document.getElementById('redirectOpt');
       let optLeave = document.getElementById('leaveOpt');
       if (type === 'DM') {
-        optRed.textContent = 'See profile'
+        optRed.innerHTML = '<i class="bx bxs-user-detail"></i> See profile'
         optRed.href = `/${extuser.user_name}`;
-        optLeave.textContent = 'Block'
+        optLeave.innerHTML = '<i class="bx bxs-user-x"></i> Block'
       } else {
-        optRed.textContent = 'Group info';
-        optLeave.textContent = 'Leave';
+        optRed.innerHTML = '<i class="bx bxs-group"></i> Group info';
+        optLeave.innerHTML = '<i class="bx bx-log-out-circle"></i> Leave';
         optRed.href = `/${room._id}`;
       }
       optLeave.addEventListener('click', async (e) => {
