@@ -17,7 +17,7 @@
   <title>You have been invited!</title>
   <link rel="stylesheet" href="/css/invite.css">
   <link rel="stylesheet" href="/css/toast.css">
-  <script src="https://kit.fontawesome.com/c0b785182d.js" crossorigin="anonymous"></script>
+  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
 <body>
@@ -29,12 +29,12 @@
         <%=room.title%>
       </h1>
       <p class="total-members">
-        <%=room.members.length%> Members
+        <i class="bx bxs-group"></i> <%=room.members.length%> Members
       </p>
       <form action="/invite/<%=room._id.toString()%>" method="POST">
         <button class="accept-btn">Accept Invite</button>
       </form>
-      <button class="no-thanks-btn" onclick="window.location.href='/'">No Thanks</button>
+      <button class="no-thanks-btn" onclick="window.history.back();">No Thanks</button>
     </div>
   </div>
   <script>
