@@ -42,7 +42,7 @@ async function loadRoom(id) {
       return null;
     }
     const chats = await Chat.findById(room.chats.chat_id);
-    const members = await profiler.find({ _id: { $in: room.members }}, '_id display_name user_name image');
+    const members = await profiler.find({ _id: { $in: room.members }}, '_id display_name user_name image createdAt socials');
     return { room, chats, members };
   } catch (error) {
     console.error('Error fetching room and chats:', error);
@@ -174,7 +174,7 @@ async function addFriend(userId, targetId) {
 
 async function checkIdType() {
   try {
-    if (!mongoose.Types.ObjectId.isValid(this)) return null;
+    if (!this.match(/^[0-9a-fA-F]{24}$/)) return;
     const user = await profiler.findOne({ _id: this });
     if (user) {
       return 'user';
