@@ -107,8 +107,9 @@
         optRed.href = `/${extuser.user_name}`;
         optLeave.textContent = 'Block'
       } else {
-        optRed.textContent = 'Group info'
-        optLeave.textContent = 'Leave'
+        optRed.textContent = 'Group info';
+        optLeave.textContent = 'Leave';
+        optRed.href = `/${room._id}`;
       }
       optLeave.addEventListener('click', async (e) => {
         if (type === 'room') {
