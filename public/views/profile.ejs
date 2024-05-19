@@ -16,6 +16,7 @@
   <link rel="icon" href="/assets/logo.jpg" type="image/x-icon">
   <link rel="stylesheet" href="/css/profile.css">
   <link rel="stylesheet" href="/css/toast.css">
+  <link rel="stylesheet" href="/css/hamburger.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js" integrity="sha512-4F1cxYdMiAW98oomSLaygEwmCnIP38pb4Kx70yQYqRwLVCs3DbRumfBq82T08g/4LJ/smbFGFpmeFlQgoDccgg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
@@ -23,7 +24,12 @@
   <div class="toast-container"></div>
   <div class="profile-header">
     <a onclick="window.history.back();"><i class='bx bx-arrow-back'></i></a>
-    <i class='bx bx-dots-vertical-rounded dots'></i>
+    <i class='bx bx-dots-vertical-rounded dots' id="hamburger-menu"></i>
+  </div>
+  <div class="menu" id="menu">
+    <a href="/chat/<%=user._id%>"><i class='bx bxs-chat'></i> Message</a>
+    <a href="#"  style="color: red;"><i class='bx bxs-user-x'></i> Block</a>
+    <a href="#" style="color: red;"><i class='bx bx-error-alt'></i> Report</a>
   </div>
   <div class="profile-card">
     <div class="image">
