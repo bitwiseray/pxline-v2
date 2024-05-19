@@ -9,6 +9,7 @@ const bcrypt = require('bcrypt');
 const profiler = require('../schematics/profile');
 const Room = require('../schematics/rooms');
 const Media = require('../schematics/media');
+const mongoose = require('mongoose');
 const { checkAuth, checkNotAuth } = require('../preval/validators');
 const { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom, getLastMessages, loadFriends, removeMemberFromRoom } = require('../utils/sourcing');
 const { storage, clearTMP } = require('../utils/upload-sys');
