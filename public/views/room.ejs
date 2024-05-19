@@ -11,10 +11,10 @@
   <meta property="og:site_name" content="Ray">
   <meta property="og:locale" content="en_US">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link rel="icon" href="<%=`${base}/cdn/${user.image}`%>" type="image/x-icon">
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js"></script>
   <title>The Morons</title>
   <link rel="stylesheet" href="/css/profile.css">
+  <link rel="icon" href="/assets/logo.jpg" type="image/x-icon">
   <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="/css/toast.css">
   <link rel="stylesheet" href="/css/hamburger.css">
@@ -24,7 +24,7 @@
 <body>
   <div class="toast-container"></div>
   <div class="profile-header">
-    <a href="/"><i class='bx bx-arrow-back'></i></a>
+    <a onclick="window.history.back();"><i class='bx bx-arrow-back'></i></a>
     <i class='bx bx-dots-vertical-rounded dots' id="hamburger-menu"></i>
   </div>
   <div class="menu" id="menu">
@@ -35,7 +35,7 @@
   </div>
   <div class="profile-card">
     <div class="image">
-      <img src="/public/assets/ik.jpg" alt="Profile Picture" class="profile-img">
+      <img src="" alt="Profile Picture" class="profile-img">
     </div>
     <div class="achievements">
       <div class="members">
@@ -43,7 +43,7 @@
         <span class="label">Members</span>
       </div>
       <div class="posts">
-        <span class="count"><%chatlength%></span>
+        <span class="count"><%=chats%></span>
         <span class="label">Interactions</span>
       </div>
       <div class="created">
@@ -61,14 +61,13 @@
     </div>
     <span class="line"></span>
     <div class="bio">
-      <p><%=room.socials?.description || 'We like kittens'%></p>
+      <p><%=room.socials.description || 'We like kittens'%></p>
     </div>
   </div>
-  <script src="/scripts/main.js"></script>
   <script>
     const messages = <%-JSON.stringify(messages)%>;
-    const user = <%-JSON.stringify(user)%>;
-    const timestamp = <%=user.createdAt%>;
+    const room = <%-JSON.stringify(room)%>;
+    const timestamp = <%=room.createdAt%>;
     const createdAt = moment(timestamp);
     const now = moment();
     const diffYears = now.diff(createdAt, 'years');
@@ -93,7 +92,8 @@
         timeAgo = '0d';
     }
     document.getElementById("created-at").innerText = timeAgo;
-    document.querySelector('.profile-img').src = `${window.location.origin}/cdn/${user.image}`
+    document.querySelector('.profile-img').src = `${window.location.origin}/cdn/${room.icon}`
   </script>
+  <script src="/scripts/main.js"></script>
 </body>
 </html>
