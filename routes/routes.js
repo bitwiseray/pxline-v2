@@ -27,7 +27,6 @@ router.get('/', checkAuth, async (request, reply) => {
         collectedIds.push(obj.chat_id);
       }
     });
-
     const lastMessages = await getLastMessages(collectedIds);
     const friends = await loadFriends(request.user.socials.friends);
     reply.render('index', { user: request.user, extusers: offload.users, extrooms: offload.rooms, lastMessages: lastMessages, friends: friends });
@@ -100,21 +99,21 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
 
 router.get('/:offset', async (request, reply) => {
   try {
-    if (offset.checkIdType() === 'user') {
-      const userId = await profiler.findOne({ user_name: request.params.username });
+    if (!mongoose.Types.ObjectId.isValid(request.params.offset)) {
+      const userId = await profiler.findOne({ user_name: request.params.offset });
       if (!userId) {
-        reply.redirect('/');
-        return request.flash('error', 'Profile doesn\'t exist');
+        request.flash('error', 'Profile doesn\'t exist');
+        return reply.redirect('/');
       }
       const offload = await loadUser(userId._id);
-      reply.render('profile', { user: offload, base: `https://${request.get('host')}` });
+      reply.render('profile', { user: offload });
     } else {
       const offload = await loadRoom(request.params.offset);
-      reply.render('room', { room: offload, chatLength: offload.chats.length });
+      reply.render('room', { room: offload.room, chats: offload.chats.svd_chats.length });
     }
   } catch (e) {
     request.flash('error', 'Something went wrong');
-    console.error({ at: '/:username', error: e });
+    console.error({ at: '/:offset', error: e });
   }
 });
 
