@@ -21,7 +21,7 @@ module.exports = async (io) => {
       io.to(globId).emit('messageCreate', message);
       cacheChats(chatId, chats);
     });
-    socket.on('messageTyping', payload => {
+    socket.on('typing', payload => {
       socket.broadcast.to(globId).emit('typing', payload);
     });
     socket.on('disconnect', () => {
