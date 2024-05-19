@@ -7,6 +7,24 @@ linkItems.forEach((linkItem, index) => {
     });
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+  const hamburgerMenu = document.getElementById('hamburger-menu');
+  const menu = document.getElementById('menu');
+  hamburgerMenu?.addEventListener('click', () => {
+    if (menu.classList.contains('show')) {
+      menu.classList.remove('show');
+      setTimeout(() => {
+        menu.style.display = 'none';
+      }, 150);
+    } else {
+      menu.style.display = 'block';
+      setTimeout(() => {
+        menu.classList.add('show');
+      }, 10);
+    }
+  });
+});
+
 const parent = document.querySelector('.toast-container');
 function popToast(type, str) {
   let toast = document.createElement('div');
