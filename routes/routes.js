@@ -12,7 +12,7 @@ const Media = require('../schematics/media');
 const mongoose = require('mongoose');
 const { checkAuth, checkNotAuth } = require('../preval/validators');
 const { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom, getLastMessages, loadFriends, removeMemberFromRoom } = require('../utils/sourcing');
-const { storage, clearTMP } = require('../utils/upload-sys');
+const { storage, clearCache } = require('../utils/upload-sys');
 
 initGateway();
 router.get('/', checkAuth, async (request, reply) => {
