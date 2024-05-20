@@ -4,6 +4,11 @@ const Chat = require('../schematics/chats');
 const Media = require('../schematics/media');
 const mongoose = require('mongoose');
 
+/**
+ * Load basic indexs of chats related to user
+ * @param {Object} user Object of the user
+ * @returns {Array} basic Object of chats indexs related to user
+ */
 async function getIndexes(user) {
   if (!user || !user.chats) return {};
   const roomChatIds = user.chats
@@ -15,6 +20,11 @@ async function getIndexes(user) {
   return { rooms, users };
 }
 
+/**
+ * Get multiple users from the database from Array of ids
+ * @param {Array} objectIds 
+ * @returns 
+ */
 async function getUsersWithId(objectIds) {
   try {
     const users = await profiler.find({ _id: { $in: objectIds } }, '_id user_name display_name image chats');
@@ -26,14 +36,20 @@ async function getUsersWithId(objectIds) {
 }
 
 async function getRoomsFromChats(ids) {
-   try {
-     const rooms = await Room.find({ _id: { $in: ids } }, '_id title icon members settings chats');
-     return rooms;
-   } catch (error) {
-     console.error('Error fetching rooms:', e);
-     return null;
-   }
+  try {
+    const rooms = await Room.find({ _id: { $in: ids } }, '_id title icon members settings chats');
+    return rooms;
+  } catch (error) {
+    console.error('Error fetching rooms:', e);
+    return null;
+  }
 }
+
+/**
+ * Loads full room from Id
+ * @param {String} id ObjectId of the room
+ * @returns {Object} Object of the full room
+ */
 
 async function loadRoom(id) {
   try {
@@ -65,6 +81,41 @@ async function loadUser(target, meId) {
   } catch (error) {
     console.error('Error fetching user and chats:', error);
     return null;
+  }
+}
+
+async function checkChats(entityId, forChat) {
+  if (forChat.type === 'user') {
+    const userChats = await profiler.findById(entityId).chats;
+    if (userChats.find(thisObj => thisObj.user_id == forChat.targetId)) {
+      return true;
+    } else {
+      const newId = await Chat.create({
+        timestamp: Date.now(),
+        svd_chats: []
+      });
+      userChats.push({
+        user_id: forChat.user_id,
+        chat_type: 'DM',
+        chat_id: newId.id
+      });
+      userChats.save();
+    }
+  } else {
+    const roomChat = await Room.findById(entityId).chats;
+    if (roomChat.chat_id) {
+      return true;
+    } else {
+      const newId = await Chat.create({
+        timestamp: Date.now(),
+        svd_chats: []
+      });
+      roomChat.push({
+        chat_type: 'room',
+        chat_id: newId.id
+      });
+      userChats.save();
+    }
   }
 }
 
@@ -190,7 +241,6 @@ async function checkIdType() {
   }
 }
 
-
 async function getLastMessages(entityIds) {
   let toReturnArray = [];
   await Promise.all(entityIds.map(async (entity) => {
@@ -211,4 +261,4 @@ async function getLastMessages(entityIds) {
 }
 
 String.prototype.checkIdType = checkIdType;
-module.exports = { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom, getLastMessages, loadFriends, removeMemberFromRoom };
+module.exports = { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom, getLastMessages, loadFriends, removeMemberFromRoom, checkChats };
