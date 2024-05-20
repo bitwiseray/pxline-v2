@@ -75,8 +75,13 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
       request.flash('error', 'Username already exists');
       return;
     }
+    let media;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const media = await uploadMedia('profile', request.file, fs.readFileSync(path.join(__dirname, '../tmp', request.file.filename)), request);
+    if (request.file) {
+      media = await uploadMedia('profile', request.file, fs.readFileSync(path.join(__dirname, '../tmp', request.file.filename)), request);
+    } else {
+      media = { id: 'default-image-id' };
+    }
     await profiler.create({
       user_name: username,
       display_name: display_name,
@@ -91,7 +96,6 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
     });
     request.flash('success', 'Account created!');
     reply.redirect('/');
-    // clearTMP();
   } catch (e) {
     request.flash('error', 'Something went wrong');
     return console.error({ at: '/signup', error: e })
@@ -192,7 +196,6 @@ router.post('/cdn', upload.single('upload'), async (request, reply) => {
       id: upload.id || null,
     };
     reply.status(200).json(responseData);
-    clearTMP();
   } catch (error) {
     reply.status(500).send('Error uploading file');
   }
