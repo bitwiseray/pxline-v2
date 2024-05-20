@@ -3,6 +3,7 @@ const { QuickDB } = require("quick.db");
 const Cache = new QuickDB();
 
 function isMatchFn(chats, svdChatsFromDB) {
+  if (!svdChatsFromDB) return
   for (const chatFromDB of svdChatsFromDB) {
     for (const localChat of chats) {
       if (localChat.content.text === chatFromDB.content.text &&
@@ -26,7 +27,6 @@ async function saveChats(id) {
       return;
     }
     const isMatch = isMatchFn(chats.svd_chats, chat.svd_chats);
-    console.log({ flag: isMatch });
     if (!isMatch) {
       await chat.updateOne({ 
         $push: { 
@@ -34,7 +34,9 @@ async function saveChats(id) {
         }
       });
     }
+    console.log(Cache);
     await Cache.delete(id);
+    console.log(Cache);
   } catch (error) {
     console.error('Error saving chats:', error);
   }
@@ -52,10 +54,11 @@ async function cacheChats(id, chats) {
   if (!chats || !chats.length > 0) return;
   try {
     let chat = await Cache.get(id);
-    if (!chat) await setCacheFor(id);
+    if (!chat) {
+      await setCacheFor(id);
+      chat = await Cache.get(id);
+    }
     const toInsertArray = [];
-    const isMatch = isMatchFn(chats, chat.svd_chats);
-    if (!isMatch) {
       chats.forEach(message => {
         toInsertArray.push({
           content: {
@@ -67,7 +70,6 @@ async function cacheChats(id, chats) {
         });
       });
       await Cache.push(`${id}.svd_chats`, ...toInsertArray);
-    }
   } catch (error) {
     console.error('Error saving chats:', error);
   }
