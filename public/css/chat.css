@@ -110,7 +110,7 @@ body {
 
 .message-container {
   position: relative;
-  max-height: 545px;
+  max-height: 81.9%;
   overflow-y: scroll;
 }
 
