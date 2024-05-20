@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="/css/hamburger.css">
   <script defer src="/socket.io/socket.io.js"></script>
   <script defer src="/scripts/chat.js"></script>
-  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js" integrity="sha512-4F1cxYdMiAW98oomSLaygEwmCnIP38pb4Kx70yQYqRwLVCs3DbRumfBq82T08g/4LJ/smbFGFpmeFlQgoDccgg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
@@ -30,7 +30,7 @@
   <div class="chat-container">
     <div class="chat-header">
       <div class="imgcontent">
-        <a onclick="window.history.back();"><i class='bx bx-left-arrow-alt'></i></a>
+        <a onclick="window.history.back();"><i class="material-symbols-outlined">arrow_back</i></a>
         <div class="imgBx">
           <img src="" alt="" />
         </div>
@@ -38,25 +38,25 @@
       </div>
       <div class="menu-container">
         <div class="options-container hamburger-menu" id="hamburger-menu">
-            <i class='bx bx-dots-vertical-rounded dots'></i>
+            <i class="material-symbols-outlined">more_vert</i>
         </div>
         <div class="menu" id="menu">
           <a href="" id="redirectOpt"></a>
-          <a href="#" style="color: red;"><i class='bx bx-error-alt'></i> Report</a>
+          <a href="#" style="color: red;"><i class="material-symbols-outlined">flag</i> Report</a>
           <a href="#" id="leaveOpt" style="color: red;"></a>
         </div>
     </div>
     </div>
     <div class="message-container"></div>
     <div class="messageInput">
-      <i class='bx bx-image-add' id='fileAddI'></i>
+      <i class="material-symbols-outlined" id='fileAddI'>add_photo_alternate</i>
       <div class="input">
         <form action="/upload/profile" method="POST" enctype="multipart/form-data">
           <input type="file" id="attachmentInput" name="upload" style="display: none;" accept="image/*">
         </form>
         <textarea id="inp" placeholder="Message"></textarea>
       </div>
-      <div class="send"><i class='bx bx-send'></i></div>
+      <div class="send"><i class="material-symbols-outlined">send</i></div>
     </div>
   </div>
   </div>
@@ -103,12 +103,12 @@
       let optRed = document.getElementById('redirectOpt');
       let optLeave = document.getElementById('leaveOpt');
       if (type === 'DM') {
-        optRed.innerHTML = '<i class="bx bxs-user-detail"></i> See profile'
+        optRed.innerHTML = '<i class="material-symbols-outlined">person</i> See profile'
         optRed.href = `/${extuser.user_name}`;
-        optLeave.innerHTML = '<i class="bx bxs-user-x"></i> Block'
+        optLeave.innerHTML = '<i class="material-symbols-outlined">block</i> Block'
       } else {
-        optRed.innerHTML = '<i class="bx bxs-group"></i> Group info';
-        optLeave.innerHTML = '<i class="bx bx-log-out-circle"></i> Leave';
+        optRed.innerHTML = '<i class="material-symbols-outlined">group</i> Group info';
+        optLeave.innerHTML = '<i class="material-symbols-outlined">exit_to_app</i> Leave';
         optRed.href = `/${room._id}`;
       }
       optLeave.addEventListener('click', async (e) => {

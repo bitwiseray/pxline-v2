@@ -17,7 +17,7 @@
   <title>You have been invited!</title>
   <link rel="stylesheet" href="/css/invite.css">
   <link rel="stylesheet" href="/css/toast.css">
-  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 
 <body>
@@ -29,7 +29,7 @@
         <%=room.title%>
       </h1>
       <p class="total-members">
-        <i class="bx bxs-group"></i> <%=room.members.length%> Members
+        <i class="material-symbols-outlined">group</i> <%=room.members.length%> Members
       </p>
       <form action="/invite/<%=room._id.toString()%>" method="POST">
         <button class="accept-btn">Accept Invite</button>

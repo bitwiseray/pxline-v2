@@ -43,7 +43,7 @@ header {
 }
 
 header .logo {
-  color: var(--main);
+  color: var(--text-color);
   text-decoration: none;
   font-weight: 600;
   font-size: 1.9em;
@@ -81,8 +81,7 @@ header .action a {
 .nav {
   position: absolute;
   bottom: 0;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  border-radius: 5px;
   background: var(--primary);
   padding: 10.5px 15px;
   box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.15);
@@ -96,6 +95,10 @@ header .action a {
   width: 340px;
   align-items: center;
   position: relative;
+}
+
+.nav-content i {
+ font-size: 27.5px;
 }
 
 .link-item {
@@ -450,7 +453,7 @@ header .action a {
   justify-content: center;
   align-items: center;
   color: var(--text-color);
-  font-size: 1.35em;
+  font-size: 1.7em;
   cursor: pointer;
   display: none;
   animation: slide-in .2s cubic-bezier(0.165, -1, 0.44, 1);

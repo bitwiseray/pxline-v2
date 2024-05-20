@@ -17,7 +17,7 @@
   <link rel="icon" href="/assets/logo.jpg" type="image/x-icon" />
   <link rel="stylesheet" href="/css/style.css" />
   <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
-  <script src="https://kit.fontawesome.com/c0b785182d.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link rel="stylesheet" href="/css/toast.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js" integrity="sha512-4F1cxYdMiAW98oomSLaygEwmCnIP38pb4Kx70yQYqRwLVCs3DbRumfBq82T08g/4LJ/smbFGFpmeFlQgoDccgg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
@@ -26,10 +26,10 @@
   <div class="toast-container"></div>
   <div class="container">
     <header>
-      <p class="logo">PxLine</p>
+      <p class="logo">Home</p>
       <div class="action">
-        <a href="#"><i class='bx bx-search'></i></a>
-        <a href="http://" target="_blank" rel="noopener noreferrer"><i class='bx bx-bell'></i></a>
+        <a href="#"><i class="material-symbols-outlined">search</i></a>
+        <a href="http://" target="_blank" rel="noopener noreferrer"><i class="material-symbols-outlined">notifications</i></a>
       </div>
     </header>
     <div class="underline"></div>
@@ -38,26 +38,26 @@
       <input id="friends" type="radio" name="group">
       <input id="settings" type="radio" name="group">
       <div class="quickBtn">
-        <div class="btn message" onclick="location.href='#'"><ion-icon name="person-add-outline"></ion-icon></div>
-        <div class="btn group" onclick="location.href='#'"><ion-icon name="add-circle-outline"></ion-icon></div>
+        <div class="btn message" onclick="location.href='#'"><i class="material-symbols-outlined">add</i></div>
+        <div class="btn group" onclick="location.href='#'"><i class="material-symbols-outlined">person_add</i></div>
       </div>
       <div class="nav">
         <div class="nav-content">
           <div class="nav-list">
             <a href="#" class="link-item active">
-              <label for="chats"><i class='bx bxs-chat link-icon'></i></label>
+              <label for="chats"><i class="material-symbols-outlined link-icon">forum</i></label>
               <span class="link-text">Chats</span>
             </a>
           </div>
           <div class="nav-list">
             <a href="#" class="link-item">
-              <label for="friends"><i class='bx bxs-group link-icon'></i></label>
+              <label for="friends"><i class="material-symbols-outlined link-icon">group</i></label>
               <span class="link-text">Friends</span>
             </a>
           </div>
-          <div class="nav-list" onclick="show_hide()">
+          <div class="nav-list">
             <a href="#" class="link-item">
-              <label for="settings"><i class='bx bxs-cog link-icon'></i></label>
+              <label for="settings"><i class="material-symbols-outlined link-icon">tune</i></label>
               <span class="link-text">Settings</span>
             </a>
           </div>
