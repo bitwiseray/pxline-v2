@@ -69,12 +69,11 @@ function sendMessage() {
   });
   input.value = '';
   isAttached = {};
-  input.style.height = '25px';
 }
 
 document.querySelector('.send').addEventListener('click', sendMessage);
 input.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
+  if (e.key === 'Enter' && !e.shiftKey) {
     sendMessage();
   }
 });
