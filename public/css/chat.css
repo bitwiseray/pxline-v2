@@ -219,7 +219,8 @@ body {
   cursor: pointer;
   font-size: 2em;
   color: #fff;
-  padding: 5px;
+  padding: 9px;
+  margin-right: 20px;
 }
 
 .messageInput > i:active {
@@ -231,11 +232,11 @@ body {
   position: relative;
   background: #fff;
   padding: 7px 18px;
-  width: 230px;
+  width: 260px;
   display: flex;
   text-align: center;
   border-radius: 40px;
-  margin-left: 40px;
+  margin-left: 50px;
 }
 
 .messageInput .input textarea {
