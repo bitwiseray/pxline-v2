@@ -99,31 +99,6 @@ async function uploadMedia(type, offload, stream, request) {
   });
 }
 
-async function addFriend(userId, targetId) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const user = await profiler.findById(userId);
-      const target = await profiler.findById(targetId);
-      if (user.socials.friends?.includes(targetId) && target.socials.friends?.includes(userId)) {
-        reject({ status: 'halted', error: 'Already friends' });
-      }
-      user.socials.friends.push({
-        id: targetId,
-        since: Date.now()
-      });
-      target.socials.friends.push({
-        id: userId,
-        since: Date.now()
-      });
-      await user.save();
-      await target.save()
-      resolve({ status: 'success' });
-    } catch (error) {
-      reject({ status: 'failed', error: error });
-    }
-  });
-}
-
 async function checkIdType() {
   try {
     if (!this.match(/^[0-9a-fA-F]{24}$/)) return;
