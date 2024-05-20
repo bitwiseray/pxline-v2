@@ -11,8 +11,10 @@ const Room = require('../schematics/rooms');
 const Media = require('../schematics/media');
 const mongoose = require('mongoose');
 const { checkAuth, checkNotAuth } = require('../preval/validators');
-const { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom, getLastMessages, loadFriends, removeMemberFromRoom } = require('../utils/sourcing');
+const { getIndexes, uploadMedia, getLastMessages, loadFriends } = require('../utils/sourcing');
 const { storage, clearCache } = require('../utils/upload-sys');
+const RoomSources = require('../utils/sourcing/Rooms');
+const UserSources = require('../utils/sourcing/Users');
 
 initGateway();
 router.get('/', checkAuth, async (request, reply) => {
@@ -56,10 +58,10 @@ router.get('/chat/:id/', checkAuth, async (request, reply) => {
     const id = request.params.id;
     const type = await id.checkIdType();
     if (type === 'room') {
-      const offload = await loadRoom(id);
+      const offload = await RoomSources.loadRoom(id);
       reply.render('chat', { extType: 'room', extusers: offload.members, extroom: offload.room, chats: offload.chats, user: request.user });
     } else {
-      const usrOffload = await loadUser(id, request.user._id);
+      const usrOffload = await UserSources.loadUser(id, request.user._id);
       reply.render('chat', { extType: 'DM', extusers: usrOffload.user, chats: usrOffload.chats, extroom: null, user: request.user });
     }
   } catch (e) {
@@ -80,7 +82,7 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
     if (request.file) {
       media = await uploadMedia('profile', request.file, fs.readFileSync(path.join(__dirname, '../tmp', request.file.filename)), request);
     } else {
-      media = { id: 'default-image-id' };
+      media = { id: '' };
     }
     await profiler.create({
       user_name: username,
@@ -110,10 +112,10 @@ router.get('/:offset', async (request, reply) => {
         request.flash('error', 'Profile doesn\'t exist');
         return reply.redirect('/');
       }
-      const offload = await loadUser(userId._id);
+      const offload = await UserSources.loadUser(userId._id);
       reply.render('profile', { user: offload });
     } else {
-      const offload = await loadRoom(request.params.offset);
+      const offload = await RoomSources.loadRoom(request.params.offset);
       reply.render('room', { room: offload.room, chats: offload.chats.svd_chats.length });
     }
   } catch (e) {
@@ -130,7 +132,7 @@ router.get('/invite/:id', checkAuth, async (request, reply) => {
 router.post('/invite/:id', checkAuth, async (request, reply) => {
   try {
     let room = await Room.findById(request.params.id);
-    await addToRoom(request.user._id, room);
+    await RoomSources.addToRoom(request.user._id, room);
     request.flash('success', `Joined ${room.title}!`);
     reply.redirect('/');
   } catch (error) {
@@ -141,7 +143,7 @@ router.post('/invite/:id', checkAuth, async (request, reply) => {
 
 router.delete('/leave/:id', checkAuth, async (request, reply) => {
   try {
-    await removeMemberFromRoom(request.user._id, request.params.id);
+    await RoomSources.removeMemberFromRoom(request.user._id, request.params.id);
     reply.status(200).send({ status: 'success', error: null });
   } catch (error) {
     reply.status(200).send({ status: 'success', error: error });

@@ -4,6 +4,9 @@ const Chat = require('../schematics/chats');
 const Media = require('../schematics/media');
 const mongoose = require('mongoose');
 
+const RoomSources = require('./sourcing/Rooms');
+const UserSources = require('./sourcing/Users');
+
 /**
  * Load basic indexs of chats related to user
  * @param {Object} user Object of the user
@@ -14,74 +17,10 @@ async function getIndexes(user) {
   const roomChatIds = user.chats
     .filter(chat => chat.chat_type === 'room')
     .map(chat => chat.chat_id);
-  const rooms = await getRoomsFromChats(roomChatIds);
+  const rooms = await RoomSources.getRoomsFromChats(roomChatIds);
   const chatIds = user.chats.map(chat => chat.user_id || chat.chat_id);
-  const users = await getUsersWithId(chatIds);
+  const users = await UserSources.getUsersWithId(chatIds);
   return { rooms, users };
-}
-
-/**
- * Get multiple users from the database from Array of ids
- * @param {Array} objectIds 
- * @returns 
- */
-async function getUsersWithId(objectIds) {
-  try {
-    const users = await profiler.find({ _id: { $in: objectIds } }, '_id user_name display_name image chats');
-    return users;
-  } catch (err) {
-    console.error('Error fetching users:', err);
-    return [];
-  }
-}
-
-async function getRoomsFromChats(ids) {
-  try {
-    const rooms = await Room.find({ _id: { $in: ids } }, '_id title icon members settings chats');
-    return rooms;
-  } catch (error) {
-    console.error('Error fetching rooms:', e);
-    return null;
-  }
-}
-
-/**
- * Loads full room from Id
- * @param {String} id ObjectId of the room
- * @returns {Object} Object of the full room
- */
-
-async function loadRoom(id) {
-  try {
-    const room = await Room.findById(id);
-    if (!room) {
-      return null;
-    }
-    const chats = await Chat.findById(room.chats.chat_id);
-    const members = await profiler.find({ _id: { $in: room.members }}, '_id display_name user_name image createdAt socials');
-    return { room, chats, members };
-  } catch (error) {
-    console.error('Error fetching room and chats:', error);
-    return null;
-  }
-}
-
-async function loadUser(target, meId) {
-  try {
-    const user = await profiler.findById(target, '_id user_name display_name image chats createdAt socials');
-    if (!user) {
-      return null;
-    }
-    if (!meId) {
-      return user;
-    }
-    const chatId = user.chats.find(chat => chat.user_id === meId.toString())?.chat_id;
-    const chats = await Chat.findById(chatId);
-    return { user, chats };
-  } catch (error) {
-    console.error('Error fetching user and chats:', error);
-    return null;
-  }
 }
 
 async function checkChats(entityId, forChat) {
@@ -121,7 +60,7 @@ async function checkChats(entityId, forChat) {
 
 async function loadFriends(base) {
   const friendsDetails = await Promise.all(base.map(async (friendObj) => {
-    const friendData = await loadUser(friendObj.friend);
+    const friendData = await UserSources.loadUser(friendObj.friend);
     return friendData;
   }));
   return friendsDetails;
@@ -159,44 +98,6 @@ async function uploadMedia(type, offload, stream, request) {
     }
   });
 }
-
-async function addToRoom(userId, room) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      if (room.members.includes(userId)) {
-        return reject({ status: 'halted', error: 'User is already an member, cannot add.'});
-      }
-      const user = await profiler.findById(userId);
-      room.members.push(userId.toString());
-      user.chats.push({ chat_id: room._id.toString(), chat_type: 'room' });
-      await room.save();
-      await user.save();
-      resolve({ status: 'success' });
-    } catch (error) {
-      reject({ status: 'failed', error: error });
-    }
-  });
-}
-
-async function removeMemberFromRoom(userId, roomId) {
-  try {
-    const room = await Room.findById(roomId);
-    const user = await profiler.findById(userId);
-    const roomIndex = room.members.indexOf(user._id);
-    if (roomIndex > -1) {
-      room.members.splice(roomIndex, 1);
-    }
-    const chatIndex = user.chats.findIndex(chat => chat.chat_id === roomId);
-    if (chatIndex > -1) {
-      user.chats.splice(chatIndex, 1);
-    }
-    await Promise.all([room.save(), user.save()]);
-    return { status: 'success' };
-  } catch (error) {
-    throw { status: 'failed', error: error };
-  }
-}
-
 
 async function addFriend(userId, targetId) {
   return new Promise(async (resolve, reject) => {
@@ -261,4 +162,4 @@ async function getLastMessages(entityIds) {
 }
 
 String.prototype.checkIdType = checkIdType;
-module.exports = { getIndexes, loadRoom, loadUser, uploadMedia, addToRoom, getLastMessages, loadFriends, removeMemberFromRoom, checkChats };
+module.exports = { getIndexes, uploadMedia, getLastMessages, loadFriends, checkChats };
