@@ -19,8 +19,6 @@ async function saveChats(id) {
   if (!id) return;
   const chats = await Cache.get(id);
   if (!chats) return;
-  console.log(chats.svd_chats)
-  
   try {
     let chat = await Chat.findById(id);
     if (!chat) {
@@ -34,6 +32,7 @@ async function saveChats(id) {
           svd_chats: { $each: chats.svd_chats } 
         }
       });
+      await Cache.delete(id);
     }
   } catch (error) {
     console.error('Error saving chats:', error);
@@ -51,6 +50,7 @@ function setCacheFor (id) {
     })
   }
 }
+
 async function cacheChats(id, chats) {
   if (!chats || !chats.length > 0) return;
   try {
