@@ -69,6 +69,7 @@ function sendMessage() {
   });
   input.value = '';
   isAttached = {};
+  input.style.height = '25px';
 }
 
 document.querySelector('.send').addEventListener('click', sendMessage);
