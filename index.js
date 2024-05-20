@@ -6,8 +6,8 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const override = require('method-override');
 const app = express();
-const socServer = require('http').Server(app);
-const io = require('socket.io')(socServer, {
+const socket = require('http').Server(app);
+const io = require('socket.io')(socket, {
   cors: {
     origin: '*',
     methods: ['GET', 'POST'],
@@ -32,7 +32,7 @@ app.use(flash());
 app.use(override('_method'));
 app.use('/', routes);
 
-socServer.listen(8080, async () => {
+socket.listen(8080, async () => {
   await mongoose.connect(process.env.srv);
-  console.log('Server is running on port 3000');
+  console.log('Server is up!');
 });
