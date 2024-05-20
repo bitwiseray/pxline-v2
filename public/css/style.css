@@ -3,7 +3,6 @@
 :root {
   --primary: #171717;
   --secondary: #262626;
-  /* --main: #4070F4; */
   --main: rgb(171, 0, 171);
   --text-color: #FFF;
   --hover: #131313;
@@ -215,8 +214,8 @@ header .action a {
   position: relative;
   top: 0;
   left: 0;
-  width: 45px;
-  height: 45px;
+  width: 48px;
+  height: 48px;
   object-fit: cover;
 }
 
