@@ -74,8 +74,9 @@ function sendMessage() {
 document.querySelector('.send').addEventListener('click', sendMessage);
 input.addEventListener('keydown', (e) => {
   if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
     sendMessage();
-  }
+  } 
 });
 
 document.querySelector('#inp').addEventListener('input', (e) => {
