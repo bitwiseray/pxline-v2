@@ -5,16 +5,14 @@
 }
 
 * {
+  font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
 }
 
 body {
-  position: relative;
   height: 100vh;
-  width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,24 +20,6 @@ body {
   background-size: cover;
   overflow-y: hidden;
 } 
-
-.profile-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  color: #565656;
-  padding: 10px;
-  font-size: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.profile-header a {
-  text-decoration: none;
-  color: #fff;
-}
 
 .profile-header i {
   color: #fff;
@@ -50,27 +30,41 @@ body {
   -webkit-tap-highlight-color: none;
 }
 
+.profile-header a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.profile-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  color: #565656;
+  padding: 10px;
+  display: flex;
+  font-size: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .profile-card {
-  position: relative;
-  height: 80vh;
-  width: 100%;
-  max-width: 370px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  max-width: 370px;
+  width: 100%;
+  padding: 25px;
 }
 
-.profile-card .image {
-  position: relative;
-  top: 20px;
-  height: 120px;
-  width: 120px;
+.image {
+  position: absolute;
+  height: 150px;
+  width: 150px;
   border-radius: 50%;
   padding: 3px;
-  background: rgb(39, 185, 199);
   background: linear-gradient(90deg, rgba(39, 185, 199, 1) 0%, rgba(232, 0, 80, 1) 57%);
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   bottom: 70%;
 }
 
@@ -84,41 +78,17 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-.profile-card .text-data {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 5px;
-  color: #fff;
-}
-
-.text-data .name {
-  width: 250px;
-  font-size: 20px;
-  font-weight: 500;
-  word-spacing: 5px;
-  text-align: center;
-  text-wrap: wrap;
-}
-
-.text-data .username {
-  font-size: 16px;
-  color: #aaa;
-}
-
 .profile-card .achievements {
-  position:relative;
+  position: absolute;
   display: flex;
   align-items: center;
-  justify-content: center;
   padding: 10px 0;
-  margin-top: 20px;
+  margin-top: 45px;
 }
 
 .achievements > div {
   text-align: center;
-  border-right: 3px solid #aaa;
+  border-right: 1px solid #aaa;
   flex-grow: 1;
   padding: 2px 10px;
 }
@@ -143,14 +113,30 @@ body {
   color: #777;
 }
 
+.profile-card .text-data {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  bottom: 60%;
+  color: #fff;
+}
+
+.text-data .name {
+  font-size: 25px;
+  font-weight: 500;
+  word-spacing: 5px;
+}
+
+.text-data .username {
+  font-size: 15px;
+  color: #aaa;
+}
 
 .profile-card .action-buttons {
-  position: relative;
-  /* top: 40px; */
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin: 20px 0;
+  margin-top: 120px;
 }
 
 .action-buttons .btn {
@@ -162,7 +148,7 @@ body {
   margin: 0 5px;
   padding: 9px;
   text-decoration: none;
-  border: 2px solid #fff;
+  border: 1px solid #fff;
   transition: all 0.3s ease;
 }
 
@@ -175,16 +161,14 @@ body {
 .btn:hover {
   color: #fff;
   background: #E80050;
-  border: 2px solid #E80050;
-  transition: all 0.3s ease-in;
 }
 
 .line {
   height: 3px;
-  width: 190px;
   border-radius: 16px;
-  background-color: white;
-  margin: 11px 0;
+  background-color: #aaa;
+  width: 190px;
+  margin: 17px 0;
 }
 
 .bio {
