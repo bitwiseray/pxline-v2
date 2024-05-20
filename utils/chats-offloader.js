@@ -26,29 +26,26 @@ async function saveChats(id) {
       return;
     }
     const isMatch = isMatchFn(chats.svd_chats, chat.svd_chats);
+    console.log({ flag: isMatch });
     if (!isMatch) {
       await chat.updateOne({ 
         $push: { 
           svd_chats: { $each: chats.svd_chats } 
         }
       });
-      await Cache.delete(id);
     }
+    await Cache.delete(id);
   } catch (error) {
     console.error('Error saving chats:', error);
   }
 }
 
-function setCacheFor (id) {
-  if (Cache.get(id)) {
-    return new Promise((resolve, reject) => {
-      Cache.set(id, {
-        id: id,
-        timestamp: Date.now(),
-        svd_chats: []
-      });
-    })
-  }
+async function setCacheFor(id) {
+  Cache.set(id, {
+    id: id,
+    timestamp: Date.now(),
+    svd_chats: []
+  });
 }
 
 async function cacheChats(id, chats) {
