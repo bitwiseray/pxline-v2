@@ -72,6 +72,7 @@
     const members = <%-JSON.stringify(extusers)%>;
     const user = <%-JSON.stringify(user)%>;
     const chats = <%-JSON.stringify(chats)%>;
+    const last = chats.svd_chats[chats.svd_chats.length - 1];
     function initChat() {
       if (type === 'room') {
         createChatHeader(room.title, room.icon);
