@@ -3,7 +3,7 @@
 :root {
   --primary: #202124;
   --secondary: #262626;
-  --main: #4070f4;
+  --main: rgb(171, 0, 160);
   --text-color: #fff;
   --hover: #131313;
   --gray: #949494;
@@ -258,14 +258,13 @@ body {
 
 .send {
   position: relative;
-  margin-left: 5px;
+  right: 42px;
   width: 40px;
   height: 40px;
-  border: 1px solid #fff;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
+  color: black;
   font-size: 1.4em;
   border-radius: 50%;
   cursor: pointer;
@@ -273,7 +272,8 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-.send:active {
-  background: #6471ff;
+.send:hover {
+  background: var(--main);
+  color: #fff;
   border: none;
 }
