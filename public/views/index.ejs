@@ -26,7 +26,7 @@
   <div class="toast-container"></div>
   <div class="container">
     <header>
-      <p class="logo">Home</p>
+      <p class="logo">Chats</p>
       <div class="action">
         <a href="#"><i class="material-symbols-outlined">search</i></a>
         <a href="http://" target="_blank" rel="noopener noreferrer"><i class="material-symbols-outlined">notifications</i></a>
@@ -44,19 +44,19 @@
       <div class="nav">
         <div class="nav-content">
           <div class="nav-list">
-            <a href="#" class="link-item active">
+            <a class="link-item active">
               <label for="chats"><i class="material-symbols-outlined link-icon">forum</i></label>
               <span class="link-text">Chats</span>
             </a>
           </div>
           <div class="nav-list">
-            <a href="#" class="link-item">
+            <a class="link-item">
               <label for="friends"><i class="material-symbols-outlined link-icon">group</i></label>
               <span class="link-text">Friends</span>
             </a>
           </div>
           <div class="nav-list">
-            <a href="#" class="link-item">
+            <a class="link-item">
               <label for="settings"><i class="material-symbols-outlined link-icon">tune</i></label>
               <span class="link-text">Settings</span>
             </a>
@@ -70,14 +70,14 @@
           </div>
         </div>
         <div class="box friends">
-          <h2>No Friends? (/_ \)</h2>
+          <h2>No Friends? :\</h2>
         </div>
         <div class="box settings">
           <!-- Profile Section -->
           <div class="profile-card">
             <div class="image">
               <img src="" alt="My image" class="profile-img">
-            </div>  
+            </div>
             <div class="text-data">
               <span class="name"><%=user.display_name%></span>
               <span class="user_id"><%=user.user_name%></span>
@@ -103,8 +103,6 @@
         </div>
       </div>
     </div>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="/scripts/chat-ui.js"></script>
     <script src="/scripts/home.js"></script>
     <script>
@@ -115,20 +113,19 @@
         const user = <%-JSON.stringify(user)%>;
         const friends = <%-JSON.stringify(friends)%>;
         const lastMessages = <%-JSON.stringify(lastMessages)%>;
-        function initTiles(rooms, users) {
-          rooms.forEach(room => {
-            createChatTile(room, user);
-          });
-          users.forEach(currentUser => {
-            createChatTile(currentUser, user._id);
-          });
-        }
         function getLastFor(chatId) {
           return lastMessages.find(chat => chat.lastFor == chatId) || {};
         }
-        initTiles(rooms, extusers);
+        initTiles(rooms, extusers, user);
         document.addEventListener('DOMContentLoaded', () => {
-          document.querySelector('.profile-img').src = `${window.location.origin}/cdn/${user.image}`;
+          const title = document.querySelector('.logo');
+          const navLinks = document.querySelectorAll('.nav-list .link-item');
+          navLinks.forEach(link => {
+            link.addEventListener('click', function (event) {
+              const pageName = this.querySelector('.link-text').textContent;
+              title.textContent = pageName;
+            });
+          });
           const chatTiles = document.querySelectorAll('.block')
           chatTiles.forEach(tile => {
             tile.addEventListener('click', function () {
@@ -137,6 +134,7 @@
             });
           });
         });
+        document.querySelector('.profile-img').src = `${window.location.origin}/cdn/${user.image}`;
       } catch (e) {
         console.error(e);
       }
