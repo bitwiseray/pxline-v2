@@ -30,7 +30,7 @@
   position: absolute;
   top: 51px;
   right: 9px;
-  width: 50vw;
+  width: 40vw;
   background-color: var(--primary);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 9px;
@@ -62,4 +62,14 @@
   max-height: 300px;
   /* Adjust this value based on your content */
   transition: max-height 0.3s ease-in;
+}
+
+@media screen and (min-width: 1024px) {
+  .menu {
+    width: 250px;
+  }
+}
+
+@media screen and (min-height: 900px) {
+  
 }

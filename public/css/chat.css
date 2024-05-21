@@ -110,7 +110,7 @@ body {
 
 .message-container {
   position: relative;
-  max-height: 81.9%;
+  height: 81.9%;
   overflow-y: scroll;
 }
 
@@ -230,9 +230,9 @@ body {
 
 .messageInput .input {
   position: relative;
-  background: #fff;
+  background-color: var(--secondary);
   padding: 7px 18px;
-  width: 260px;
+  width: 270px;
   display: flex;
   text-align: center;
   border-radius: 40px;
@@ -242,7 +242,7 @@ body {
 .messageInput .input textarea {
   position: relative;
   border: none;
-  width: 100%;
+  width: 92%;
   height: 27.9px;
   top: 3%;
   outline: none;
@@ -250,6 +250,8 @@ body {
   text-align: start;
   resize: none;
   overflow-y: scroll;
+  background-color: var(--secondary);
+  color: #fff;
 }
 
 .messageInput .input textarea::-webkit-scrollbar {
@@ -258,13 +260,14 @@ body {
 
 .send {
   position: relative;
-  right: 42px;
+  margin-left: 7.5px;
   width: 40px;
   height: 40px;
   display: flex;
+  border: 1px solid #fff;
   justify-content: center;
   align-items: center;
-  color: black;
+  color: #fff;
   font-size: 1.4em;
   border-radius: 50%;
   cursor: pointer;
@@ -276,4 +279,37 @@ body {
   background: var(--main);
   color: #fff;
   border: none;
+}
+
+.message-container::-webkit-scrollbar {
+  width: 7px;
+}
+
+.message-container::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #aaa;
+}
+
+@media screen and (min-width: 1024px) {
+  .message-container {
+    height: 85%; /* Increased height by 100px */
+  }
+  .messageInput .input {
+    width: 1655px;
+  }
+  .send {
+    display: none;
+  }
+  .hamburger-menu .menu {
+    width: 30px;
+  }
+}
+
+@media screen and (min-height: 900px) {
+  .message-container {
+    height: 86.5%; /* Increased height by 100px */
+  }
+  .messageInput .input {
+    width: 325px;
+  }
 }

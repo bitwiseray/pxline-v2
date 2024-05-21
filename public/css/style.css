@@ -187,6 +187,18 @@ header .action a {
   user-select: none;
 }
 
+@media screen and (min-width: 1024px) {
+  .content .data {
+    height: 700px; /* Increased height by 100px */
+  }
+}
+
+@media screen and (min-width: 400px) {
+  .content .data {
+    height: 710px; /* Increased height by 100px */
+  }
+}
+
 .chatlist .block {
   position: relative;
   display: flex;
