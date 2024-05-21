@@ -24,9 +24,8 @@ function appendMessage(url, sender_username, drUsername, message, rawLowerSub, a
   messageTextDiv.classList.add('msg');
   messageTextDiv.textContent = message;
   messageContentDiv.classList.add('message_content');
-  const timeDiff = last.content.timestamp - rawLowerSub;
-  if (timeDiff >= 60 * 60 * 100) {
-    const super0Time = document.createElement('div');
+  if (shouldDisplayTimeDivider(lastDividerTimestamp, rawLowerSub)) {
+    const superTime = document.createElement('div');
     superTime.classList.add('time');
     superTime.innerText = formatTimestamp(rawLowerSub, false);
     messageContainer.appendChild(superTime);
@@ -122,6 +121,17 @@ function formatTimestamp(timestamp, compact) {
   } else {
     return moment(timestamp).format('h:mm A');
   }
+}
+
+function extractDateFromTimestamp(timestamp) {
+  const date = new Date(parseInt(timestamp));
+  return date.toISOString().split('T')[0]; // Returns date in 'YYYY-MM-DD' format
+}
+
+function shouldDisplayTimeDivider(lastTimestamp, currentTimestamp) {
+  const lastDate = extractDateFromTimestamp(lastTimestamp);
+  const currentDate = extractDateFromTimestamp(currentTimestamp);
+  return lastDate !== currentDate;
 }
 
 const textarea = document.getElementById('inp');

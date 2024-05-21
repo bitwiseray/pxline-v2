@@ -72,7 +72,7 @@
     const members = <%-JSON.stringify(extusers)%>;
     const user = <%-JSON.stringify(user)%>;
     const chats = <%-JSON.stringify(chats)%>;
-    const last = chats.svd_chats[chats.svd_chats.length - 1];
+    let lastDividerTimestamp = 0;
     function initChat() {
       if (type === 'room') {
         createChatHeader(room.title, room.icon);
@@ -80,6 +80,7 @@
           chats.svd_chats.forEach(chat => {
             const senderUser = chat.sender === user._id ? user : members.find(member => member._id === chat.sender);
             appendMessage(senderUser.image, senderUser.display_name, senderUser.user_name, chat.content.text, chat.content.timestamp, chat.attachments, chat._id);
+            lastDividerTimestamp = chat.content.timestamp;
           });
         } else {
           console.error('Invalid chats object or svd_chats array');
@@ -90,6 +91,7 @@
           chats.svd_chats.forEach(chat => {
             const senderUser = chat.sender === user._id ? user : extuser;
             appendMessage(senderUser.image, senderUser.display_name, senderUser.user_name, chat.content.text, chat.content.timestamp, chat.attachments, chat._id);
+            lastDividerTimestamp = chat.content.timestamp;
           });
         } else {
           console.error('Invalid chats object or svd_chats array');
