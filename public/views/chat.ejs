@@ -30,13 +30,14 @@
   <div class="chat-container">
     <div class="chat-header">
       <div class="message-options" style="display: none;">
-        <i class="material-symbols-outlined close-icon" onclick="removeOptions()">close</i>
+        <i class="material-symbols-outlined close-icon" onclick="messageHandler.removeOptions()">close</i>
         <div class="options">
-          <i class="material-symbols-outlined">content_copy</i>
+          <i class="material-symbols-outlined" onclick="messageHandler.copyText();">content_copy</i>
           <i class="material-symbols-outlined">edit</i>
-          <i class="material-symbols-outlined delete-icon">delete</i>
+          <i class="material-symbols-outlined delete-icon" onclick="messageHandler.delete();">delete</i>
         </div>
       </div>
+      
       <div class="imgcontent">
         <a onclick="window.history.back();"><i class="material-symbols-outlined" style="font-size: 1.40em;">keyboard_backspace</i></a>
         <div class="imgBx">
@@ -67,6 +68,7 @@
   </div>
   </div>
   <script src="/scripts/chat-ui.js"></script>
+  <script src="/scripts/message-handlers.js"></script>
   <script>
     let messages = <%-JSON.stringify(messages)%>;
   </script>
