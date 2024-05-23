@@ -31,6 +31,12 @@ socket.on('messageCreate', (message) => {
   appendMessage(message.author.image, message.author.displayname, message.author.username, message.content.text, message.content.timestamp, message.attachments);
 });
 
+socket.on('messageDelete', (obj) => {
+  console.log(obj)
+  let message = document.querySelector(`div[data-id="${obj.id}"]`);
+  message.remove();
+});
+
 let input = document.getElementById('inp');
 function sendMessage() {
   let contents = input.value;
@@ -69,6 +75,10 @@ function sendMessage() {
   });
   input.value = '';
   isAttached = {};
+}
+
+function deleteMessage(Id) {
+  socket.emit('delete', { id: Id, deletedBy: user.id });
 }
 
 document.querySelector('.send').addEventListener('click', sendMessage);
