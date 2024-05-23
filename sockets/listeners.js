@@ -1,4 +1,5 @@
 const { saveChats, cacheChats } = require('../utils/chats-offloader');
+const Chat = require('../schematics/chats');
 
 module.exports = async (io) => {
   let chats = [];
@@ -9,6 +10,7 @@ module.exports = async (io) => {
       if (load && load._id) {
         socket.join(load._id);
         globId = load._id;
+        chatId = load.chatLoad;
       } else {
         console.log('Error: load object is undefined or missing _id');
       }
@@ -23,9 +25,14 @@ module.exports = async (io) => {
     });
     socket.on('delete', async obj => {
       if (obj && obj.id) {
-        chats = chats.filter(chat => chat.id !== obj.id);
-        io.to(globId).emit('messageDelete', obj);
-        cacheChats(chatId, chats);
+        let thisLocalMessage = chats.find(message => message.author.id == obj.deletedBy);
+        let chatsGlob = await Chat.findById(chatId);
+        let thisMessage = chatsGlob.svd_chats.find(message => message._id == obj.id && message.sender == obj.deletedBy)
+        if (thisMessage || thisMessage) {
+          chats = chats.filter(chat => chat.id !== obj.id);
+          io.to(globId).emit('messageDelete', obj);
+          cacheChats(chatId, chats);
+        }
       }
     });    
     socket.on('typing', payload => {
