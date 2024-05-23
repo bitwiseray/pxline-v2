@@ -1,19 +1,22 @@
 const socket = io('/');
 
 let roomId;
+let chatId;
 if (type === 'room' || type === 'DM') {
   if (type === 'room') {
     roomId = room._id;
+    chatId = chats._id
   } else {
     for (const chat of extuser.chats) {
       if (chat.user_id === user._id) {
         roomId = chat.chat_id;
+        chatId = chat.chat_id;
         break;
       }
     }
   }
   if (roomId) {
-    socket.emit('joinRoom', { _id: roomId });
+    socket.emit('joinRoom', { _id: roomId, chatLoad: chatId });
   } else {
     popToast('error', 'Failed to connect to the room');
     console.log('User not found in the chats array.');
@@ -78,7 +81,7 @@ function sendMessage() {
 }
 
 function deleteMessage(Id) {
-  socket.emit('delete', { id: Id, deletedBy: user.id });
+  socket.emit('delete', { id: Id, deletedBy: user._id });
 }
 
 document.querySelector('.send').addEventListener('click', sendMessage);
