@@ -61,6 +61,11 @@ body {
   align-items: center;
   color: #fff;
   font-size: 23px;
+  padding: 10px;
+}
+
+.message-options i {
+  cursor: pointer;
 }
 
 .close-icon {
