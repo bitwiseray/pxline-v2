@@ -29,6 +29,14 @@
   <div class="toast-container"></div>
   <div class="chat-container">
     <div class="chat-header">
+      <div class="message-options" style="display: none;">
+        <i class="material-symbols-outlined close-icon" onclick="removeOptions()">close</i>
+        <div class="options">
+          <i class="material-symbols-outlined">content_copy</i>
+          <i class="material-symbols-outlined">edit</i>
+          <i class="material-symbols-outlined delete-icon">delete</i>
+        </div>
+      </div>
       <div class="imgcontent">
         <a onclick="window.history.back();"><i class="material-symbols-outlined">arrow_back</i></a>
         <div class="imgBx">
@@ -37,9 +45,7 @@
         <h3></h3>
       </div>
       <div class="menu-container">
-        <div class="options-container hamburger-menu" id="hamburger-menu">
-            <i class="material-symbols-outlined">more_vert</i>
-        </div>
+        <div class="options-container hamburger-menu" id="hamburger-menu"><i class="material-symbols-outlined">more_vert</i></div>
         <div class="menu" id="menu">
           <a href="" id="redirectOpt"></a>
           <a href="#" style="color: red;"><i class="material-symbols-outlined">flag</i> Report</a>

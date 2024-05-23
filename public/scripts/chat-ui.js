@@ -125,7 +125,7 @@ function formatTimestamp(timestamp, compact) {
 
 function extractDateFromTimestamp(timestamp) {
   const date = new Date(parseInt(timestamp));
-  return date.toISOString().split('T')[0]; // Returns date in 'YYYY-MM-DD' format
+  return date.toISOString().split('T')[0];
 }
 
 function shouldDisplayTimeDivider(lastTimestamp, currentTimestamp) {
@@ -147,6 +147,54 @@ textarea?.addEventListener('input', () => {
     textarea.style.height = `${scrollHeight}px`;
   }
 });
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  const messageContainer = document.querySelector('.message-container');
+  messageContainer.addEventListener('touchstart', handlePress, false);
+  messageContainer.addEventListener('touchend', cancelPress, false);
+  messageContainer.addEventListener('contextmenu', function(event) {
+    let target = event.target;
+    while (target != this) {
+      if (target.classList.contains('message')) {
+        event.preventDefault(); // Prevent the default context menu from opening
+        const dataId = target.getAttribute('data-id');
+        fireFunction(dataId);
+        return;
+      }
+      target = target.parentNode;
+    }
+  }, false);
+  function handlePress(event) {
+    let target = event.target;
+    while (target != this) {
+      if (target.classList.contains('message')) {
+        const dataId = target.getAttribute('data-id');
+        this.pressTimer = window.setTimeout(() => {
+          fireFunction(dataId);
+        }, 1000); // Set the time for long press here
+        return;
+      }
+      target = target.parentNode;
+    }
+  }
+
+  function cancelPress(event) {
+    clearTimeout(this.pressTimer);
+  }
+
+  function fireFunction(dataId) {
+    document.querySelector('.imgcontent').style.display = 'none';
+    document.querySelector('.menu-container').style.display = 'none';
+    document.querySelector('.message-options').style.display = 'flex';
+  }
+});
+
+function removeOptions() {
+  document.querySelector('.imgcontent').style.display = 'flex';
+  document.querySelector('.menu-container').style.display = 'block';
+  document.querySelector('.message-options').style.display = 'none';
+}
+
 
 /*
 if (container) {
