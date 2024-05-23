@@ -66,6 +66,8 @@ body {
 
 .message-options i {
   cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .close-icon {
