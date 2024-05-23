@@ -21,11 +21,18 @@ module.exports = async (io) => {
       io.to(globId).emit('messageCreate', message);
       cacheChats(chatId, chats);
     });
+    socket.on('delete', async obj => {
+      if (obj && obj.id) {
+        chats = chats.filter(chat => chat.id !== obj.id);
+        io.to(globId).emit('messageDelete', obj);
+        cacheChats(chatId, chats);
+      }
+    });    
     socket.on('typing', payload => {
       socket.broadcast.to(globId).emit('typing', payload);
     });
     socket.on('disconnect', () => {
       saveChats(chatId);
-    })
+    });
   });
 };
