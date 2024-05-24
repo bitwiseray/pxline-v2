@@ -24,7 +24,7 @@ function appendMessage(url, sender_username, drUsername, message, rawLowerSub, a
   messageTextDiv.classList.add('msg');
   messageTextDiv.textContent = message;
   messageContentDiv.classList.add('message_content');
-  if (shouldDisplayTimeDivider(lastDividerTimestamp, rawLowerSub)) {
+  if (shouldDisplayTimeDivider(JSON.parse(localStorage.getItem('lastDivider')), rawLowerSub)) {
     const superTime = document.createElement('div');
     superTime.classList.add('time');
     superTime.innerText = formatTimestamp(rawLowerSub, false);
@@ -148,7 +148,61 @@ textarea?.addEventListener('input', () => {
   }
 });
 
+async function setChat() {
+  const uploadIcon = document.getElementById('fileAddI');
+  const uploadInput = document.getElementById('attachmentInput');
+  let optRed = document.getElementById('redirectOpt');
+  let optLeave = document.getElementById('leaveOpt');
+  if (JSON.parse(localStorage.getItem('ext')).type === 'DM') {
+    optRed.innerHTML = '<i class="material-symbols-outlined">person</i> See profile'
+    optRed.href = `/${extuser.user_name}`;
+    optLeave.innerHTML = '<i class="material-symbols-outlined">block</i> Block'
+  } else {
+    optRed.innerHTML = '<i class="material-symbols-outlined">group</i> Group info';
+    optLeave.innerHTML = '<i class="material-symbols-outlined">exit_to_app</i> Leave';
+    optRed.href = `/${new URLSearchParams(window.location.search).get('id')}`;
+  }
 
+  optLeave.addEventListener('click', async (e) => {
+    if (type === 'room') {
+      try {
+        const response = await fetch(`/leave/${new URLSearchParams(window.location.search).get('id')}`, {
+          method: 'DELETE',
+        });
+        if (response.ok) {
+          popToast('success', 'Successfully left the room');
+          window.location.href = '/';
+        } else {
+          popToast('error', response.statusText);
+        }
+      } catch (error) {
+        console.error('An error occurred:', error);
+      }
+    }
+  });
+
+  uploadIcon.addEventListener('click', () => uploadInput.click());
+  uploadInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    mediaCache = appendMediaCache(user.image, user.display_name, URL.createObjectURL(file));
+    formData.append('upload', file);
+    try {
+      const response = await fetch('/cdn', {
+        method: 'POST',
+        body: formData
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      localStorage.setItem('isAttached', data);
+      sendMessage();
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  });
+}
 /*
 if (container) {
   container.addEventListener('scroll', function() {
