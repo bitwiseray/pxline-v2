@@ -7,8 +7,8 @@ if (JSON.parse(localStorage.getItem('ext')).type === 'room' || JSON.parse(localS
     roomId = JSON.parse(localStorage.getItem('ext')).room._id;
     chatId = JSON.parse(localStorage.getItem('ext')).chats._id
   } else {
-    for (const chat of extuser.chats) {
-      if (chat.user_id === user._id) {
+    for (const chat of JSON.parse(localStorage.getItem('ext')).extusers.chats) {
+      if (chat.user_id === JSON.parse(localStorage.getItem('ext')).user._id) {
         roomId = chat.chat_id;
         chatId = chat.chat_id;
         break;
