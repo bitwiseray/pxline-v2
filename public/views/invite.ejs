@@ -39,8 +39,7 @@
   </div>
   <script>
   let messages = <%-JSON.stringify(messages)%>;
-  let room = <%-JSON.stringify(room)%>;
-  document.getElementById('icon-image').src = `${window.location.origin}/cdn/${room.icon}`;
+  document.getElementById('icon-image').src = `${window.location.origin}/cdn/<%=room.icon%>`;
   </script>
   <script src="/scripts/main.js"></script>
 </body>
