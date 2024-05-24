@@ -14,9 +14,7 @@ const UserSources = require('./sourcing/Users');
  */
 async function getIndexes(user) {
   if (!user || !user.chats) return {};
-  const roomChatIds = user.chats
-    .filter(chat => chat.chat_type === 'room')
-    .map(chat => chat.chat_id);
+  const roomChatIds = user.chats.filter(chat => chat.chat_type === 'room').map(chat => chat.chat_id);
   const rooms = await RoomSources.getRoomsFromChats(roomChatIds);
   const chatIds = user.chats.map(chat => chat.user_id || chat.chat_id);
   const users = await UserSources.getUsersWithId(chatIds);
@@ -25,7 +23,7 @@ async function getIndexes(user) {
 
 async function checkChats(entityId, forChat) {
   if (forChat.type === 'user') {
-    const userChats = await profiler.findById(entityId).chats;
+    const userChats = await profiler.findById(entityId, '_id chats').chats;
     if (userChats.find(thisObj => thisObj.user_id == forChat.targetId)) {
       return true;
     } else {
@@ -41,7 +39,7 @@ async function checkChats(entityId, forChat) {
       userChats.save();
     }
   } else {
-    const roomChat = await Room.findById(entityId).chats;
+    const roomChat = await Room.findById(entityId, '_id chats').chats;
     if (roomChat.chat_id) {
       return true;
     } else {
@@ -69,7 +67,6 @@ async function loadFriends(base) {
 async function uploadMedia(type, offload, stream, request) {
   return new Promise(async (resolve, reject) => {
     try {
-      const domain = `https://${request.get('host')}`;
       if (type === 'profile') {
         if (offload.size > 5 * 1024 * 1024) {
           reject({ error: 'File size exceeds the limit' });
@@ -79,7 +76,7 @@ async function uploadMedia(type, offload, stream, request) {
           data: stream,
           contentType: offload.mimetype
         });
-        resolve({ status: 'done', url: `${domain}/cdn/${loadPff._id}`, id: loadPff._id });
+        resolve({ status: 'done', id: loadPff._id });
       } else {
         if (offload.size > 10 * 1024 * 1024) {
           reject({ error: 'File size exceeds the limit' });
@@ -91,7 +88,7 @@ async function uploadMedia(type, offload, stream, request) {
           filename: offload.filename,
           createdAt: Date.now()
         });
-        resolve({ status: 'done', url: `${domain}/cdn/${loadAtt._id}`, id: loadAtt._id });
+        resolve({ status: 'done', id: loadAtt._id });
       }
     } catch (error) {
       reject(error)

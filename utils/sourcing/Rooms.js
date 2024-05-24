@@ -7,14 +7,14 @@ const Chat = require('../../schematics/chats');
  * @param {String} id ObjectId of the room
  * @returns {Object} Object of the full room
  */
-async function loadRoom(id) {
+async function loadRoom(id, loads) {
     try {
         const room = await Room.findById(id);
         if (!room) {
         return null;
         }
         const chats = await Chat.findById(room.chats.chat_id);
-        const members = await profiler.find({ _id: { $in: room.members } }, '_id display_name user_name image createdAt socials');
+        const members = await profiler.find({ _id: { $in: room.members } }, loads);
         return { room, chats, members };
     } catch (error) {
         console.error('Error fetching room and chats:', error);

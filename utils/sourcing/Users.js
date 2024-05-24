@@ -18,9 +18,9 @@ async function getUsersWithId(objectIds) {
   }
 }
 
-async function loadUser(target, meId) {
+async function loadUser(target, meId, loads) {
   try {
-    const user = await profiler.findById(target, '_id user_name display_name image chats createdAt socials');
+    const user = await profiler.findById(target, loads);
     if (!user) {
       return null;
     }

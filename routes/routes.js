@@ -19,7 +19,7 @@ const UserSources = require('../utils/sourcing/Users');
 initGateway();
 router.get('/', checkAuth, async (request, reply) => {
   try {
-    const offload = await getIndexes(request.user);
+    const offload = getIndexes(request.user);
     let collectedIds = [];
     offload.rooms.forEach(room => {
       collectedIds.push(room.chats.chat_id);
@@ -58,10 +58,10 @@ router.get('/chat/:id/', checkAuth, async (request, reply) => {
     const id = request.params.id;
     const type = await id.checkIdType();
     if (type === 'room') {
-      const offload = await RoomSources.loadRoom(id);
+      const offload = await RoomSources.loadRoom(id, '_id display_name user_name image createdAt');
       reply.render('chat', { extType: 'room', extusers: offload.members, extroom: offload.room, chats: offload.chats, user: request.user });
     } else {
-      const usrOffload = await UserSources.loadUser(id, request.user._id);
+      const usrOffload = await UserSources.loadUser(id, request.user._id, '_id user_name display_name image chats createdAt');
       reply.render('chat', { extType: 'DM', extusers: usrOffload.user, chats: usrOffload.chats, extroom: null, user: request.user });
     }
   } catch (e) {
