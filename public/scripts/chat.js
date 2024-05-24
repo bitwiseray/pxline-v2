@@ -3,9 +3,9 @@ const socket = io('/');
 let roomId;
 let chatId;
 if (JSON.parse(localStorage.getItem('ext')).type === 'room' || JSON.parse(localStorage.getItem('ext')).type === 'DM') {
-  if (type === 'room') {
-    roomId = room._id;
-    chatId = chats._id
+  if (JSON.parse(localStorage.getItem('ext')).type === 'room') {
+    roomId = JSON.parse(localStorage.getItem('ext')).room._id;
+    chatId = JSON.parse(localStorage.getItem('ext')).chats._id
   } else {
     for (const chat of extuser.chats) {
       if (chat.user_id === user._id) {
@@ -42,23 +42,23 @@ socket.on('messageDelete', (obj) => {
 let input = document.getElementById('inp');
 function sendMessage() {
   let contents = input.value;
-  let attachments = JSON.parse(localStorage.getItem('isAttached'));
+  let attachments = JSON.stringify(localStorage.getItem('isAttached'));
   if (!contents && attachments) contents = '';
   if (contents.trim() === '') return;
   let offExport = () => {
-    if (type === 'room') {
+    if (JSON.parse(localStorage.getItem('ext')).type === 'room') {
       return {
-        id: room._id,
-        name: room.title,
-        image: room.icon,
-        members: room.members,
-        chat_id: room.chats.chat_id || 'Not found',
+        id: JSON.parse(localStorage.getItem('ext')).room._id,
+        name: JSON.parse(localStorage.getItem('ext')).room.title,
+        image: JSON.parse(localStorage.getItem('ext')).room.icon,
+        members: JSON.parse(localStorage.getItem('ext')).room.members,
+        chat_id: JSON.parse(localStorage.getItem('ext')).room.chats.chat_id || 'Not found',
       }
     } else {
       return {
-        id: extuser._id,
-        name: extuser.displayname,
-        image: extuser.image,
+        id: JSON.parse(localStorage.getItem('ext')).extusers._id,
+        name: JSON.parse(localStorage.getItem('ext')).extusers.display_name,
+        image: JSON.parse(localStorage.getItem('ext')).extusers.image,
         members: null,
         chat_id: roomId || 'Not found',
       }
@@ -67,10 +67,10 @@ function sendMessage() {
   socket.emit('message', {
     content: { text: contents, timestamp: Date.now() },
     author: {
-      id: user._id,
-      displayname: user.display_name,
-      username: user.user_name,
-      image: user.image,
+      id: JSON.parse(localStorage.getItem('ext')).user._id,
+      displayname: JSON.parse(localStorage.getItem('ext')).user.display_name,
+      username: JSON.parse(localStorage.getItem('ext')).user.user_name,
+      image: JSON.parse(localStorage.getItem('ext')).user.image,
     },
     chat: offExport(),
     attachments: attachments ? attachments.id : null,
@@ -80,7 +80,7 @@ function sendMessage() {
 }
 
 function deleteMessage(Id) {
-  socket.emit('delete', { id: Id, deletedBy: user._id });
+  socket.emit('delete', { id: Id, deletedBy: JSON.parse(localStorage.getItem('ext')).user._id });
 }
 
 document.querySelector('.send').addEventListener('click', sendMessage);
@@ -92,5 +92,5 @@ input.addEventListener('keydown', (e) => {
 });
 
 document.querySelector('#inp').addEventListener('input', (e) => {
-  socket.emit('messageTyping', { displayname: user.display_name, image: user.image });
+  socket.emit('messageTyping', { displayname: JSON.parse(localStorage.getItem('ext')).user.display_name, image: JSON.parse(localStorage.getItem('ext')).user.image });
 }, { once: true });
