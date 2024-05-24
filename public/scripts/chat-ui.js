@@ -155,7 +155,7 @@ async function setChat() {
   let optLeave = document.getElementById('leaveOpt');
   if (JSON.parse(localStorage.getItem('ext')).type === 'DM') {
     optRed.innerHTML = '<i class="material-symbols-outlined">person</i> See profile'
-    optRed.href = `/${extuser.user_name}`;
+    optRed.href = `/${JSON.parse(localStorage.getItem('ext')).extusers.user_name}`;
     optLeave.innerHTML = '<i class="material-symbols-outlined">block</i> Block'
   } else {
     optRed.innerHTML = '<i class="material-symbols-outlined">group</i> Group info';
