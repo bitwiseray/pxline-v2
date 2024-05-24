@@ -185,7 +185,7 @@ async function setChat() {
   uploadInput.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     const formData = new FormData();
-    mediaCache = appendMediaCache(user.image, user.display_name, URL.createObjectURL(file));
+    mediaCache = appendMediaCache(JSON.parse(localStorage.getItem('ext')).user.image, JSON.parse(localStorage.getItem('ext')).user.display_name, URL.createObjectURL(file));
     formData.append('upload', file);
     try {
       const response = await fetch('/cdn', {
