@@ -151,6 +151,7 @@ router.delete('/delete', checkAuth, (request, reply) => {
 
 router.get('/cdn/:id', async (request, reply) => {
   const id = request.params.id;
+  if (!id) return false;
   const media = await Media.findById(id);
   if (!media) {
     reply.status(404).send('File not found');
