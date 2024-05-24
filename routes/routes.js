@@ -18,25 +18,7 @@ const UserSources = require('../utils/sourcing/Users');
 
 initGateway();
 router.get('/', checkAuth, async (request, reply) => {
-  try {
-    const offload = await getIndexes(request.user);
-    let collectedIds = [];
-    offload.rooms.forEach(room => {
-      collectedIds.push(room.chats.chat_id);
-    });
-    offload.users.forEach(user => {
-      let obj = user.chats.find(thisObj => thisObj.user_id == request.user._id);
-      if (obj) {
-        collectedIds.push(obj.chat_id);
-      }
-    });
-    const lastMessages = await getLastMessages(collectedIds);
-    const friends = await loadFriends(request.user.socials.friends);
-    reply.render('index', { user: request.user, extusers: offload.users, extrooms: offload.rooms, lastMessages: lastMessages, friends: friends });
-  } catch (e) {
-    request.flash('error', 'Something went wrong');
-    console.error({ at: '/', error: e });
-  }
+  reply.render('index', { user: request.user });
 });
 
 router.get('/login', checkNotAuth, (request, reply) => {
