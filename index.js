@@ -13,7 +13,7 @@ const io = require('socket.io')(socket, {
     methods: ['GET', 'POST'],
   }
 });
-const routes = require('./routes/routes');
+
 require('dotenv').config();
 require('./sockets/listeners')(io);
 
@@ -30,6 +30,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(override('_method'));
+const routes = require('./routes/routes');
+const source = require('./routes/source-routes');
+app.use('/source', source);
 app.use('/', routes);
 
 socket.listen(8080, async () => {
