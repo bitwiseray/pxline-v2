@@ -35,20 +35,8 @@ router.get('/signup', checkNotAuth, (request, reply) => {
   reply.render('signup');
 });
 
-router.get('/chat/:id/', checkAuth, async (request, reply) => {
-  try {
-    const id = request.params.id;
-    const type = await id.checkIdType();
-    if (type === 'room') {
-      const offload = await RoomSources.loadRoom(id, '_id display_name user_name image createdAt');
-      reply.render('chat', { extType: 'room', extusers: offload.members, extroom: offload.room, chats: offload.chats, user: request.user });
-    } else {
-      const usrOffload = await UserSources.loadUser(id, request.user._id, '_id user_name display_name image chats createdAt');
-      reply.render('chat', { extType: 'DM', extusers: usrOffload.user, chats: usrOffload.chats, extroom: null, user: request.user });
-    }
-  } catch (e) {
-    request.flash('error', 'Something went wrong' + e);
-  }
+router.get('/chat', checkAuth, async (request, reply) => {
+  reply.render('chat');
 });
 
 const upload = multer({ storage: storage });
