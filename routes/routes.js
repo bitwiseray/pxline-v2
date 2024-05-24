@@ -19,7 +19,7 @@ const UserSources = require('../utils/sourcing/Users');
 initGateway();
 router.get('/', checkAuth, async (request, reply) => {
   try {
-    const offload = getIndexes(request.user);
+    const offload = await getIndexes(request.user);
     let collectedIds = [];
     offload.rooms.forEach(room => {
       collectedIds.push(room.chats.chat_id);
