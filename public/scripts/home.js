@@ -23,7 +23,7 @@ function createChatTile(entity, user) {
     } else {
         offsetForLast = entity.chats;
     }
-    const last = getLastFor(offsetForLast.chat_id);
+    const last = JSON.parse(localStorage.getItem('lastMessages')).find(chat => chat.lastFor == offsetForLast.chat_id) || {};;
     details.classList.add('details');
     const listHead = document.createElement('div');
     listHead.classList.add('listHead');
