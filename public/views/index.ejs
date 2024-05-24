@@ -127,11 +127,11 @@
                 title.textContent = pageName;
               });
             });
-            const chatTiles = document.querySelectorAll('.block')
+            const chatTiles = document.querySelectorAll('.block');
             chatTiles.forEach(tile => {
               tile.addEventListener('click', function () {
                 const id = tile.getAttribute('data-id');
-                window.location.href = `/chat/${id}`;
+                  window.location.href = `/chat?id=${id}`;
               });
             });
             document.querySelector('.profile-img').src = `${window.location.origin}/cdn/${user.image}`;
