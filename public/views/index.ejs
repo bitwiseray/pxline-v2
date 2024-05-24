@@ -106,37 +106,43 @@
     <script src="/scripts/home.js"></script>
     <script>
       let messages = <%-JSON.stringify(messages)%>;
-      try {
-        const rooms = <%-JSON.stringify(extrooms)%>;
-        const extusers = <%-JSON.stringify(extusers)%>;
-        const user = <%-JSON.stringify(user)%>;
-        const friends = <%-JSON.stringify(friends)%>;
-        const lastMessages = <%-JSON.stringify(lastMessages)%>;
-        function getLastFor(chatId) {
-          return lastMessages.find(chat => chat.lastFor == chatId) || {};
+      async function initIndexes() {
+        try {
+          const response = await fetch('/source/indexes', {
+            method: 'GET'
+          });
+          if (response.ok) {
+            const data = await response.json();
+            const { extrooms, extusers, user, friends, lastMessages } = data;
+            localStorage.setItem('lastMessages', JSON.stringify(lastMessages));
+            function getLastFor(chatId) {
+              return lastMessages.find(chat => chat.lastFor == chatId) || {};
+            }
+            initTiles(extrooms, extusers, user);
+            const title = document.querySelector('.logo');
+            const navLinks = document.querySelectorAll('.nav-list .link-item');
+            navLinks.forEach(link => {
+              link.addEventListener('click', function (event) {
+                const pageName = this.querySelector('.link-text').textContent;
+                title.textContent = pageName;
+              });
+            });
+            const chatTiles = document.querySelectorAll('.block')
+            chatTiles.forEach(tile => {
+              tile.addEventListener('click', function () {
+                const id = tile.getAttribute('data-id');
+                window.location.href = `/chat/${id}`;
+              });
+            });
+            document.querySelector('.profile-img').src = `${window.location.origin}/cdn/${user.image}`;
+          }
+        } catch (e) {
+          console.error(e);
         }
-        initTiles(rooms, extusers, user);
-        document.addEventListener('DOMContentLoaded', () => {
-          const title = document.querySelector('.logo');
-          const navLinks = document.querySelectorAll('.nav-list .link-item');
-          navLinks.forEach(link => {
-            link.addEventListener('click', function (event) {
-              const pageName = this.querySelector('.link-text').textContent;
-              title.textContent = pageName;
-            });
-          });
-          const chatTiles = document.querySelectorAll('.block')
-          chatTiles.forEach(tile => {
-            tile.addEventListener('click', function () {
-              const id = tile.getAttribute('data-id');
-              window.location.href = `/chat/${id}`;
-            });
-          });
-        });
-        document.querySelector('.profile-img').src = `${window.location.origin}/cdn/${user.image}`;
-      } catch (e) {
-        console.error(e);
       }
+      document.addEventListener('DOMContentLoaded', () => {
+        initIndexes();
+      });
     </script>
     <script src="/scripts/main.js"></script>
 </body>
