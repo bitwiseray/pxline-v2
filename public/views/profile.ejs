@@ -64,7 +64,6 @@
   </div>
   <script>
     const messages = <%-JSON.stringify(messages)%>;
-    const user = <%-JSON.stringify(user)%>;
     const timestamp = <%=user.createdAt%>;
     const createdAt = moment(timestamp);
     const now = moment();
@@ -90,7 +89,7 @@
         timeAgo = '0d';
     }
     document.getElementById("created-at").innerText = timeAgo;
-    document.querySelector('.profile-img').src = `${window.location.origin}/cdn/${user.image}`;
+    document.querySelector('.profile-img').src = `${window.location.origin}/cdn/<%=user.image%>`;
   </script>
   <script src="/scripts/main.js"></script>
 </body>
