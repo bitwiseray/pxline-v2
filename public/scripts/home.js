@@ -55,14 +55,6 @@ function createFriendTile(entity) {
     friendBlock.setAttribute('data-id', entity._id);
 }
 
-const chatTiles = document.querySelectorAll('.block');
-chatTiles.forEach(tile => {
-    tile.addEventListener('click', function () {
-        const id = tile.getAttribute('data-id');
-        window.location.href = `/chat/${id}`;
-    });
-});
-
 function initTiles(rooms, users, user) {
     rooms.forEach(room => {
         createChatTile(room, user);
