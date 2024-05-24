@@ -35,7 +35,6 @@ socket.on('messageCreate', (message) => {
 });
 
 socket.on('messageDelete', (obj) => {
-  console.log(obj)
   let message = document.querySelector(`div[data-id="${obj.id}"]`);
   message.remove();
 });

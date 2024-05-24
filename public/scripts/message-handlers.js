@@ -43,9 +43,10 @@ class MessageHandler {
     fireFunction(dataId) {
         document.querySelector('.imgcontent').style.display = 'none';
         document.querySelector('.menu-container').style.display = 'none';
-        let parentDiv = document.querySelector('.message-options').style.display = 'flex';
+        document.querySelector('.message-options').style.display = 'flex';
         this.message = document.querySelector(`div[data-id="${dataId}"]`);
-        if (this.message.querySelector('.sender')?.textContent == user.display_name) {
+        if (this.message.querySelector('.sender')?.textContent.split('·')[0].trim() != user.display_name) {
+            let parentDiv = document.querySelector('.message-options');
             parentDiv.querySelector('.delete-icon').style.display = 'none';
             parentDiv.querySelector('.edit-icon').style.display = 'none';
         }
