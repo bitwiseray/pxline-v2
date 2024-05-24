@@ -37,7 +37,6 @@
           <i class="material-symbols-outlined delete-icon" onclick="messageHandler.delete();">delete</i>
         </div>
       </div>
-      
       <div class="imgcontent">
         <a onclick="window.history.back();"><i class="material-symbols-outlined" style="font-size: 1.40em;">keyboard_backspace</i></a>
         <div class="imgBx">
@@ -52,7 +51,7 @@
           <a href="#" style="color: red;"><i class="material-symbols-outlined">flag</i> Report</a>
           <a href="#" id="leaveOpt" style="color: red;"></a>
         </div>
-    </div>
+      </div>
     </div>
     <div class="message-container"></div>
     <div class="messageInput">
@@ -74,96 +73,49 @@
   </script>
   <script src="/scripts/main.js"></script>
   <script>
-    const type = '<%=extType%>';
-    const room = <%-JSON.stringify(extroom)%>;
-    const extuser = <%-JSON.stringify(extusers)%>;
-    const members = <%-JSON.stringify(extusers)%>;
-    const user = <%-JSON.stringify(user)%>;
-    const chats = <%-JSON.stringify(chats)%>;
-    let lastDividerTimestamp = 0;
-    function initChat() {
-      if (type === 'room') {
-        createChatHeader(room.title, room.icon);
-        if (Array.isArray(chats.svd_chats) && chats.svd_chats.length >= 0) {
-          chats.svd_chats.forEach(chat => {
-            const senderUser = chat.sender === user._id ? user : members.find(member => member._id === chat.sender);
-            appendMessage(senderUser.image, senderUser.display_name, senderUser.user_name, chat.content.text, chat.content.timestamp, chat.attachments, chat._id);
-            lastDividerTimestamp = chat.content.timestamp;
-          });
-        } else {
-          console.error('Invalid chats object or svd_chats array');
-        }
-      } else {
-        createChatHeader(extuser.display_name, extuser.image);
-        if (Array.isArray(chats.svd_chats)) {
-          chats.svd_chats.forEach(chat => {
-            const senderUser = chat.sender === user._id ? user : extuser;
-            appendMessage(senderUser.image, senderUser.display_name, senderUser.user_name, chat.content.text, chat.content.timestamp, chat.attachments, chat._id);
-            lastDividerTimestamp = chat.content.timestamp;
-          });
-        } else {
-          console.error('Invalid chats object or svd_chats array');
-        }
-      }
-    }
-    let isAttached;
-    let mediaCache;
-    document.addEventListener('DOMContentLoaded', () => {
-      const uploadIcon = document.getElementById('fileAddI');
-      const uploadInput = document.getElementById('attachmentInput');
-      let optRed = document.getElementById('redirectOpt');
-      let optLeave = document.getElementById('leaveOpt');
-      if (type === 'DM') {
-        optRed.innerHTML = '<i class="material-symbols-outlined">person</i> See profile'
-        optRed.href = `/${extuser.user_name}`;
-        optLeave.innerHTML = '<i class="material-symbols-outlined">block</i> Block'
-      } else {
-        optRed.innerHTML = '<i class="material-symbols-outlined">group</i> Group info';
-        optLeave.innerHTML = '<i class="material-symbols-outlined">exit_to_app</i> Leave';
-        optRed.href = `/${room._id}`;
-      }
-      optLeave.addEventListener('click', async (e) => {
-        if (type === 'room') {
-          try {
-            const response = await fetch(`/leave/${room._id}`, {
-              method: 'DELETE',
-            });
-            if (response.ok) {
-              popToast('success', 'Successfully left the room');
-              window.location.href = '/';
+    async function initChatsIndexes() {
+      const response = await fetch(`/source/chat/${new URLSearchParams(window.location.search).get('id')}`, {
+        method: 'GET'
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const { type, room, extusers, user, chats } = data;
+        localStorage.setItem('ext', JSON.stringify({ type, room, chats }));
+        let lastDividerTimestamp = 0;
+        function initChat() {
+          if (type === 'room') {
+            createChatHeader(room.title, room.icon);
+            if (Array.isArray(chats.svd_chats) && chats.svd_chats.length >= 0) {
+              chats.svd_chats.forEach(chat => {
+                const senderUser = chat.sender === user._id ? user : members.find(member => member._id === chat.sender);
+                appendMessage(senderUser.image, senderUser.display_name, senderUser.user_name, chat.content.text, chat.content.timestamp, chat.attachments, chat._id);
+                lastDividerTimestamp = chat.content.timestamp;
+              });
             } else {
-              popToast('error', response.statusText);
+              console.error('Invalid chats object or svd_chats array');
             }
-          } catch (error) {
-            console.error('An error occurred:', error);
+          } else {
+            createChatHeader(extusers.display_name, extusers.image);
+            if (Array.isArray(chats.svd_chats)) {
+              chats.svd_chats.forEach(chat => {
+                const senderUser = chat.sender === user._id ? user : extusers;
+                appendMessage(senderUser.image, senderUser.display_name, senderUser.user_name, chat.content.text, chat.content.timestamp, chat.attachments, chat._id);
+                lastDividerTimestamp = chat.content.timestamp;
+              });
+              
+            } else {
+              console.error('Invalid chats object or svd_chats array');
+            }
           }
         }
-      });
-      uploadIcon.addEventListener('click', () => {
-        uploadInput.click();
-      });
-      uploadInput.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        const formData = new FormData();
-        mediaCache = appendMediaCache(user.image, user.display_name, URL.createObjectURL(file));
-        formData.append('upload', file);
-          try {
-            const response = await fetch('/cdn', {
-              method: 'POST',
-              body: formData
-            });
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            isAttached = data;
-            sendMessage();
-          } catch (error) {
-            console.error('Fetch error:', error);
-          }
-        });
-      });
-    initChat();
+        localStorage.setItem('lastDivider', lastDividerTimestamp);
+      }
+      initChat();
+      setChat();
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      initChatsIndexes();
+    });
   </script>
 </body>
 
