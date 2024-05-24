@@ -10,9 +10,7 @@ const Chat = require('../../schematics/chats');
 async function loadRoom(id, loads) {
     try {
         const room = await Room.findById(id);
-        if (!room) {
-        return null;
-        }
+        if (!room) return null;
         const chats = await Chat.findById(room.chats.chat_id);
         const members = await profiler.find({ _id: { $in: room.members } }, loads);
         return { room, chats, members };
