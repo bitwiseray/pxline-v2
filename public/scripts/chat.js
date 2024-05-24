@@ -2,7 +2,7 @@ const socket = io('/');
 
 let roomId;
 let chatId;
-if (type === 'room' || type === 'DM') {
+if (JSON.parse(localStorage.getItem('ext')).type === 'room' || JSON.parse(localStorage.getItem('ext')).type === 'DM') {
   if (type === 'room') {
     roomId = room._id;
     chatId = chats._id
@@ -42,7 +42,7 @@ socket.on('messageDelete', (obj) => {
 let input = document.getElementById('inp');
 function sendMessage() {
   let contents = input.value;
-  let attachments = isAttached;
+  let attachments = JSON.parse(localStorage.getItem('isAttached'));
   if (!contents && attachments) contents = '';
   if (contents.trim() === '') return;
   let offExport = () => {
