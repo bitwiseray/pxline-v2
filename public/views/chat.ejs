@@ -80,14 +80,14 @@
       if (response.ok) {
         const data = await response.json();
         const { type, room, extusers, user, chats } = data;
-        localStorage.setItem('ext', JSON.stringify({ type, room, chats, user }));
+        localStorage.setItem('ext', JSON.stringify({ type, room, chats, user, extusers }));
         let lastDividerTimestamp = 0;
         function initChat() {
           if (type === 'room') {
             createChatHeader(room.title, room.icon);
-            if (Array.isArray(chats.svd_chats) && chats.svd_chats.length >= 0) {
+            if (Array.isArray(chats.svd_chats) && chats.svd_chats.length > 0) {
               chats.svd_chats.forEach(chat => {
-                const senderUser = chat.sender == user._id ? user : extusers.find(member => member._id == chat.sender);
+                const senderUser = chat.sender === user._id ? user : extusers.find(member => member._id === chat.sender);
                 appendMessage(senderUser.image, senderUser.display_name, senderUser.user_name, chat.content.text, chat.content.timestamp, chat.attachments, chat._id);
                 lastDividerTimestamp = chat.content.timestamp;
               });
@@ -106,8 +106,8 @@
               console.error('Invalid chats object or svd_chats array');
             }
           }
+          localStorage.setItem('lastDivider', lastDividerTimestamp);
         }
-        localStorage.setItem('lastDivider', lastDividerTimestamp);
       }
       initChat();
       setChat();
