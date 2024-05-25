@@ -40,9 +40,13 @@ socket.on('messageDelete', (obj) => {
 });
 
 let input = document.getElementById('inp');
-function sendMessage() {
+async function sendMessage() {
   let contents = input.value;
-  let attachments = JSON.stringify(localStorage.getItem('isAttached'));
+  let attachments = file;
+  let url = '';
+  if (attachments) {
+    url = await uploadMedia(attachments);
+  }
   if (!contents && attachments) contents = '';
   if (contents.trim() === '') return;
   let offExport = () => {
@@ -73,10 +77,11 @@ function sendMessage() {
       image: JSON.parse(localStorage.getItem('ext')).user.image,
     },
     chat: offExport(),
-    attachments: attachments ? attachments.id : null,
+    attachments: url ? url.data.id : null,
   });
   input.value = '';
-  isAttached = {};
+  url = {};
+  clearMediaFeedback();
 }
 
 function deleteMessage(Id) {
