@@ -169,6 +169,7 @@ router.post('/cdn', upload.single('upload'), async (request, reply) => {
       id: upload.id || null,
     };
     reply.status(200).json(responseData);
+    clearCache();
   } catch (error) {
     reply.status(500).send('Error uploading file');
   }
