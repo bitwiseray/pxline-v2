@@ -24,11 +24,12 @@ function appendMessage(url, sender_username, drUsername, message, rawLowerSub, a
   messageTextDiv.classList.add('msg');
   messageTextDiv.textContent = message;
   messageContentDiv.classList.add('message_content');
-  if (shouldDisplayTimeDivider(JSON.parse(localStorage.getItem('lastDivider')), rawLowerSub)) {
+  if (shouldDisplayTimeDivider(lastDividerTimestamp, rawLowerSub)) {
     const superTime = document.createElement('div');
     superTime.classList.add('time');
     superTime.innerText = formatTimestamp(rawLowerSub, false);
     messageContainer.appendChild(superTime);
+    lastDividerTimestamp = rawLowerSub;
   }
   messageContentDiv.appendChild(senderDiv);
   messageContentDiv.appendChild(messageTextDiv);
@@ -79,7 +80,6 @@ function appendMediaFeedback(url) {
   div.querySelector('img').src = url;
 }
 
-
 function setTimes(superSub, lowerSub) {
   if (superSub) {
     const time = document.createElement('div');
@@ -114,6 +114,7 @@ function extractDateFromTimestamp(timestamp) {
 function shouldDisplayTimeDivider(lastTimestamp, currentTimestamp) {
   const lastDate = extractDateFromTimestamp(lastTimestamp);
   const currentDate = extractDateFromTimestamp(currentTimestamp);
+  console.log({ lastDate: lastDate, currentDate: currentDate });
   return lastDate !== currentDate;
 }
 

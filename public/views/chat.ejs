@@ -76,6 +76,7 @@
   </script>
   <script src="/scripts/main.js"></script>
   <script>
+    let lastDividerTimestamp = 0;
     async function initChatsIndexes() {
       const response = await fetch(`/source/chat/${new URLSearchParams(window.location.search).get('id')}`, {
         method: 'GET'
@@ -84,7 +85,6 @@
         const data = await response.json();
         const { type, room, extusers, user, chats } = data;
         localStorage.setItem('ext', JSON.stringify({ type, room, chats, user, extusers }));
-        let lastDividerTimestamp = 0;
         function initChat() {
           if (type === 'room') {
             createChatHeader(room.title, room.icon);
@@ -109,7 +109,7 @@
               console.error('Invalid chats object or svd_chats array');
             }
           }
-          localStorage.setItem('lastDivider', lastDividerTimestamp);
+          // localStorage.setItem('lastDivider', lastDividerTimestamp);
         }
       }
       initChat();
