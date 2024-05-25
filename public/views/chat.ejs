@@ -55,11 +55,14 @@
     </div>
     <div class="message-container"></div>
     <div class="messageInput">
-      <i class="material-symbols-outlined" id='fileAddI'>add_photo_alternate</i>
+      <i class="material-symbols-outlined" id="fileAddI">add_photo_alternate</i>
       <div class="input">
         <form action="/upload/profile" method="POST" enctype="multipart/form-data">
           <input type="file" id="attachmentInput" name="upload" style="display: none;" accept="image/*">
         </form>
+        <div class="local-upload">
+          <img src="/public/assets/ik.jpg" alt=""> <span>1 media selected</span> <i class="material-symbols-outlined">close</i>
+        </div>
         <textarea id="inp" placeholder="Message"></textarea>
       </div>
       <div class="send"><i class="material-symbols-outlined">send</i></div>
