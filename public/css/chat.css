@@ -28,7 +28,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: 10000;
-  background-image: url("/assets/chat-bg.jpg"), radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%);
+  background-image: url("/public/assets/chat-bg.jpg"), radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%);
   background-size: cover;
   overflow: hidden;
 }
@@ -267,8 +267,9 @@ body {
   width: 270px;
   display: flex;
   text-align: center;
-  border-radius: 40px;
+  border-radius: 15px;
   margin-left: 45px;
+  margin-top: 20px;
 }
 
 .messageInput .input textarea {
@@ -284,6 +285,7 @@ body {
   overflow-y: scroll;
   background-color: var(--secondary);
   color: #fff;
+  margin-top: 50px;
 }
 
 .messageInput .input textarea::-webkit-scrollbar {
@@ -322,9 +324,40 @@ body {
   background-color: #aaa;
 }
 
+.messageInput .local-upload {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  color: #fff;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.messageInput .local-upload img {
+  width: 37.5px;
+  height: 37.5px;
+  padding: 3.5px;
+}
+
+.messageInput .local-upload span {
+  align-items: center;
+  margin-left: 5px;
+  font-size: 13.5px;
+  padding: 10.5px 3.5px;
+  border-right: 1px solid #aaa;
+}
+
+.messageInput .local-upload i {
+  font-size: 19px;
+  padding: 0 3.5px;
+}
+
+
 @media screen and (min-width: 1024px) {
   .message-container {
-    height: 85%; /* Increased height by 100px */
+    height: 85%;
   }
   .messageInput .input {
     width: 1655px;
@@ -339,7 +372,7 @@ body {
 
 @media screen and (min-height: 900px) {
   .message-container {
-    height: 86.5%; /* Increased height by 100px */
+    height: 86.5%;
   }
   .messageInput .input {
     width: 325px;
