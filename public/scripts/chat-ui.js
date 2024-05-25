@@ -79,12 +79,6 @@ function appendMediaFeedback(url) {
   div.querySelector('img').src = url;
 }
 
-function clearMediaFeedback() {
-  const div = document.querySelector('.local-upload');
-  const textarea = document.querySelector('#inp');
-  textarea.style.marginTop = 0;
-  div.style.display = 'none';
-}
 
 function setTimes(superSub, lowerSub) {
   if (superSub) {
@@ -175,6 +169,14 @@ async function setChat() {
     file = e.target.files[0];
     mediaCache = appendMediaFeedback(URL.createObjectURL(file));
   });
+}
+
+function clearMediaFeedback() {
+  const div = document.querySelector('.local-upload');
+  const textarea = document.querySelector('#inp');
+  textarea.style.marginTop = 0;
+  div.style.display = 'none';
+  file = null;
 }
 
 async function uploadMedia() {
