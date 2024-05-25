@@ -24,7 +24,7 @@ if (JSON.parse(localStorage.getItem('ext')).type === 'room' || JSON.parse(localS
 }
 
 let typingEl;
-socket.on('typing', (payload, cb) => {
+socket.on('typing', (payload) => {
   const { image, displayname } = payload;
   typingEl = appendTyping(image, displayname);
 });
