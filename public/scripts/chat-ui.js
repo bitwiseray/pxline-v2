@@ -73,7 +73,7 @@ function appendTyping(url, sender_username) {
 
 function appendMediaFeedback(url) {
   const div = document.querySelector('.local-upload');
-  const textarea = document.querySelector('.inp');
+  const textarea = document.querySelector('#inp');
   textarea.style.marginTop = '50px';
   div.style.display = 'flex';
   div.querySelector('img').src = url;
@@ -81,7 +81,7 @@ function appendMediaFeedback(url) {
 
 function clearMediaFeedback() {
   const div = document.querySelector('.local-upload');
-  const textarea = document.querySelector('.inp');
+  const textarea = document.querySelector('#inp');
   textarea.style.marginTop = 0;
   div.style.display = 'none';
 }
@@ -137,6 +137,8 @@ textarea?.addEventListener('input', () => {
   }
 });
 
+
+let file;
 async function setChat() {
   const uploadIcon = document.getElementById('fileAddI');
   const uploadInput = document.getElementById('attachmentInput');
@@ -151,7 +153,6 @@ async function setChat() {
     optLeave.innerHTML = '<i class="material-symbols-outlined">exit_to_app</i> Leave';
     optRed.href = `/${new URLSearchParams(window.location.search).get('id')}`;
   }
-
   optLeave.addEventListener('click', async (e) => {
     if (type === 'room') {
       try {
@@ -169,28 +170,30 @@ async function setChat() {
       }
     }
   });
-
   uploadIcon.addEventListener('click', () => uploadInput.click());
   uploadInput.addEventListener('change', async (e) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    mediaCache = appendMediaCache(JSON.parse(localStorage.getItem('ext')).user.image, JSON.parse(localStorage.getItem('ext')).user.display_name, URL.createObjectURL(file));
-    formData.append('upload', file);
-    try {
-      const response = await fetch('/cdn', {
-        method: 'POST',
-        body: formData
-      });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      localStorage.setItem('isAttached', data);
-      sendMessage();
-    } catch (error) {
-      console.error('Fetch error:', error);
-    }
+    file = e.target.files[0];
+    mediaCache = appendMediaFeedback(URL.createObjectURL(file));
   });
+}
+
+async function uploadMedia() {
+  const formData = new FormData();
+  mediaCache = appendMediaFeedback(URL.createObjectURL(file));
+  formData.append('upload', file);
+  try {
+    const response = await fetch('/cdn', {
+      method: 'POST',
+      body: formData
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    return { status: 'done', data: data };
+  } catch (error) {
+    return { status: 'failed' };
+  }
 }
 /*
 if (container) {
