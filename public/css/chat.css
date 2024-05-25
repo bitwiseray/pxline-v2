@@ -28,7 +28,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: 10000;
-  background-image: url("/public/assets/chat-bg.jpg"), radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%);
+  background-image: url("/assets/chat-bg.jpg"), radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%);
   background-size: cover;
   overflow: hidden;
 }
@@ -285,7 +285,7 @@ body {
   overflow-y: scroll;
   background-color: var(--secondary);
   color: #fff;
-  margin-top: 50px;
+  margin-top: 0;
 }
 
 .messageInput .input textarea::-webkit-scrollbar {
@@ -325,7 +325,7 @@ body {
 }
 
 .messageInput .local-upload {
-  display: flex;
+  display: none;
   align-items: center;
   position: absolute;
   color: #fff;
@@ -352,8 +352,12 @@ body {
 .messageInput .local-upload i {
   font-size: 19px;
   padding: 0 3.5px;
+  border-radius: 80px;
 }
 
+.messageInput .local-upload i:active {
+  background-color: #aaa;
+}
 
 @media screen and (min-width: 1024px) {
   .message-container {
