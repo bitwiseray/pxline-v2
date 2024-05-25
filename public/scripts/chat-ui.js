@@ -71,30 +71,19 @@ function appendTyping(url, sender_username) {
   return messageDiv;
 }
 
-function appendMediaCache(url, sender_username, media) {
-  const messageDiv = document.createElement('div');
-  messageDiv.classList.add('message');
-  const profilePic = document.createElement('img');
-  profilePic.classList.add('profile_pic');
-  profilePic.src = `${window.origin}/cdn/${url}`;
-  profilePic.alt = `${sender_username}'s profile picture`;
-  const messageContentDiv = document.createElement('div');
-  messageContentDiv.classList.add('message_content');
-  const senderDiv = document.createElement('div');
-  senderDiv.classList.add('sender');
-  senderDiv.textContent = sender_username;
-  const typingAssetImg = document.createElement('img');
-  typingAssetImg.src = media;
-  typingAssetImg.classList.add('img-attachment');
-  typingAssetImg.style.filter = 'grayscale(70%)';
-  typingAssetImg.style.opacity = 0.7;
-  messageContentDiv.appendChild(senderDiv);
-  messageContentDiv.appendChild(typingAssetImg);
-  messageDiv.appendChild(profilePic);
-  messageDiv.appendChild(messageContentDiv);
-  const parentDiv = document.querySelector('.message-container');
-  parentDiv.appendChild(messageDiv);
-  return messageDiv;
+function appendMediaFeedback(url) {
+  const div = document.querySelector('.local-upload');
+  const textarea = document.querySelector('.inp');
+  textarea.style.marginTop = '50px';
+  div.style.display = 'flex';
+  div.querySelector('img').src = url;
+}
+
+function clearMediaFeedback() {
+  const div = document.querySelector('.local-upload');
+  const textarea = document.querySelector('.inp');
+  textarea.style.marginTop = 0;
+  div.style.display = 'none';
 }
 
 function setTimes(superSub, lowerSub) {
