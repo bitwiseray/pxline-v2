@@ -298,34 +298,46 @@ header .action a {
   background: transparent;
 }
 
-.frem {
-  width: 100%;
-  height: 70vh;
+.friends-container {
+  margin: 10px;
+}
+
+.friends-container .friend {
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  color: #fff;
+  margin-bottom: 10px;
 }
 
-.frem p {
-  position: absolute;
-  top: 7rem;
-  font-size: 5rem;
-  color: #F05454;
+.friends-container .friend:hover {
+  background: var(--secondary);
 }
 
-.frem h2 {
-  position: absolute;
-  bottom: 10rem;
-  font-size: 20px;
-  color: var(--text-color);
-
+.friends-container .friend img {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 50%;
 }
 
-.frem h5 {
-  position: absolute;
-  bottom: 8rem;
-  color: #9c9c9c;
+.friends-container .friend .name {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  margin-right: 190px;
+}
+
+.friends-container .friend i {
+  text-decoration: none;
+  color: #fff;
+}
+
+.friends-container .friend i:hover {
+  padding: 5px;
+  border-radius: 50%;
+  font-size: 22px;
+  background-color: #65636394;
 }
 
 /* Settings block */
