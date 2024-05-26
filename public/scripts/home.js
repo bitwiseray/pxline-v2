@@ -63,3 +63,26 @@ function initTiles(rooms, users, user) {
         createChatTile(currentUser, user._id);
     });
 }
+
+function appendFriend(name, username, url, id) {
+    const friendDiv = document.createElement('div');
+    friendDiv.className = 'friend';
+    const img = document.createElement('img');
+    img.src = url;
+    img.alt = '';
+    friendDiv.appendChild(img);
+    const nameAnchor = document.createElement('a');
+    nameAnchor.href = `/${username}`;
+    nameAnchor.className = 'name';
+    nameAnchor.textContent = name;
+    friendDiv.appendChild(nameAnchor);
+    const iconAnchor = document.createElement('a');
+    iconAnchor.href = `/chat?id=${id}`;
+    const icon = document.createElement('i');
+    icon.className = 'material-symbols-outlined';
+    icon.textContent = 'forum';
+    iconAnchor.appendChild(icon);
+    friendDiv.appendChild(iconAnchor);
+    const container = document.querySelector('.friends-container');
+    container.appendChild(friendDiv);
+}
