@@ -1,20 +1,16 @@
-![PxLine logo banner](https://media.discordapp.net/attachments/1025788277120315492/1230558075308609677/20240418_220716.jpg?ex=6633c183&is=66214c83&hm=2df6773d66fed79c68959ceec6e4cefd4668c14c4a13df21cd1f38afc134a7b4&)
+![PxLine logo banner](https://raw.githubusercontent.com/bitwiseray/pxline-v2/main/public/assets/20240418_220716.jpg)
 
 ## Full-Stack Chat App (Beta)
-
-This is a **hobbyist** project for a full-stack chat application built by very "professional and experienced devs" using Node.js, Express.js framework, and Ejs for front-end templating, and the most important on **Android devices**!
+This is a **hobbyist** project for a full-stack chat application built by very "professional and experienced devs" using Node.js, the Express.js framework, and EJS for minor front-end templating, and finally, project started off and was first created on **Android devices**!
 
 ### Note
-Please note: this app is very big, and some major and minor claimed features aren't tested, or aren't created yet, in short terms, the app is only half-way completed.
+All claimed features may not be available or only halfway done, instability & bugs are expected until this note is removed.
+<details>
+  <summary>Why?</summary>
+  This is an hobbyist project as well as an very large one, so we will focus on adding all the claimed features before focusing on stability and bugs fixing.
+</details>
 
 ### Features
-
-- **Real-time Chat**: Engage in real-time conversations with other users.
-- **User Authentication**: Securely sign up and log in to access the chat features.
-- **User Profiles**: Customize your profile with a username and avatar.
-
-### Technologies Used
-
-- **Node.js**: For handling all back-end.
-- **Express.js**: For framework.
-- **Ejs**: For front-end templating.
+- **Real-time Chat**: Engage in real-time conversations with other users through text or media, no limit _as long as you aren't uploading documents, that is_.
+- **User Authentication**: Native sign-ins flow, with ability to delete, logout, or create accounts locally.
+- **User Profiles**: View and create profiles! (Profile customisation is on the way)
