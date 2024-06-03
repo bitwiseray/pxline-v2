@@ -302,7 +302,7 @@ body {
 .messageInput .input {
   position: relative;
   background-color: var(--secondary);
-  padding: 7px 18px;
+  padding: 9.5px 18px;
   width: 270px;
   display: flex;
   text-align: center;
@@ -314,16 +314,14 @@ body {
   position: relative;
   border: none;
   width: 92%;
-  height: 27.9px;
-  top: 3%;
+  height: 28px;
   outline: none;
   font-size: 1em;
-  text-align: start;
   resize: none;
   overflow-y: scroll;
   background-color: var(--secondary);
   color: #fff;
-  margin-top: 0;
+  margin-bottom: -2px;
 }
 
 .messageInput .input textarea::-webkit-scrollbar {
@@ -333,10 +331,10 @@ body {
 .send {
   position: relative;
   margin-left: 7.5px;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   display: flex;
-  border: 1px solid #fff;
+  background-color: #262626;
   justify-content: center;
   align-items: center;
   color: #fff;
@@ -344,11 +342,13 @@ body {
   border-radius: 50%;
   cursor: pointer;
   transition: 0.2s;
+  user-select: none;
+  -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
 
 .send:hover {
-  background: var(--main);
+  background: var(--hover);
   color: #fff;
   border: none;
 }
