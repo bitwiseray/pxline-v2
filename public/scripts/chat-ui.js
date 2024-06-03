@@ -6,6 +6,18 @@ function createChatHeader(title, icon) {
   img.src = `${window.origin}/cdn/${icon}`;
 }
 
+function setMessageHeadn(displayName, imageURL, details, type) {
+  let str;
+  if (type === 'room') {
+     str = `${details.num} members`;
+  } else {
+    str = `${details.num} interactions`;
+  }
+  document.querySelector('.display-name').textContent = displayName;
+  document.getElementById('image').src = imageURL;
+  document.getElementById('details').textContent = str;
+}
+
 function appendMessage(url, sender_username, drUsername, message, rawLowerSub, attachments, id) {
   const messageContainer = document.querySelector('.message-container');
   const messageDiv = document.createElement('div');
