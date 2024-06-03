@@ -121,6 +121,7 @@ async function getLastMessages(entityIds) {
       let chat = await Chat.findById(entity.toString());
       if (!chat) return { message: 'Chat does not exist'};
       const lastObj = chat.svd_chats[chat.svd_chats.length - 1];
+      if (!lastObj) return toReturnArray.push([]);
       const username = await profiler.findById(lastObj.sender, 'display_name');
       toReturnArray.push({
         lastFor: entity,
