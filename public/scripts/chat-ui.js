@@ -114,7 +114,6 @@ function extractDateFromTimestamp(timestamp) {
 function shouldDisplayTimeDivider(lastTimestamp, currentTimestamp) {
   const lastDate = extractDateFromTimestamp(lastTimestamp);
   const currentDate = extractDateFromTimestamp(currentTimestamp);
-  console.log({ lastDate: lastDate, currentDate: currentDate });
   return lastDate !== currentDate;
 }
 
