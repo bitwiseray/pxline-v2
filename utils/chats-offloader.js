@@ -34,6 +34,7 @@ async function saveChats(id) {
       });
     }
     Cache.delete(id);
+    console.log(Cache.get(id));
   } catch (error) {
     console.error('Error saving chats:', error);
   }
@@ -48,15 +49,14 @@ function setCacheFor(id) {
 }
 
 function cacheChats(id, chats) {
-  if (!chats || !chats.length > 0) return;
+  if (!chats || chats.length <= 0) return;
   let chat = Cache.get(id);
   if (!chat) {
     setCacheFor(id);
     chat = Cache.get(id);
   }
-  const toInsertArray = [];
   chats.forEach(message => {
-    toInsertArray.push({
+    chat.svd_chats.push({
       content: {
         text: message.content.text,
         timestamp: message.content.timestamp,
@@ -65,10 +65,8 @@ function cacheChats(id, chats) {
       attachments: message.attachments
     });
   });
-  // Merge the new chats with existing cached chats
-  const existingChats = chat.svd_chats || [];
-  const updatedChats = existingChats.concat(toInsertArray);
-  Cache.set(id, { ...chat, svd_chats: updatedChats });
+  // Cache.set(id, chat);
+  console.log(Cache.get(id));
 }
 
 module.exports = { saveChats, cacheChats };
