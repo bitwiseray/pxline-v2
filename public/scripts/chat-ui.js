@@ -32,7 +32,7 @@ function appendMessage(url, sender_username, drUsername, message, rawLowerSub, a
   let atag = document.createElement('a');
   atag.href = `/${drUsername}`;
   atag.appendChild(profilePicImg);
-  senderDiv.innerHTML = `<a href='/${drUsername}' target='_blank'>${sender_username}</a> <span style="color: #aaa; font-size: 0.9em;">·&nbsp;${setTimes(null, rawLowerSub)}</span>`;
+  senderDiv.innerHTML = `<a href='/${drUsername}'>${sender_username}</a> <span>·&nbsp;${setTimes(null, rawLowerSub)}</span>`;
   messageTextDiv.classList.add('msg');
   messageTextDiv.textContent = message;
   messageContentDiv.classList.add('message_content');
