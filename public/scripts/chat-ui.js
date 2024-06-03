@@ -6,15 +6,15 @@ function createChatHeader(title, icon) {
   img.src = `${window.origin}/cdn/${icon}`;
 }
 
-function setMessageHeadn(displayName, imageURL, details, type) {
+function setMessageHead(displayName, imageURL, details, type) {
   let str;
   if (type === 'room') {
-     str = `${details.num} members`;
+     str = `${details} members`;
   } else {
-    str = `${details.num} interactions`;
+    str = `${details} interactions`;
   }
   document.querySelector('.display-name').textContent = displayName;
-  document.getElementById('image').src = imageURL;
+  document.querySelector('#pic').src = `${window.location.origin}/cdn/${imageURL}`;
   document.getElementById('details').textContent = str;
 }
 
