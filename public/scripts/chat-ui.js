@@ -55,8 +55,9 @@ function appendMessage(url, sender_username, drUsername, message, rawLowerSub, a
   messageDiv.appendChild(messageContentDiv);
   messageDiv.setAttribute('data-id', id);
   messageContainer.appendChild(messageDiv);
-  if (messageContainer) {
-    messageContainer.scrollTop = messageContainer.scrollHeight;
+  const scrollContainer = document.querySelector('.scroll');
+  if (scrollContainer) {
+    scrollContainer.scrollTop = scrollContainer.scrollHeight;
   }
 }
 
