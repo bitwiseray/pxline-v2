@@ -53,13 +53,15 @@
         </div>
       </div>
     </div>
-    <div class="message-head">
-      <img src="" alt="" />
-      <h2 class="display-name"></h2>
-      <p id="details"></p>
-      <p style="font-size: 11px;">This marks the beginning of your adventurous chat!</p>
+    <div class="scroll">
+      <div class="message-head">
+        <img id="pic" src="" alt="" />
+        <h2 class="display-name"></h2>
+        <p id="details"></p>
+        <p style="font-size: 11px;">This marks the beginning of your adventurous chat!</p>
+      </div>
+      <div class="message-container"</div>
     </div>
-    <div class="message-container"</div>
     <div class="messageInput">
       <i class="material-symbols-outlined" id="fileAddI">add_photo_alternate</i>
       <div class="input">
@@ -94,7 +96,7 @@
         function initChat() {
           if (type === 'room') {
             createChatHeader(room.title, room.icon);
-            setMessageHead(room.title, `/cdn/${room.icon}`, { num: extusers.length });
+            setMessageHead(room.title, room.icon, extusers.length, 'room');
             if (Array.isArray(chats.svd_chats) && chats.svd_chats.length > 0) {
               chats.svd_chats.forEach(chat => {
                 const senderUser = chat.sender === user._id ? user : extusers.find(member => member._id === chat.sender);
@@ -106,7 +108,7 @@
             }
           } else {
             createChatHeader(extusers.display_name, extusers.image);
-            setMessageHead(extusers.title, `/cdn/${extusers.icon}`, { num: chats.length });
+            setMessageHead(extusers.display_name, extusers.image, chats.svd_chats.length, 'dm');
             if (Array.isArray(chats.svd_chats)) {
               chats.svd_chats.forEach(chat => {
                 const senderUser = chat.sender === user._id ? user : extusers;
