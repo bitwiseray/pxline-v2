@@ -141,8 +141,17 @@ body {
 }
 
 .scroll {
-  height: 85%;
+  height: 87.5%;
   overflow-y: scroll;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 7px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #aaa;
 }
 
 .message-container {
@@ -389,11 +398,11 @@ body {
   background-color: #aaa;
 }
 
-@media screen and (min-width: 1024px) {
-  .message-container {
-    height: 85%;
+@media (min-width: 961px) {
+  .scroll {
+    height: 81.5%;
   }
-  .messageInput .input {
+  .input {
     width: 1655px;
   }
   .send {
@@ -404,12 +413,20 @@ body {
   }
 }
 
-@media screen and (min-height: 900px) {
+@media (min-width: 430px) {
   .scroll {
-    height: 81.5%;
-    overflow-y: scroll;
+    height: 83.9%;
   }
   .messageInput .input {
-    width: 320px;
+    width: 325px;
+  }
+}
+
+@media (min-width: 320px) {
+  .scroll {
+    height: 81.9%;
+  }
+  .messageInput .input {
+    width: 310px;
   }
 }
