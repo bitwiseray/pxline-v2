@@ -1,87 +1,81 @@
 const socket = io('/');
+const ext = JSON.parse(localStorage.getItem('ext'));
+const { type, room, chats, extusers, user } = ext;
 
-let roomId;
-let chatId;
-if (JSON.parse(localStorage.getItem('ext')).type === 'room' || JSON.parse(localStorage.getItem('ext')).type === 'DM') {
-  if (JSON.parse(localStorage.getItem('ext')).type === 'room') {
-    roomId = JSON.parse(localStorage.getItem('ext')).room._id;
-    chatId = JSON.parse(localStorage.getItem('ext')).chats._id
-  } else {
-    for (const chat of JSON.parse(localStorage.getItem('ext')).extusers.chats) {
-      if (chat.user_id === JSON.parse(localStorage.getItem('ext')).user._id) {
-        roomId = chat.chat_id;
-        chatId = chat.chat_id;
-        break;
+let roomId, chatId;
+if (type) {
+   if (type === 'room') {
+      roomId = room._id;
+      chatId = chats._id;
+   } else if (type === 'DM') {
+      const chat = extusers.chats.find(chat => chat.user_id === user._id);
+      if (chat) {
+         roomId = chat.chat_id;
+         chatId = chat.chat_id;
       }
-    }
-  }
-  if (roomId) {
-    socket.emit('joinRoom', { _id: roomId, chatLoad: chatId });
-  } else {
-    popToast('error', 'Failed to connect to the room');
-    console.log('User not found in the chats array.');
-  }
+   }
+   if (roomId) {
+      socket.emit('joinRoom', { _id: roomId, chatLoad: chatId });
+   } else {
+      popToast('error', 'Failed to connect to the room');
+      console.log('User not found in the chats array.');
+   }
 }
 
 let typingEl;
-socket.on('typing', (payload) => {
-  const { image, displayname } = payload;
+socket.on('typing', ({ image, displayname }) => {
   typingEl = appendTyping(image, displayname);
 });
 
 socket.on('messageCreate', (message) => {
-  if (typingEl) typingEl.remove();
-  if (document.querySelector('.no-msg')) document.querySelector('.no-msg').style.display = 'none';
+  typingEl?.remove();
+  document.querySelector('.no-msg')?.style.display = 'none';
   appendMessage(message.author.image, message.author.displayname, message.author.username, message.content.text, message.content.timestamp, message.attachments);
 });
 
 socket.on('messageDelete', (obj) => {
-  let message = document.querySelector(`div[data-id="${obj.id}"]`);
-  message.remove();
+  document.querySelector(`div[data-id="${obj.id}"]`)?.remove();
 });
 
 let input = document.getElementById('inp');
 async function sendMessage() {
-  let contents = input.value;
+  let contents = input.value.trim();
   let attachments = file;
   let url = '';
   if (attachments) {
     url = await uploadMedia(attachments);
   }
-  if (!contents && attachments) contents = '';
-  if (contents.trim() === '') return;
-  let offExport = () => {
-    if (JSON.parse(localStorage.getItem('ext')).type === 'room') {
-      return {
-        id: JSON.parse(localStorage.getItem('ext')).room._id,
-        name: JSON.parse(localStorage.getItem('ext')).room.title,
-        image: JSON.parse(localStorage.getItem('ext')).room.icon,
-        members: JSON.parse(localStorage.getItem('ext')).room.members,
-        chat_id: JSON.parse(localStorage.getItem('ext')).room.chats.chat_id || 'Not found',
-      }
-    } else {
-      return {
-        id: JSON.parse(localStorage.getItem('ext')).extusers._id,
-        name: JSON.parse(localStorage.getItem('ext')).extusers.display_name,
-        image: JSON.parse(localStorage.getItem('ext')).extusers.image,
-        members: null,
-        chat_id: roomId || 'Not found',
-      }
-    }
+  if (!contents && !attachments) return;
+  let chatDetails;
+  if (type === 'room') {
+    chatDetails = {
+      id: room._id,
+      name: room.title,
+      image: room.icon,
+      members: room.members,
+      chat_id: room.chats.chat_id || 'Not found',
+    };
+  } else {
+    chatDetails = {
+      id: extusers._id,
+      name: extusers.display_name,
+      image: extusers.image,
+      members: null,
+      chat_id: roomId || 'Not found',
+    };
   }
   socket.emit('message', {
     content: { text: contents, timestamp: Date.now() },
     author: {
-      id: JSON.parse(localStorage.getItem('ext')).user._id,
-      displayname: JSON.parse(localStorage.getItem('ext')).user.display_name,
-      username: JSON.parse(localStorage.getItem('ext')).user.user_name,
-      image: JSON.parse(localStorage.getItem('ext')).user.image,
+      id: user._id,
+      displayname: user.display_name,
+      username: user.user_name,
+      image: user.image,
     },
-    chat: offExport(),
-    attachments: url ? url.data.id : null,
+    chat: chatDetails,
+    attachments: url?.data?.id || null,
   });
   input.value = '';
-  url = {};
   clearMediaFeedback();
 }
 
