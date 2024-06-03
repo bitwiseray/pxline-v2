@@ -146,6 +146,12 @@ body {
   overflow-y: scroll;
 }
 
+.no-msg {
+  display: none;
+  color: #fff;
+  padding: 5px 15px;
+}
+
 .message-container .time {
   color: var(--gray);
   text-align: center;

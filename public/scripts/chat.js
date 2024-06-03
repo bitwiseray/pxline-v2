@@ -31,6 +31,7 @@ socket.on('typing', (payload) => {
 
 socket.on('messageCreate', (message) => {
   if (typingEl) typingEl.remove();
+  if (document.querySelector('.no-msg')) document.querySelector('.no-msg').style.display = 'none';
   appendMessage(message.author.image, message.author.displayname, message.author.username, message.content.text, message.content.timestamp, message.attachments);
 });
 

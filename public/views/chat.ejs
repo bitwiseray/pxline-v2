@@ -54,7 +54,7 @@
       </div>
     </div>
     <div class="message-container">
-      <div class="no-msg">Start of a new conversation!</div>
+      <div class="no-msg"><h2>(〜￣▽￣)〜 Start of a new conversation!</h2></div>
     </div>
     <div class="messageInput">
       <i class="material-symbols-outlined" id="fileAddI">add_photo_alternate</i>
@@ -97,7 +97,7 @@
                 lastDividerTimestamp = chat.content.timestamp;
               });
             } else {
-              console.error('Invalid chats object or svd_chats array');
+              return document.querySelector('.no-msg').style.display = 'block';
             }
           } else {
             createChatHeader(extusers.display_name, extusers.image);
@@ -108,10 +108,9 @@
                 lastDividerTimestamp = chat.content.timestamp;
               });
             } else {
-              console.error('Invalid chats object or svd_chats array');
+              return document.querySelector('.no-msg').style.display = 'block';
             }
           }
-          // localStorage.setItem('lastDivider', lastDividerTimestamp);
         }
       }
       initChat();
