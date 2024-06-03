@@ -28,7 +28,7 @@ module.exports = async (io) => {
         let thisLocalMessage = chats.find(message => message.author.id == obj.deletedBy);
         let chatsGlob = await Chat.findById(chatId);
         let thisMessage = chatsGlob.svd_chats.find(message => message._id == obj.id && message.sender == obj.deletedBy)
-        if (thisMessage || thisMessage) {
+        if (thisMessage || thisLocalMessage) {
           chats = chats.filter(chat => chat.id !== obj.id);
           io.to(globId).emit('messageDelete', obj);
           cacheChats(chatId, chats);
