@@ -140,10 +140,13 @@ body {
   text-overflow: ellipsis;
 }
 
+.scroll {
+  height: 85%;
+  overflow-y: scroll;
+}
+
 .message-container {
   position: relative;
-  height: 81.9%;
-  overflow-y: scroll;
 }
 
 .message-head {
@@ -157,8 +160,8 @@ body {
 }
 
 .message-head img {
-  width: 120px;
-  height: 120px;
+  width: 110px;
+  height: 110px;
   object-fit: cover;
   border-radius: 55%;
 }
@@ -170,7 +173,7 @@ body {
 
 .message-head .display-name {
   font-weight: 500;
-  font-size: 30px;
+  font-size: 26px;
 }
 
 .message-container .time {
@@ -402,10 +405,11 @@ body {
 }
 
 @media screen and (min-height: 900px) {
-  .message-container {
-    height: 86.5%;
+  .scroll {
+    height: 81.5%;
+    overflow-y: scroll;
   }
   .messageInput .input {
-    width: 325px;
+    width: 320px;
   }
 }
