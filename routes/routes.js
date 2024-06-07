@@ -8,7 +8,6 @@ const initGateway = require('../utils/strategy');
 const bcrypt = require('bcrypt');
 const profiler = require('../schematics/profile');
 const Room = require('../schematics/rooms');
-const Media = require('../schematics/media');
 const mongoose = require('mongoose');
 const { checkAuth, checkNotAuth } = require('../preval/validators');
 const { getIndexes, uploadMedia, getLastMessages, loadFriends } = require('../utils/sourcing');
