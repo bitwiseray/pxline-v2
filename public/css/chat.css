@@ -199,7 +199,6 @@ body {
   border-radius: 10px;
   margin-bottom: 0px;
   width: 100%;
-  animation: slideFromLeft 0.2s ease forwards;
 }
 
 .message-container .message:active {
