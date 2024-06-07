@@ -65,9 +65,7 @@
     <div class="messageInput">
       <i class="material-symbols-outlined" id="fileAddI">add_photo_alternate</i>
       <div class="input">
-        <form action="/upload/profile" method="POST" enctype="multipart/form-data">
-          <input type="file" id="attachmentInput" name="upload" style="display: none;" accept="image/*">
-        </form>
+        <input type="file" id="attachmentInput" name="upload" style="display: none;" accept="image/*">
         <div class="local-upload">
           <img src="" alt=""> <span>1 media selected</span> <i class="material-symbols-outlined" onclick="clearMediaFeedback()">close</i>
         </div>
@@ -116,7 +114,7 @@
                 lastDividerTimestamp = chat.content.timestamp;
               });
             } else {
-              return document.querySelector('.no-msg').style.display = 'block';
+              return null;
             }
           }
         }
