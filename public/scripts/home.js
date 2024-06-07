@@ -7,11 +7,11 @@ function createChatTile(entity, user) {
     const img = document.createElement('img');
     const nameElement = document.createElement('h4');
     if (entity.icon) {
-        img.src = `${window.location.origin}/cdn/${entity.icon}`;
+        img.src = entity.icon;
         imgBox.appendChild(img);
         nameElement.textContent = entity.title;
     } else if (entity.image) {
-        img.src = `${window.location.origin}/cdn/${entity.image}`;
+        img.src = entity.image;
         imgBox.appendChild(img);
         nameElement.textContent = entity.display_name;
     }

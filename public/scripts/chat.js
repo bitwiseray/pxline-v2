@@ -72,7 +72,7 @@ async function sendMessage() {
       image: user.image,
     },
     chat: chatDetails,
-    attachments: url?.data?.id || null,
+    attachments: url?.data?.url || null,
   });
   input.value = '';
   clearMediaFeedback();

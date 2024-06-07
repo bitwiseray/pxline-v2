@@ -3,7 +3,7 @@ function createChatHeader(title, icon) {
   const h3 = parentContainer.querySelector('h3');
   const img = parentContainer.querySelector('img');
   h3.textContent = title;
-  img.src = `${window.origin}/cdn/${icon}`;
+  img.src = icon;
 }
 
 function setMessageHead(displayName, imageURL, details, type) {
@@ -14,7 +14,7 @@ function setMessageHead(displayName, imageURL, details, type) {
     str = `${details} interactions`;
   }
   document.querySelector('.display-name').textContent = displayName;
-  document.querySelector('#pic').src = `${window.location.origin}/cdn/${imageURL}`;
+  document.querySelector('#pic').src = imageURL;
   document.getElementById('details').textContent = str;
 }
 
@@ -27,7 +27,7 @@ function appendMessage(url, sender_username, drUsername, message, rawLowerSub, a
   const messageTextDiv = document.createElement('div');
   messageDiv.classList.add('message');
   profilePicImg.classList.add('profile_pic');
-  profilePicImg.src = `${window.origin}/cdn/${url}`;
+  profilePicImg.src = url;
   senderDiv.classList.add('sender');
   let atag = document.createElement('a');
   atag.href = `/${drUsername}`;
@@ -49,7 +49,7 @@ function appendMessage(url, sender_username, drUsername, message, rawLowerSub, a
   if (attachments) {
     const imgEl = document.createElement('img');
     imgEl.classList.add('img-attachment');
-    imgEl.src = `${window.origin}/cdn/${attachments}`;
+    imgEl.src = attachments;
     messageContentDiv.appendChild(imgEl);
   }
   messageDiv.appendChild(messageContentDiv);
@@ -197,7 +197,7 @@ async function uploadMedia() {
   mediaCache = appendMediaFeedback(URL.createObjectURL(file));
   formData.append('upload', file);
   try {
-    const response = await fetch('/cdn', {
+    const response = await fetch('/source/media/', {
       method: 'POST',
       body: formData
     });
