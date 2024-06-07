@@ -36,7 +36,7 @@ function createChatTile(entity, user) {
     const messageP = document.createElement('div');
     messageP.classList.add('message_p');
     const messageElement = document.createElement('p');
-    messageElement.textContent = last.sender ? `${last.sender === user.display_name ? 'You' : last.sender}: ${last.content}` : 'Start chat';
+    messageElement.textContent = !last.sender ? 'Start chat' : `${last.sender === user.display_name ? 'You' : last.sender}: ${last.content}` ;
     /*
     const unreadCountElement = document.createElement('b');
     unreadCountElement.textContent = 2;
