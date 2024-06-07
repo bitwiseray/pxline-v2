@@ -75,7 +75,7 @@
           <!-- Profile Section -->
           <div class="profile-card">
             <div class="image">
-              <img src="" alt="My image" class="profile-img">
+              <img src="<%=user.image%>" alt="My image" class="profile-img">
             </div>
             <div class="text-data">
               <span class="name"><%=user.display_name%></span>
@@ -134,7 +134,6 @@
                   window.location.href = `/chat?id=${id}`;
               });
             });
-            document.querySelector('.profile-img').src = `${window.location.origin}/cdn/${user.image}`;
           }
         } catch (e) {
           console.error(e);
