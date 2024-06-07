@@ -79,17 +79,15 @@ async function sendMessage() {
 }
 
 function deleteMessage(Id) {
-  socket.emit('delete', { id: Id, deletedBy: JSON.parse(localStorage.getItem('ext')).user._id });
+  socket.emit('delete', { id: Id, deletedBy: user._id });
 }
 
 document.querySelector('.send').addEventListener('click', sendMessage);
-input.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', (e) => {
+  input.focus();
   if (e.key === 'Enter' && !e.shiftKey) {
+    if (!input.value) return;
     e.preventDefault();
     sendMessage();
   } 
 });
-
-document.querySelector('#inp').addEventListener('input', (e) => {
-  socket.emit('messageTyping', { displayname: JSON.parse(localStorage.getItem('ext')).user.display_name, image: JSON.parse(localStorage.getItem('ext')).user.image });
-}, { once: true });
