@@ -27,46 +27,45 @@ async function saveChats(id) {
     }
     const isMatch = isMatchFn(chats.svd_chats, chat.svd_chats);
     if (!isMatch) {
-      await chat.updateOne({ 
-        $push: { 
-          svd_chats: { $each: chats.svd_chats } 
+      await chat.updateOne({
+        $push: {
+          svd_chats: { $each: chats.svd_chats }
         }
       });
     }
     Cache.delete(id);
-    console.log(Cache.get(id));
   } catch (error) {
     console.error('Error saving chats:', error);
   }
 }
 
-function setCacheFor(id) {
-  Cache.set(id, {
-    id: id,
-    timestamp: Date.now(),
-    svd_chats: []
-  });
+function handleCache(forId, handle) {
+  if (handle === 'delete') {
+    Cache.delete(forId);
+  } else if (handle === 'create') {
+    Cache.set(forId, {
+      timestamp: Date.now(),
+      svd_chats: []
+    });
+  }
 }
 
-function cacheChats(id, chats) {
-  if (!chats || chats.length <= 0) return;
-  let chat = Cache.get(id);
-  if (!chat) {
-    setCacheFor(id);
-    chat = Cache.get(id);
+function cacheChats(id, chat) {
+  if (!chat) return;
+  if (!Cache.has(id)) {
+    handleCache(id, 'create');
   }
-  chats.forEach(message => {
-    chat.svd_chats.push({
-      content: {
-        text: message.content.text,
-        timestamp: message.content.timestamp,
-      },
-      sender: message.author.id,
-      attachments: message.attachments
-    });
-  });
-  // Cache.set(id, chat);
-  console.log(Cache.get(id));
+  const toAppendObj = {
+    content: {
+      text: chat.content.text,
+      timestamp: chat.content.timestamp,
+    },
+    sender: chat.author.id,
+    attachments: chat.attachments
+  };
+  const existingCache = Cache.get(id);
+  existingCache.svd_chats.push(toAppendObj);
+  Cache.set(id, existingCache);
 }
 
 module.exports = { saveChats, cacheChats };
