@@ -1,0 +1,53 @@
+@media (min-width: 320px) {
+    .scroll {
+        height: 81.9%;
+    }
+
+    .messageInput .input {
+        width: 260px;
+    }
+
+    .message-head img {
+        width: 95px;
+        height: 95px;
+        object-fit: cover;
+        border-radius: 55%;
+    }
+
+    .message-head p {
+        color: #aaa;
+        font-size: 12px;
+    }
+    .message-head .display-name {
+        font-weight: 500;
+        font-size: 22px;
+    }
+}
+
+@media (min-width: 430px) {
+    .scroll {
+        height: 83.9%;
+    }
+
+    .messageInput .input {
+        width: 325px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .scroll {
+        height: 85%;
+    }
+
+    .messageInput .input {
+        width: 1650px;
+    }
+
+    .send {
+        display: none;
+    }
+
+    .hamburger-menu .menu {
+        width: 30px;
+    }
+}
