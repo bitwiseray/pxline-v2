@@ -35,7 +35,7 @@
   </div>
   <div class="profile-card">
     <div class="image">
-      <img src="" alt="Profile Picture" class="profile-img">
+      <img src="<%=room.icon%>" alt="Profile Picture" class="profile-img">
     </div>
     <div class="achievements">
       <div class="members">
@@ -61,38 +61,16 @@
     </div>
     <span class="line"></span>
     <div class="bio">
-      <p><%=room.socials.description || 'We like kittens'%></p>
+      <p id="bio-text"></p>
     </div>
   </div>
-  <script>
-    const messages = <%-JSON.stringify(messages)%>;
-    const timestamp = <%=room.createdAt%>;
-    const createdAt = moment(timestamp);
-    const now = moment();
-    const diffYears = now.diff(createdAt, 'years');
-    const diffMonths = now.diff(createdAt, 'months');
-    const diffWeeks = Math.floor(now.diff(createdAt, 'weeks'));
-    const diffDays = Math.floor(now.diff(createdAt, 'days'));
-    let timeAgo;
-    switch (true) {
-      case diffYears > 0:
-        timeAgo = `${diffYears}y`;
-        break;
-      case diffMonths > 0:
-        timeAgo = `${diffMonths}m`;
-        break;
-      case diffWeeks > 0:
-        timeAgo = `${diffWeeks}w`;
-        break;
-      case diffDays > 0:
-        timeAgo = `${diffDays}d`;
-        break;
-      default:
-        timeAgo = '0d';
-    }
-    document.getElementById("created-at").innerText = timeAgo;
-    document.querySelector('.profile-img').src = `${window.location.origin}/cdn/<%=room.icon%>`;
-  </script>
+  <script>const messages = <%-JSON.stringify(messages)%>;</script>
   <script src="/scripts/main.js"></script>
+  <script>
+    let text = <%-room.socials%>;
+    document.querySelector('#bio-text').textContent = text.description;
+    document.getElementsByTagName('p').textContent = text.description;
+    document.getElementById("created-at").innerText = timeAgo(<%=room.createdAt%>);
+  </script>
 </body>
 </html>
