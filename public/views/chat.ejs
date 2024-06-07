@@ -94,7 +94,7 @@
         function initChat() {
           if (type === 'room') {
             createChatHeader(room.title, room.icon);
-            setMessageHead(room.title, room.icon, extusers.length, 'room');
+            setMessageHead(room.title, room.icon, { num: extusers.length, createdAt: room.createdAt }, 'room');
             if (Array.isArray(chats.svd_chats) && chats.svd_chats.length > 0) {
               chats.svd_chats.forEach(chat => {
                 const senderUser = chat.sender === user._id ? user : extusers.find(member => member._id === chat.sender);
@@ -106,7 +106,7 @@
             }
           } else {
             createChatHeader(extusers.display_name, extusers.image);
-            setMessageHead(extusers.display_name, extusers.image, chats.svd_chats.length, 'dm');
+            setMessageHead(extusers.display_name, extusers.image, { num: chats.svd_chats.length, createdAt: extusers.createdAt }, 'dm');
             if (Array.isArray(chats.svd_chats)) {
               chats.svd_chats.forEach(chat => {
                 const senderUser = chat.sender === user._id ? user : extusers;
