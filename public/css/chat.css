@@ -28,7 +28,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: 10000;
-  background-image: url("/assets/chat-bg.jpg"), radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2)), url("/assets/chat-bg.jpg");
   background-size: cover;
   overflow: hidden;
 }
@@ -373,14 +373,15 @@ body {
 }
 
 .messageInput .local-upload img {
-  width: 37.5px;
-  height: 37.5px;
+  width: 40px;
+  height: 40px;
   padding: 3.5px;
+  object-fit: cover;
 }
 
 .messageInput .local-upload span {
   align-items: center;
-  margin-left: 5px;
+  margin-left: 0px;
   font-size: 13.5px;
   padding: 10.5px 3.5px;
   border-right: 1px solid #aaa;
