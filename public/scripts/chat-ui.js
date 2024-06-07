@@ -9,9 +9,9 @@ function createChatHeader(title, icon) {
 function setMessageHead(displayName, imageURL, details, type) {
   let str;
   if (type === 'room') {
-     str = `${details} members`;
+     str = `${details.num} members · Created ${timeAgo(details.createdAt)} ago`;
   } else {
-    str = `${details} interactions`;
+    str = `Created ${timeAgo(details.createdAt)} ago`;
   }
   document.querySelector('.display-name').textContent = displayName;
   document.querySelector('#pic').src = imageURL;
