@@ -61,30 +61,6 @@ function appendMessage(url, sender_username, drUsername, message, rawLowerSub, a
   }
 }
 
-function appendTyping(url, sender_username) {
-  const messageDiv = document.createElement('div');
-  messageDiv.classList.add('message');
-  const profilePic = document.createElement('img');
-  profilePic.classList.add('profile_pic');
-  profilePic.src = `${window.origin}/cdn/${url}`;
-  profilePic.alt = `${sender_username}'s profile picture`;
-  const messageContentDiv = document.createElement('div');
-  messageContentDiv.classList.add('message_content');
-  const senderDiv = document.createElement('div');
-  senderDiv.classList.add('sender');
-  senderDiv.textContent = sender_username;
-  const typingAssetImg = document.createElement('img');
-  typingAssetImg.src = '/assets/typing.gif';
-  typingAssetImg.classList.add('typing-asset');
-  messageContentDiv.appendChild(senderDiv);
-  messageContentDiv.appendChild(typingAssetImg);
-  messageDiv.appendChild(profilePic);
-  messageDiv.appendChild(messageContentDiv);
-  const parentDiv = document.querySelector('.message-container');
-  parentDiv.appendChild(messageDiv);
-  return messageDiv;
-}
-
 function appendMediaFeedback(url) {
   const div = document.querySelector('.local-upload');
   const textarea = document.querySelector('#inp');
