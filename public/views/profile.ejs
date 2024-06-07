@@ -28,12 +28,12 @@
   </div>
   <div class="menu" id="menu">
     <a href="/chat/<%=user._id%>"><i class="material-symbols-outlined">chat</i> Message</a>
-    <a href="#"  style="color: red;"><i class="material-symbols-outlined">block</i> Block</a>
+    <a href="#" style="color: red;"><i class="material-symbols-outlined">block</i> Block</a>
     <a href="#" style="color: red;"><i class="material-symbols-outlined">flag</i> Report</a>
   </div>
   <div class="profile-card">
     <div class="image">
-      <img src="/assets/profile-pic.png" alt="Profile Picture" class="profile-img">
+      <img src="<%=user.image%>" alt="Profile Picture" class="profile-img">
     </div>
     <div class="text-data">
       <span id="name-type" class="name"><%=user.display_name%></span>
@@ -62,36 +62,11 @@
       <p><%=user.socials.bio%></p>
     </div>
   </div>
-  <script>
-    const messages = <%-JSON.stringify(messages)%>;
-    const timestamp = <%=user.createdAt%>;
-    const createdAt = moment(timestamp);
-    const now = moment();
-    const diffYears = now.diff(createdAt, 'years');
-    const diffMonths = now.diff(createdAt, 'months');
-    const diffWeeks = Math.floor(now.diff(createdAt, 'weeks'));
-    const diffDays = Math.floor(now.diff(createdAt, 'days'));
-    let timeAgo;
-    switch (true) {
-      case diffYears > 0:
-        timeAgo = `${diffYears}y`;
-        break;
-      case diffMonths > 0:
-        timeAgo = `${diffMonths}m`;
-        break;
-      case diffWeeks > 0:
-        timeAgo = `${diffWeeks}w`;
-        break;
-      case diffDays > 0:
-        timeAgo = `${diffDays}d`;
-        break;
-      default:
-        timeAgo = '0d';
-    }
-    document.getElementById("created-at").innerText = timeAgo;
-    document.querySelector('.profile-img').src = `${window.location.origin}/cdn/<%=user.image%>`;
-  </script>
+  <script>const messages = <%-JSON.stringify(messages)%>;</script>
   <script src="/scripts/main.js"></script>
+  <script>    
+    document.getElementById("created-at").innerText = timeAgo(<%=user.createdAt%>);
+  </script>
 </body>
 
 </html>
