@@ -13,6 +13,6 @@ All claimed features may not be available or may be only halfway done. Instabili
 ### Features
 - [x] **Real-time Chat**: Engage in real-time conversations with other users through text or media, no limit _as long as you aren't uploading documents, that is_.
 - [ ] **Message Utility**: Copy, delete, edit sent messages.
-- [x] **User Authentication**: Native sign-in flow, with the ability to delete, log out, or create accounts locally.
+- [x] **Privacy induced Authentication**: Native sign-in flow, with the ability to delete, log out, or create accounts locally, with just your custom username and password, no email or phone number needed!
 - [x] **Profiles**: View and create profiles!
 - [ ] **Rooms**: Create chat rooms "Room" or start a private chat with a user!
