@@ -165,7 +165,7 @@ body {
   color: #fff;
   text-align: center;
   margin-top: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
 .message-head img {
@@ -396,37 +396,4 @@ body {
 
 .messageInput .local-upload i:active {
   background-color: #aaa;
-}
-
-@media (min-width: 320px) {
-  .scroll {
-    height: 81.9%;
-  }
-  .messageInput .input {
-    width: 260px;
-  }
-}
-
-@media (min-width: 430px) {
-  .scroll {
-    height: 83.9%;
-  }
-  .messageInput .input {
-    width: 325px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .scroll {
-    height: 85%;
-  }
-  .messageInput .input {
-    width: 1650px;
-  }
-  .send {
-    display: none;
-  }
-  .hamburger-menu .menu {
-    width: 30px;
-  }
 }
