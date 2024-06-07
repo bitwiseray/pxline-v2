@@ -1,9 +1,7 @@
 const profiler = require('../schematics/profile');
 const Room = require('../schematics/rooms');
 const Chat = require('../schematics/chats');
-const Media = require('../schematics/media');
-const mongoose = require('mongoose');
-
+const { put } = require('@vercel/blob');
 const RoomSources = require('./sourcing/Rooms');
 const UserSources = require('./sourcing/Users');
 
@@ -64,33 +62,56 @@ async function loadFriends(base) {
   return friendsDetails;
 };
 
+// async function uploadMedia(type, offload, stream, request) {
+//   return new Promise(async (resolve, reject) => {
+//     try {
+//       if (type === 'profile') {
+//         if (offload.size > 5 * 1024 * 1024) {
+//           reject({ error: 'File size exceeds the limit' });
+//         }
+//         const loadPff = await Media.create({
+//           loadType: type,
+//           data: stream,
+//           contentType: offload.mimetype
+//         });
+//         resolve({ status: 'done', id: loadPff._id });
+//       } else {
+//         if (offload.size > 10 * 1024 * 1024) {
+//           reject({ error: 'File size exceeds the limit' });
+//         }
+//         const loadAtt = await Media.create({
+//           loadType: type,
+//           data: stream,
+//           contentType: offload.mimetype,
+//           filename: offload.filename,
+//           createdAt: Date.now()
+//         });
+//         resolve({ status: 'done', id: loadAtt._id });
+//       }
+//     } catch (error) {
+//       reject(error)
+//     }
+//   });
+// }
+
 async function uploadMedia(type, offload, stream, request) {
   return new Promise(async (resolve, reject) => {
     try {
       if (type === 'profile') {
-        if (offload.size > 5 * 1024 * 1024) {
+        if (offload.size > 4 * 1024 * 1024) {
           reject({ error: 'File size exceeds the limit' });
         }
-        const loadPff = await Media.create({
-          loadType: type,
-          data: stream,
-          contentType: offload.mimetype
-        });
-        resolve({ status: 'done', id: loadPff._id });
+        const blob = await put(`profile/${offload.filename}`, stream, { contentType: offload.mimetype || 'image/jpeg', access: 'public' });
+        resolve({ status: 'done', url: blob.url });
       } else {
-        if (offload.size > 10 * 1024 * 1024) {
+        if (offload.size > 4 * 1024 * 1024) {
           reject({ error: 'File size exceeds the limit' });
         }
-        const loadAtt = await Media.create({
-          loadType: type,
-          data: stream,
-          contentType: offload.mimetype,
-          filename: offload.filename,
-          createdAt: Date.now()
-        });
-        resolve({ status: 'done', id: loadAtt._id });
+        const blob = await put(`attachment/${offload.filename}`, stream, { contentType: offload.mimetype || 'image/jpeg', access: 'public' });
+        resolve({ status: 'done', url: blob.url });
       }
     } catch (error) {
+      console.log(error)
       reject(error)
     }
   });
