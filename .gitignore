@@ -57,3 +57,4 @@ web_modules/
 .replit
 replit.nix
 json.sqlite
+vercel.json
