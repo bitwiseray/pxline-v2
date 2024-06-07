@@ -29,7 +29,6 @@ socket.on('typing', ({ image, displayname }) => {
 
 socket.on('messageCreate', (message) => {
   typingEl?.remove();
-  document.querySelector('.no-msg').style.display = 'none';
   appendMessage(message.author.image, message.author.displayname, message.author.username, message.content.text, message.content.timestamp, message.attachments);
 });
 
