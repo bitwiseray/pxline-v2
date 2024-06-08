@@ -17,13 +17,11 @@ function isMatchFn(chats, svdChatsFromDB) {
 
 async function saveChats(id) {
   if (!id) return;
-  const chats = Cache.get(id);
-  if (!chats) return;
   try {
     let chat = await Chat.findById(id);
-    if (!chat) {
-      console.log('No chat found with the given ID:', id);
-      return;
+    const chats = Cache.get(id);
+    if (!chat || !chats) {
+      return { status: 'Failed', code: 'NOT_FOUND', error: 'No cached entry or global entry for the provided id found' };
     }
     const isMatch = isMatchFn(chats.svd_chats, chat.svd_chats);
     if (!isMatch) {
@@ -35,7 +33,7 @@ async function saveChats(id) {
     }
     Cache.delete(id);
   } catch (error) {
-    console.error('Error saving chats:', error);
+    return { status: 'Failed', status: 'SYSTEM_ERROR', error: error };
   }
 }
 
@@ -51,7 +49,7 @@ function handleCache(forId, handle) {
 }
 
 function cacheChats(id, chat) {
-  if (!chat) return;
+  if (!chat) return { status: 'Failed', code: 'NOT_FOUND', error: 'No message object found' };;
   if (!Cache.has(id)) {
     handleCache(id, 'create');
   }
@@ -68,4 +66,24 @@ function cacheChats(id, chat) {
   Cache.set(id, existingCache);
 }
 
-module.exports = { saveChats, cacheChats };
+async function deleteMessage(id, by, chatId) {
+  if (id && by) {
+    let cache = Cache.get(chatId);
+    let thisCacheMessage = cache.svd_chats.find(message => message.author.id == by);
+    if (thisCacheMessage) {
+      // remove the `thisCacheMessage` object of the chat from `cache` entry within the `svd_chats` array
+      cache.svd_chats = cache.svd_chats.filter(message => message.author.id !== by);
+      return { status: 'Success', code: 'MESSAGE_DELETED', error: null };
+    } else {
+      let chatsGlob = await Chat.findById(chatId);
+      let thisMessage = chatsGlob.svd_chats.find(message => message._id == id && message.sender == by);
+      // remove the `thisMessage` object from the array of message objects `chatsGlob` `svd_chats` array
+      chatsGlob.svd_chats = chatsGlob.svd_chats.filter(message => !(message._id == id && message.sender == by));
+      return { status: 'Success', code: 'MESSAGE_DELETED', error: null };
+    }
+  } else {
+    return { status: 'Failed', code: 'INVALID_DATA', error: 'No cached entry or global entry for the provided id found' };
+  }
+}
+
+module.exports = { saveChats, cacheChats, deleteMessage };
