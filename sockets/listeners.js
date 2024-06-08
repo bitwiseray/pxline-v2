@@ -1,4 +1,4 @@
-const { saveChats, cacheChats } = require('../utils/chats-offloader');
+const { saveChats, cacheChats, deleteMessage } = require('../utils/chats-offloader');
 const Chat = require('../schematics/chats');
 
 module.exports = async (io) => {
@@ -22,17 +22,11 @@ module.exports = async (io) => {
       cacheChats(chatId, message);
     });
     socket.on('delete', async obj => {
-      if (obj && obj.id) {
-        let thisCacheMessage = chats.find(message => message.author.id == obj.deletedBy);
-        let chatsGlob = await Chat.findById(chatId);
-        let thisMessage = chatsGlob.svd_chats.find(message => message._id == obj.id && message.sender == obj.deletedBy)
-        if (thisMessage || thisCacheMessage) {
-          chats = chats.filter(chat => chat.id !== obj.id);
-          io.to(globId).emit('messageDelete', obj);
-          cacheChats(chatId, chats);
-        }
+      let code = deleteMessage(obj.id, obj.by, chatId);
+      if (code === 'MESSAGE_DELETED') {
+        io.to(globId).emit('messageDelete', obj);
       }
-    });    
+    });
     socket.on('typing', payload => {
       socket.broadcast.to(globId).emit('typing', payload);
     });
