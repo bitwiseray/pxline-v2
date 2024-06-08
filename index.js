@@ -34,6 +34,9 @@ const routes = require('./routes/routes');
 const source = require('./routes/source-routes');
 app.use('/source', source);
 app.use('/', routes);
+app.use((req, res, next) => {
+  res.status(404).send({ message: 'Not found~' });
+});
 
 socket.listen(8080, async () => {
   await mongoose.connect(process.env.srv);
