@@ -35,6 +35,7 @@ class MessageHandler {
                 event.preventDefault();
                 const dataId = target.getAttribute('data-id');
                 this.fireFunction(dataId);
+                this.messageId = dataId;
                 return;
             }
             target = target.parentNode;
@@ -45,7 +46,7 @@ class MessageHandler {
         document.querySelector('.menu-container').style.display = 'none';
         document.querySelector('.message-options').style.display = 'flex';
         this.message = document.querySelector(`div[data-id="${dataId}"]`);
-        if (this.message.querySelector('.sender')?.textContent.split('·')[0].trim() != JSON.parse(localStorage.getItem('ext')).user.display_name) {
+        if (this.message.querySelector('.sender')?.textContent.split('·')[0].trim() !== JSON.parse(localStorage.getItem('ext')).user.display_name) {
             let parentDiv = document.querySelector('.message-options');
             parentDiv.querySelector('.delete-icon').style.display = 'none';
             parentDiv.querySelector('.edit-icon').style.display = 'none';
@@ -57,28 +58,19 @@ class MessageHandler {
         document.querySelector('.message-options').style.display = 'none';
     }
     async copyText() {
-        let toast = document.createElement('div');
-        const parent = document.querySelector('.toast-container');
-        toast.classList.add('toast');
-        parent.appendChild(toast);
         try {
             const msgDiv = this.message ? this.message.querySelector('.msg') : null;
             const messageContent = msgDiv ? msgDiv.textContent : '';
-            await navigator.clipboard.writeText(messageContent);
-            toast.innerHTML = '<i class="material-symbols-outlined">check_circle</i> Success!';
+            await navigator.clipboard.writeText(messageContent)
         } catch (error) {
-            toast.innerHTML = '<i class="material-symbols-outlined">cancel</i> Failed to copy, check permissions';
         }
-        setTimeout(() => {
-            toast.remove();
-        }, 3500);
+        this.removeOptions()
     }
     delete() {
         deleteMessage(this.messageId);
+        this.removeOptions()
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const messageHandler = new MessageHandler();
-    window.messageHandler = messageHandler;
-});
+const messageHandler = new MessageHandler();
+window.messageHandler = messageHandler;
