@@ -69,17 +69,22 @@ function cacheChats(id, chat) {
 async function deleteMessage(id, by, chatId) {
   if (id && by) {
     let cache = Cache.get(chatId);
-    let thisCacheMessage = cache.svd_chats.find(message => message.author.id == by);
+    let thisCacheMessage = cache?.svd_chats.find(message => message.author.id == by);
     if (thisCacheMessage) {
-      // remove the `thisCacheMessage` object of the chat from `cache` entry within the `svd_chats` array
       cache.svd_chats = cache.svd_chats.filter(message => message.author.id !== by);
       return { status: 'Success', code: 'MESSAGE_DELETED', error: null };
     } else {
-      let chatsGlob = await Chat.findById(chatId);
-      let thisMessage = chatsGlob.svd_chats.find(message => message._id == id && message.sender == by);
-      // remove the `thisMessage` object from the array of message objects `chatsGlob` `svd_chats` array
-      chatsGlob.svd_chats = chatsGlob.svd_chats.filter(message => !(message._id == id && message.sender == by));
-      return { status: 'Success', code: 'MESSAGE_DELETED', error: null };
+      try {
+        let chatsGlob = await Chat.findById(chatId);
+        if (!chatsGlob) {
+          return { status: 'Failed', code: 'NOT_FOUND', error: 'Chat not found' };
+        }
+        chatsGlob.svd_chats = chatsGlob.svd_chats.filter(message => !(message._id == id && message.sender == by));
+        await chatsGlob.save();
+        return { status: 'Success', code: 'MESSAGE_DELETED', error: null };
+      } catch (error) {
+        return { status: 'Failed', code: 'DATABASE_ERROR', error: error.message };
+      }
     }
   } else {
     return { status: 'Failed', code: 'INVALID_DATA', error: 'No cached entry or global entry for the provided id found' };
