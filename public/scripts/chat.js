@@ -78,8 +78,8 @@ async function sendMessage() {
   clearMediaFeedback();
 }
 
-function deleteMessage(Id) {
-  socket.emit('delete', { id: Id, deletedBy: user._id });
+function deleteMessage(id) {
+  socket.emit('delete', { id: id, by: user._id });
 }
 
 document.querySelector('.send').addEventListener('click', sendMessage);
