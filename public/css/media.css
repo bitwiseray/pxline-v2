@@ -50,4 +50,7 @@
     .hamburger-menu .menu {
         width: 30px;
     }
+    .chat-container {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2)), url("/assets/chatbg-pc.jpg");
+    }
 }

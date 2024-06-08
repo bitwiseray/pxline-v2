@@ -29,7 +29,7 @@ body {
   position: relative;
   max-width: 360px;
   height: 91.8vh;
-  background: var(--secondary);
+  background: #141414;
   overflow: hidden;
 }
 
