@@ -51,13 +51,13 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
     if (request.file) {
       media = await uploadMedia('profile', request.file, fs.readFileSync(path.join(__dirname, '../tmp', request.file.filename)), request);
     } else {
-      media = { id: '' };
+      media = { url: 'https://github.com/bitwiseray/pxline-v2/blob/main/public/assets/profile-pic.png?raw=true' };
     }
     await profiler.create({
       user_name: username,
       display_name: display_name,
       password: hashedPassword,
-      image: media.id,
+      image: media.url,
       createdAt: Date.now(),
       socials: {
         bio: '',
@@ -147,19 +147,5 @@ router.delete('/delete', checkAuth, (request, reply) => {
     }
   });
 });
-
-router.get('/cdn/:id', async (request, reply) => {
-  const id = request.params.id;
-  if (!id) return false;
-  const media = await Media.findById(id);
-  if (!media) {
-    reply.status(404).send('File not found');
-    return;
-  }
-  const { data, contentType } = media;
-  reply.set('Content-Type', contentType);
-  reply.send(data);
-});
-
 
 module.exports = router;
