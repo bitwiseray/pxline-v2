@@ -22,8 +22,8 @@ module.exports = async (io) => {
       cacheChats(chatId, message);
     });
     socket.on('delete', async obj => {
-      let code = deleteMessage(obj.id, obj.by, chatId);
-      if (code === 'MESSAGE_DELETED') {
+      let handle = await deleteMessage(obj.id, obj.by, chatId);
+      if (handle.code === 'MESSAGE_DELETED') {
         io.to(globId).emit('messageDelete', obj);
       }
     });
