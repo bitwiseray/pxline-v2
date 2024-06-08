@@ -2,7 +2,6 @@ const profiler = require('../../schematics/profile');
 const Room = require('../../schematics/rooms');
 const Chat = require('../../schematics/chats');
 
-
 /**
  * Get multiple users from the database from Array of ids
  * @param {Array} objectIds 
