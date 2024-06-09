@@ -16,7 +16,7 @@ module.exports = async (io) => {
     });
     socket.on('message', async message => {
       if (message && message.content && message.author) {
-        chatId = message.chat.chat_id;
+        chatId = message.room.chat_id;
       }
       io.to(globId).emit('messageCreate', message);
       cacheChats(chatId, message);
@@ -26,9 +26,6 @@ module.exports = async (io) => {
       if (handle.code === 'MESSAGE_DELETED') {
         io.to(globId).emit('messageDelete', obj);
       }
-    });
-    socket.on('typing', payload => {
-      socket.broadcast.to(globId).emit('typing', payload);
     });
     socket.on('disconnect', () => {
       saveChats(chatId);
