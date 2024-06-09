@@ -36,15 +36,16 @@ function createChatTile(entity, user) {
     const messageP = document.createElement('div');
     messageP.classList.add('message_p');
     const messageElement = document.createElement('p');
-    messageElement.textContent = !last.sender ? 'Start chat' : `${last.sender === user.display_name ? 'You' : last.sender}: ${last.content}` ;
-    /*
-    const unreadCountElement = document.createElement('b');
-    unreadCountElement.textContent = 2;
-    */
+    messageElement.textContent = !last.sender ? 'Start chat' : `${last.sender === user.display_name ? 'You' : last.sender}: ${last.content}`;
     messageP.appendChild(messageElement);
-    // messageP.appendChild(unreadCountElement);
     details.appendChild(messageP);
     chatBlock.appendChild(details);
+    console.log(localStorage.getItem('focusState'))
+    if (localStorage.getItem('focusState') === false) {
+        const unreadCountElement = document.createElement('b');
+        unreadCountElement.textContent = '•';
+        messageP.appendChild(unreadCountElement);
+    }
     const chatList = document.querySelector('.chatlist');
     chatBlock.setAttribute('data-id', entity._id);
     chatList.appendChild(chatBlock);
