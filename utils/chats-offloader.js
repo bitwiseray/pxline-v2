@@ -69,9 +69,9 @@ function cacheChats(id, chat) {
 async function deleteMessage(id, by, chatId) {
   if (id && by) {
     let cache = Cache.get(chatId);
-    let thisCacheMessage = cache?.svd_chats.find(message => message.author.id == by);
+    let thisCacheMessage = cache?.svd_chats?.length > 0 ? cache.svd_chats.find(message => message.sender == by) : undefined;
     if (thisCacheMessage) {
-      cache.svd_chats = cache.svd_chats.filter(message => message.author.id !== by);
+      cache.svd_chats = cache.svd_chats.filter(message => message.sender !== by);
       return { status: 'Success', code: 'MESSAGE_DELETED', error: null };
     } else {
       try {
