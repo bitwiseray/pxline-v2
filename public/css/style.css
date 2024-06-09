@@ -211,7 +211,7 @@ header .action a {
 }
 
 .chatlist .block:hover {
-  background: var(--hover);
+  background: var(--secondary);
 }
 
 .chatlist .block .imgbx {
