@@ -22,13 +22,11 @@ if (type) {
    }
 }
 
-let typingEl;
-socket.on('typing', ({ image, displayname }) => {
-  typingEl = appendTyping(image, displayname);
-});
-
 socket.on('messageCreate', (message) => {
-  typingEl?.remove();
+  console.log(document.hasFocus())
+  if (!document.hasFocus()) {
+    localStorage.setItem('focusState', false);
+  }
   appendMessage(message.author.image, message.author.displayname, message.author.username, message.content.text, message.content.timestamp, message.attachments);
 });
 
@@ -71,7 +69,7 @@ async function sendMessage() {
       username: user.user_name,
       image: user.image,
     },
-    chat: chatDetails,
+    room: chatDetails,
     attachments: url?.data?.url || null,
   });
   input.value = '';
