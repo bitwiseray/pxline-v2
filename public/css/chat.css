@@ -155,8 +155,11 @@ body {
   background-color: #aaa;
 }
 
-.message-container {
+.message-container {    
   position: relative;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
 }
 
 .message-head {
@@ -200,18 +203,19 @@ body {
   border-radius: 10px;
   margin-bottom: 0px;
   width: 100%;
+  /* animation: slideUp 0.3s forwards; */
 }
 
 .message-container .message:active {
   background: #7a7a7aad;
 }
 
-@keyframes slideFromLeft {
+@keyframes slideUp {
   from {
-    transform: translateX(-100%);
+    transform: translateY(-50%);
   }
   to {
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
