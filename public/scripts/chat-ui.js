@@ -107,9 +107,14 @@ function shouldDisplayTimeDivider(lastTimestamp, currentTimestamp) {
 }
 
 const textarea = document.getElementById('inp');
+const arrowIcon = document.createElement('i');
+arrowIcon.className = 'material-symbols-outlined';
+arrowIcon.innerHTML = 'arrow_back_ios';
 textarea?.addEventListener('input', () => {
   textarea.style.height = '';
   const scrollHeight = textarea.scrollHeight;
+  const sendDiv = document.querySelector('.send');
+  const iconsDiv = document.querySelector('.upload-options');
   const maxHeight = 90;
   if (scrollHeight > maxHeight) {
     textarea.parentElement.style.borderRadius = '20px'
@@ -117,6 +122,27 @@ textarea?.addEventListener('input', () => {
   } else {
     textarea.parentElement.style.borderRadius = `30px`
     textarea.style.height = `${scrollHeight}px`;
+  }
+  if (textarea.value.length > 0) {
+    // iconsDiv.querySelectorAll('i').forEach(icon => icon.style.display = 'none');
+    // if (!iconsDiv.contains(arrowIcon)) {
+    //   iconsDiv.appendChild(arrowIcon);
+    // }
+    sendDiv.style.backgroundColor = '#fff';
+    sendDiv.style.color = 'var(--secondary)';
+    sendDiv.querySelector('i').innerHTML = 'trending_flat';
+    // textarea.parentElement.style.marginLeft = '40px';
+    // textarea.parentElement.style.width = '260px';
+  } else {
+    // iconsDiv.querySelectorAll('i').forEach(icon => icon.style.display = 'block');
+    // if (!iconsDiv.contains(arrowIcon)) {
+    //   iconsDiv?.removeChild(arrowIcon);
+    // }
+    sendDiv.style.backgroundColor = 'var(--secondary)';
+    sendDiv.style.color = '#fff';
+    sendDiv.querySelector('i').innerHTML = 'chevron_right';
+    // textarea.parentElement.style.marginLeft = '80px';
+    // textarea.parentElement.style.width = '235px';
   }
 });
 
