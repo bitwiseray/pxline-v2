@@ -64,16 +64,19 @@
       <div class="message-container"</div>
     </div>
     <div class="messageInput">
-      <i class="material-symbols-outlined" id="fileAddI">add_photo_alternate</i>
-      <div class="input">
-        <input type="file" id="attachmentInput" name="upload" style="display: none;" accept="image/*">
-        <div class="local-upload">
-          <img src="" alt=""> <span>1 media selected</span> <i class="material-symbols-outlined" onclick="clearMediaFeedback()">close</i>
+        <div class="upload-options">
+          <i class="material-symbols-outlined" id="fileAddI">photo_library</i>
+          <i class="material-symbols-outlined" id="fileAddI">folder_open</i>
         </div>
-        <textarea id="inp" placeholder="Message"></textarea>
+        <div class="input">
+          <input type="file" id="attachmentInput" name="upload" style="display: none;" accept="image/*">
+          <div class="local-upload">
+            <img src="" alt=""> <span>1 media selected</span> <i class="material-symbols-outlined" onclick="clearMediaFeedback()">close</i>
+          </div>
+          <textarea id="inp" placeholder="Message"></textarea>
+        </div>
+        <div class="send"><i class="material-symbols-outlined">trending_flat</i></div>
       </div>
-      <div class="send"><i class="material-symbols-outlined">send</i></div>
-    </div>
   </div>
   </div>
   <script src="/scripts/chat-ui.js"></script>
