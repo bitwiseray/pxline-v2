@@ -23,10 +23,6 @@ if (type) {
 }
 
 socket.on('messageCreate', (message) => {
-  console.log(document.hasFocus())
-  if (!document.hasFocus()) {
-    localStorage.setItem('focusState', false);
-  }
   appendMessage(message.author.image, message.author.displayname, message.author.username, message.content.text, message.content.timestamp, message.attachments);
 });
 
