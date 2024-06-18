@@ -48,9 +48,9 @@
       <div class="menu-container">
         <div class="options-container hamburger-menu" id="hamburger-menu"><i class="material-symbols-outlined">more_vert</i></div>
         <div class="menu" id="menu">
-          <a href="" id="redirectOpt"></a>
-          <a href="#" style="color: red;"><i class="material-symbols-outlined">flag</i> Report</a>
-          <a href="#" id="leaveOpt" style="color: red;"></a>
+          <a id="redirectOpt"></a>
+          <a style="color: red;"><i class="material-symbols-outlined">flag</i> Report</a>
+          <a id="leaveOpt" style="color: red;"></a>
         </div>
       </div>
     </div>
@@ -124,10 +124,10 @@
         }
       }
       initChat();
-      setChat();
     }
     document.addEventListener('DOMContentLoaded', () => {
       initChatsIndexes();
+      setChat();
     });
   </script>
 </body>
