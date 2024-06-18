@@ -69,6 +69,7 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
     reply.redirect('/');
   } catch (e) {
     request.flash('error', 'Something went wrong');
+    reply.redirect('/signup');
     return console.error({ at: '/signup', error: e })
   }
 });
