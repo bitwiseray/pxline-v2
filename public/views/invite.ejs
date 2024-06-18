@@ -23,7 +23,7 @@
 <body>
   <div class="invite-container">
     <div class="invite-card">
-      <img src="" alt="<%=room.title%> icon" id="icon-image">
+      <img src="<%=room.icon%>" alt="<%=room.title%> icon" id="icon-image">
       <p>You've been invited to join</p>
       <h1>
         <%=room.title%>
@@ -39,7 +39,6 @@
   </div>
   <script>
   let messages = <%-JSON.stringify(messages)%>;
-  document.getElementById('icon-image').src = `${window.location.origin}/cdn/<%=room.icon%>`;
   </script>
   <script src="/scripts/main.js"></script>
 </body>
