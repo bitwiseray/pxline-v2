@@ -32,7 +32,7 @@ form {
 
 form > #profilePicPreview {
   position: relative;
-  left: 100px;
+  left: 110px;
   cursor: pointer;
 }
 form button {
