@@ -20,37 +20,43 @@ async function getIndexes(user) {
 }
 
 async function checkChats(entityId, forChat) {
-  if (forChat.type === 'user') {
-    const userChats = await profiler.findById(entityId, '_id chats').chats;
-    if (userChats.find(thisObj => thisObj.user_id == forChat.targetId)) {
-      return true;
+  try {
+    if (forChat.type === 'user') {
+      const userChats = await profiler.findById(entityId, '_id chats').chats;
+      if (userChats.find(thisObj => thisObj.user_id == forChat.targetId)) {
+        return { status: 'halted', code: 'CHAT_EXISTS', error: null };
+      } else {
+        const newId = await Chat.create({
+          timestamp: Date.now(),
+          svd_chats: []
+        });
+        userChats.push({
+          user_id: forChat.user_id,
+          chat_type: 'DM',
+          chat_id: newId.id
+        });
+        userChats.save();
+        return { status: 'success', code: 'CHAT_CREATED', error: null };
+      }
     } else {
-      const newId = await Chat.create({
-        timestamp: Date.now(),
-        svd_chats: []
-      });
-      userChats.push({
-        user_id: forChat.user_id,
-        chat_type: 'DM',
-        chat_id: newId.id
-      });
-      userChats.save();
+      const roomChat = await Room.findById(entityId, '_id chats').chats;
+      if (roomChat.chat_id) {
+        return { status: 'halted', code: 'CHAT_EXISTS', error: null };
+      } else {
+        const newId = await Chat.create({
+          timestamp: Date.now(),
+          svd_chats: []
+        });
+        roomChat.push({
+          chat_type: 'room',
+          chat_id: newId.id
+        });
+        userChats.save();
+        return { status: 'success', code: 'CHAT_CREATED', error: null };
+      }
     }
-  } else {
-    const roomChat = await Room.findById(entityId, '_id chats').chats;
-    if (roomChat.chat_id) {
-      return true;
-    } else {
-      const newId = await Chat.create({
-        timestamp: Date.now(),
-        svd_chats: []
-      });
-      roomChat.push({
-        chat_type: 'room',
-        chat_id: newId.id
-      });
-      userChats.save();
-    }
+  } catch (error) {
+    return { status: 'failed', code: 'SYSTEM_ERROR', error: error };
   }
 }
 
@@ -61,38 +67,6 @@ async function loadFriends(base) {
   }));
   return friendsDetails;
 };
-
-// async function uploadMedia(type, offload, stream, request) {
-//   return new Promise(async (resolve, reject) => {
-//     try {
-//       if (type === 'profile') {
-//         if (offload.size > 5 * 1024 * 1024) {
-//           reject({ error: 'File size exceeds the limit' });
-//         }
-//         const loadPff = await Media.create({
-//           loadType: type,
-//           data: stream,
-//           contentType: offload.mimetype
-//         });
-//         resolve({ status: 'done', id: loadPff._id });
-//       } else {
-//         if (offload.size > 10 * 1024 * 1024) {
-//           reject({ error: 'File size exceeds the limit' });
-//         }
-//         const loadAtt = await Media.create({
-//           loadType: type,
-//           data: stream,
-//           contentType: offload.mimetype,
-//           filename: offload.filename,
-//           createdAt: Date.now()
-//         });
-//         resolve({ status: 'done', id: loadAtt._id });
-//       }
-//     } catch (error) {
-//       reject(error)
-//     }
-//   });
-// }
 
 async function uploadMedia(type, offload, stream, request) {
   return new Promise(async (resolve, reject) => {
@@ -140,7 +114,7 @@ async function getLastMessages(entityIds) {
   await Promise.all(entityIds.map(async (entity) => {
     if (entity) {
       let chat = await Chat.findById(entity.toString());
-      if (!chat) return { message: 'Chat does not exist'};
+      if (!chat) return { message: 'Chat does not exist' };
       const lastObj = chat.svd_chats[chat.svd_chats.length - 1];
       if (!lastObj) return toReturnArray.push([]);
       const username = await profiler.findById(lastObj.sender, 'display_name');

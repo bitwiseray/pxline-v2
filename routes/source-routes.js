@@ -3,7 +3,7 @@ const multer = require('multer');
 const router = express.Router();
 const RoomSources = require('../utils/sourcing/Rooms');
 const UserSources = require('../utils/sourcing/Users');
-const { getIndexes, uploadMedia, getLastMessages, loadFriends } = require('../utils/sourcing');
+const { getIndexes, uploadMedia, getLastMessages, loadFriends, checkChats } = require('../utils/sourcing');
 const { checkAuth, checkNotAuth } = require('../preval/validators');
 const { storage, clearCache } = require('../utils/upload-sys');
 const fs = require('fs');
@@ -39,12 +39,13 @@ router.get('/indexes', checkAuth, async (request, reply) => {
   }
 });
 
-
 router.get('/chat/:id/', checkAuth, async (request, reply) => {
   try {
     const id = request.params.id;
     const type = await id.checkIdType();
+    let chatExists;
     if (type === 'room') {
+      chatExists = await checkChats(request.user._id, { type: 'room', targetId: id, user_id: request.user._id });
       const offload = await RoomSources.loadRoom(id);
       const toSendData = { 
         type: 'room', 
@@ -55,6 +56,7 @@ router.get('/chat/:id/', checkAuth, async (request, reply) => {
       }
       reply.status(200).json(toSendData);
     } else {
+      chatExists = await checkChats(request.user._id, { type: 'room', targetId: id, user_id: request.user._id });
       const usrOffload = await UserSources.loadUser(id, request.user._id, '_id user_name display_name image chats createdAt');
       const toSendData = { 
         type: 'DM', 
