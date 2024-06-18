@@ -19,39 +19,35 @@ async function getIndexes(user) {
   return { rooms, users };
 }
 
-async function checkChats(entityId, forChat) {
+async function checkChats(userId, targetId) {
   try {
-    if (forChat.type === 'user') {
-      const userChats = await profiler.findById(entityId, '_id chats').chats;
-      if (userChats.find(thisObj => thisObj.user_id == forChat.targetId)) {
+    if (userId && targetId) {
+      const user = await profiler.findById(userId, '_id chats');
+      const targetUser = await profiler.findById(targetId, '_id chats');
+      const commonChat = user.chats.some(userChat => 
+        targetUser.chats.some(targetChat => 
+          userChat.chat_id === targetChat.chat_id && userChat.chat_type === 'DM'
+        )
+      );
+      if (commonChat) {
         return { status: 'halted', code: 'CHAT_EXISTS', error: null };
       } else {
         const newId = await Chat.create({
           timestamp: Date.now(),
           svd_chats: []
         });
-        userChats.push({
-          user_id: forChat.user_id,
+        user.chats.push({
+          user_id: targetId,
           chat_type: 'DM',
           chat_id: newId.id
         });
-        userChats.save();
-        return { status: 'success', code: 'CHAT_CREATED', error: null };
-      }
-    } else {
-      const roomChat = await Room.findById(entityId, '_id chats').chats;
-      if (roomChat.chat_id) {
-        return { status: 'halted', code: 'CHAT_EXISTS', error: null };
-      } else {
-        const newId = await Chat.create({
-          timestamp: Date.now(),
-          svd_chats: []
-        });
-        roomChat.push({
-          chat_type: 'room',
+        targetUser.chats.push({
+          user_id: userId,
+          chat_type: 'DM',
           chat_id: newId.id
         });
-        userChats.save();
+        await targetUser.save();
+        await user.save();
         return { status: 'success', code: 'CHAT_CREATED', error: null };
       }
     }
