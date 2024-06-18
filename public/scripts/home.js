@@ -40,7 +40,6 @@ function createChatTile(entity, user) {
     messageP.appendChild(messageElement);
     details.appendChild(messageP);
     chatBlock.appendChild(details);
-    console.log(localStorage.getItem('focusState'))
     if (localStorage.getItem('focusState') === false) {
         const unreadCountElement = document.createElement('b');
         unreadCountElement.textContent = '•';

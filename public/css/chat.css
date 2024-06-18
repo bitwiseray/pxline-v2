@@ -28,7 +28,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: 10000;
-  background-image: url("/assets/index.jpg");
+  background-image: url("/assets/chatbg-pc.jpg");
   background-size: cover;
   overflow: hidden;
 }
