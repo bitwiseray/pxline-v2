@@ -10,6 +10,7 @@ module.exports = async (io) => {
         socket.join(load._id);
         globId = load._id;
         chatId = load.chatLoad;
+        saveChats(chatId);
       } else {
         console.log('Error: load object is undefined or missing _id');
       }
