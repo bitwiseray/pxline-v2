@@ -43,9 +43,7 @@ router.get('/chat/:id/', checkAuth, async (request, reply) => {
   try {
     const id = request.params.id;
     const type = await id.checkIdType();
-    let chatExists;
     if (type === 'room') {
-      chatExists = await checkChats(request.user._id, { type: 'room', targetId: id, user_id: request.user._id });
       const offload = await RoomSources.loadRoom(id);
       const toSendData = { 
         type: 'room', 
@@ -56,7 +54,7 @@ router.get('/chat/:id/', checkAuth, async (request, reply) => {
       }
       reply.status(200).json(toSendData);
     } else {
-      chatExists = await checkChats(request.user._id, { type: 'room', targetId: id, user_id: request.user._id });
+      await checkChats(request.user._id.toString(), id, 'DM');
       const usrOffload = await UserSources.loadUser(id, request.user._id, '_id user_name display_name image chats createdAt');
       const toSendData = { 
         type: 'DM', 
