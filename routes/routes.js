@@ -104,7 +104,7 @@ router.post('/invite/:id', checkAuth, async (request, reply) => {
     let room = await Room.findById(request.params.id);
     await RoomSources.addToRoom(request.user._id, room);
     request.flash('success', `Joined ${room.title}!`);
-    reply.redirect('/');
+    reply.redirect(`/chat?id=${room._id}`);
   } catch (error) {
     request.flash('error', error.status == 'halted' ? error.message : 'Something went wrong');
     reply.redirect('/');
