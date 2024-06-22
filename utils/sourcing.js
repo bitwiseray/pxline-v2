@@ -4,6 +4,7 @@ const Chat = require('../schematics/chats');
 const { put } = require('@vercel/blob');
 const RoomSources = require('./sourcing/Rooms');
 const UserSources = require('./sourcing/Users');
+const { clearCache } = require('./upload-sys');
 
 /**
  * Load basic indexs of chats related to user
@@ -80,6 +81,7 @@ async function uploadMedia(type, offload, stream, request) {
         const blob = await put(`attachment/${offload.filename}`, stream, { contentType: offload.mimetype || 'image/jpeg', access: 'public' });
         resolve({ status: 'done', url: blob.url });
       }
+      clearCache();
     } catch (error) {
       console.log(error)
       reject(error)
