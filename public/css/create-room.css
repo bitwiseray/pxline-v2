@@ -7,7 +7,7 @@
 }
 
 body {
-  background: #2D2E3C;
+  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)), url('/assets/gatewayimg-pc.webp');
   background-size: cover;
   background-repeat: no-repeat;
   height: 100vh;
@@ -34,8 +34,8 @@ form > #profilePicPreview {
   position: relative;
   left: 110px;
   cursor: pointer;
-  width: 90px; 
-  height: 90px; 
+  width: 180px; 
+  height: 180px; 
   object-fit: cover;
 }
 
@@ -105,9 +105,10 @@ a {
   font-size: 15px;
   font-weight: 500;
   border-radius: 10px;
-  height: 60px;
+  height: 47px;
   width: 100%;
   cursor: pointer;
+  transition: 0.3s ease;
 }
 
 .button-submit:hover {
@@ -125,7 +126,6 @@ a {
     left: 92px;
     width: 130px; 
     height: 130px;
-    border-radius: 50%;
   }
 }
 
