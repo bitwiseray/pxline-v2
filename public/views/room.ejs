@@ -68,8 +68,7 @@
   <script src="/scripts/main.js"></script>
   <script>
     let text = <%-room.socials%>;
-    document.querySelector('#bio-text').textContent = text.description;
-    document.getElementsByTagName('p').textContent = text.description;
+    document.querySelector('#bio-text').textContent = text.bio;
     document.getElementById("created-at").innerText = timeAgo(<%=room.createdAt%>);
   </script>
 </body>
