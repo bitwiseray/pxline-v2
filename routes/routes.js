@@ -30,12 +30,12 @@ router.post('/login', checkNotAuth, passport.authenticate('local', {
   failureFlash: true
 }));
 
-router.get('/signup', checkNotAuth, (request, reply) => {
-  reply.render('signup');
-});
-
 router.get('/chat', checkAuth, async (request, reply) => {
   reply.render('chat');
+});
+
+router.get('/signup', checkNotAuth, (request, reply) => {
+  reply.render('signup');
 });
 
 const upload = multer({ storage: storage });
@@ -71,6 +71,50 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
     request.flash('error', 'Something went wrong');
     reply.redirect('/signup');
     return console.error({ at: '/signup', error: e })
+  }
+});
+
+router.get('/create-room', checkNotAuth, (request, reply) => {
+  reply.render('create-room');
+});
+
+router.post('/create-room', checkNotAuth, upload.single('image'), async (request, reply) => {
+  try {
+    const { title, info, admins } = request.body;
+    let media;
+    if (request.file) {
+      media = await uploadMedia('profile', request.file, fs.readFileSync(path.join(__dirname, '../tmp', request.file.filename)), request);
+    } else {
+      media = { url: 'https://github.com/bitwiseray/pxline-v2/blob/main/public/assets/profile-pic.png?raw=true' };
+    }
+    const newChat = await Chat.create({
+      timestamp: Date.now(),
+      svd_chats: []
+    });
+    const newRoom = await Room.create({
+      title: title,
+      icon: media.url,
+      createdAt: Date.now(),
+      members: [request.user._id],
+      chats: {
+        chat_id: newChat.id,
+        chat_type: 'room'
+      },
+      socials: {
+        bio: info,
+      }
+    });
+    let userInstace = await profiler.findById(request.id);
+    userInstace.chats.push({
+      chat_id: newRoom.id,
+      chat_type: 'room'
+    });
+    request.flash('success', 'Room created!');
+    reply.redirect('/');
+  } catch (e) {
+    request.flash('error', 'Something went wrong');
+    reply.redirect('/create-room');
+    console.error({ at: '/create-room', error: e })
   }
 });
 
