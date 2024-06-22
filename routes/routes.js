@@ -8,10 +8,11 @@ const initGateway = require('../utils/strategy');
 const bcrypt = require('bcrypt');
 const profiler = require('../schematics/profile');
 const Room = require('../schematics/rooms');
+const Chat = require('../schematics/chats');
 const mongoose = require('mongoose');
 const { checkAuth, checkNotAuth } = require('../preval/validators');
-const { getIndexes, uploadMedia, getLastMessages, loadFriends } = require('../utils/sourcing');
-const { storage, clearCache } = require('../utils/upload-sys');
+const { uploadMedia } = require('../utils/sourcing');
+const { storage } = require('../utils/upload-sys');
 const RoomSources = require('../utils/sourcing/Rooms');
 const UserSources = require('../utils/sourcing/Users');
 
@@ -95,7 +96,7 @@ router.post('/create-room', checkAuth, upload.single('image'), async (request, r
       title: title,
       icon: media.url,
       createdAt: Date.now(),
-      members: [request.user._id],
+      members: [request.user._id.toString()],
       chats: {
         chat_id: newChat.id,
         chat_type: 'room'
@@ -104,11 +105,12 @@ router.post('/create-room', checkAuth, upload.single('image'), async (request, r
         bio: info,
       }
     });
-    let userInstace = await profiler.findById(request.id);
+    let userInstace = await profiler.findById(request.user._id);
     userInstace.chats.push({
       chat_id: newRoom.id,
       chat_type: 'room'
     });
+    await userInstace.save();
     request.flash('success', 'Room created!');
     reply.redirect('/');
   } catch (e) {
