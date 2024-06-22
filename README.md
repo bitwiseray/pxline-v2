@@ -16,4 +16,4 @@ All claimed features may not be available or may be only halfway done. Instabili
 - [x] **Message Utility**: Copy, delete, or \[edit] sent messages.
 - [x] **Privacy-Induced Authentication**: Native sign-in flow, with the ability to delete, log out, or create accounts locally, with just your custom username and password—no email or phone number needed!
 - [x] **Info & Profiles**: View user profiles, room details, or [customize your profile]!
-- [x] **Chat Modes**: [Create chat rooms ("Rooms")] or start a private chat with a user!
+- [x] **Chat Modes**: Create chat rooms ("Rooms") or start a private chat with a user!
