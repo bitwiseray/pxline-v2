@@ -74,11 +74,11 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
   }
 });
 
-router.get('/create-room', checkNotAuth, (request, reply) => {
+router.get('/create-room', checkAuth, (request, reply) => {
   reply.render('create-room');
 });
 
-router.post('/create-room', checkNotAuth, upload.single('image'), async (request, reply) => {
+router.post('/create-room', checkAuth, upload.single('image'), async (request, reply) => {
   try {
     const { title, info, admins } = request.body;
     let media;
