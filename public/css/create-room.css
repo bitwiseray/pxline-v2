@@ -102,8 +102,8 @@ a {
   background-color: #151717;
   border: none;
   color: white;
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 17px;
+  font-weight: 600;
   border-radius: 10px;
   height: 47px;
   width: 100%;
@@ -118,9 +118,9 @@ a {
 /* Responsive styling */
 @media screen and (max-width: 768px) {
   form {
-    width: 330px;
+    width: 320px;
     padding: 10px;
-    height: 480px;
+    height: 430px;
   }
   form > #profilePicPreview {
     left: 92px;
