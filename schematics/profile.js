@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const profile_schema = new mongoose.Schema({
+  online: false,
   user_name: { type: String, required: true, unique: true },
   display_name: { type: String },
   password: { type: String, required: true },
