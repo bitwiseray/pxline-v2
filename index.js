@@ -16,6 +16,7 @@ const io = require('socket.io')(socket, {
 
 require('dotenv').config();
 require('./sockets/listeners')(io);
+require('./sockets/feed-handler')(io);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'public/views'));
 app.use(express.static(path.join(__dirname, 'public')));
