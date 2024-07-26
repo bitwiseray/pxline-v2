@@ -7,7 +7,7 @@ const profile_schema = new mongoose.Schema({
   password: { type: String, required: true },
   authority: { type: String },
   image: { type: String },
-  createdAt: Number,
+  createdAt: { type: Number },
   socials: { bio: String, friends: Array, interactions: Number },
   chats: [{ chat_id: String, user_id: String, chat_type: String, total_length: Number }],
 });
