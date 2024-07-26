@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 
 async function initGateway() {
-   let authenticate_user = async (username, password, done) => {
+  let authenticate_user = async (username, password, done) => {
     const user = await profiler.findOne({ user_name: username });
     if (!user) {
       return done(null, false, { message: "No user with this username." });

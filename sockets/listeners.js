@@ -1,35 +1,47 @@
+const profiler = require('../schematics/profile');
 const { saveChats, cacheChats, deleteMessage } = require('../utils/chats-offloader');
-const Chat = require('../schematics/chats');
 
-module.exports = async (io) => {
-  let chatId;
-  let globId;
-  io.on('connection', (socket) => {
-    socket.on('joinRoom', load => {
-      if (load && load._id) {
-        socket.join(load._id);
-        globId = load._id;
-        chatId = load.chatLoad;
-        saveChats(chatId);
-      } else {
-        console.log('Error: load object is undefined or missing _id');
-      }
+class ChatManager {
+  constructor(io) {
+    this.io = io;
+    this.chatId = null;
+    this.globId = null;
+    this.io.on('connection', (socket) => {
+      this.handleConnection(socket);
     });
-    socket.on('message', async message => {
-      if (message && message.content && message.author) {
-        chatId = message.room.chat_id;
-      }
-      io.to(globId).emit('messageCreate', message);
-      cacheChats(chatId, message);
-    });
-    socket.on('delete', async obj => {
-      let handle = await deleteMessage(obj.id, obj.by, chatId);
-      if (handle.code === 'MESSAGE_DELETED') {
-        io.to(globId).emit('messageDelete', obj);
-      }
-    });
-    socket.on('disconnect', () => {
-      saveChats(chatId);
-    });
-  });
-};
+  }
+  handleConnection(socket) {
+    socket.on('joinRoom', (load) => this.joinRoom(socket, load));
+    socket.on('message', (message) => this.handleMessage(message));
+    socket.on('delete', (obj) => this.handleDelete(obj));
+    socket.on('disconnect', () => this.handleDisconnect());
+  }
+  joinRoom(socket, load) {
+    if (load && load._id) {
+      socket.join(load._id);
+      this.globId = load._id;
+      this.chatId = load.chatLoad;
+      saveChats(this.chatId);
+    } else {
+      console.log('Error: load object is undefined or missing _id');
+    }
+  }
+  async handleMessage(message) {
+    if (message && message.content && message.author) {
+      this.chatId = message.room.chat_id;
+      this.io.to(this.globId).emit('messageCreate', message);
+      cacheChats(this.chatId, message);
+    }
+  }
+  async handleDelete(obj) {
+    let handle = await deleteMessage(obj.id, obj.by, this.chatId);
+    if (handle.code === 'MESSAGE_DELETED') {
+      this.io.to(this.globId).emit('messageDelete', obj);
+    }
+  }
+  handleDisconnect() {
+    saveChats(this.chatId);
+  }
+}
+
+module.exports = (io) => new ChatManager(io);
