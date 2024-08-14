@@ -17,12 +17,14 @@ const RoomSources = require('../utils/sourcing/Rooms');
 const UserSources = require('../utils/sourcing/Users');
 
 initGateway();
+const getViewFilePath = (fileName) => path.resolve(__dirname, '..', 'public', 'views', fileName);
+
 router.get('/', checkAuth, async (request, reply) => {
-  reply.render('index', { user: request.user });
+  reply.sendFile(getViewFilePath('index.html'));
 });
 
 router.get('/login', checkNotAuth, (request, reply) => {
-  reply.render('login');
+  reply.sendFile(getViewFilePath('login.html'));
 });
 
 router.post('/login', checkNotAuth, passport.authenticate('local', {
