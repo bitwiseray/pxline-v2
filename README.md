@@ -1,7 +1,8 @@
 ![PxLine logo banner](https://raw.githubusercontent.com/bitwiseray/pxline-v2/main/public/assets/20240418_220716.jpg)
 
 ## Full-Stack Chat App: PxLine (Early)
-This is a **hobbyist** project for a full-stack chat application built by very 'professional and experienced devs' using Node.js, the Express.js framework, and EJS for minor front-end templating. The project was first started on Android devices!
+This is a **hobbyist** project for a full-stack chat application built by very 'professional and experienced devs' using Node.js, the Express.js framework, and of course, vanilla web! 
+The project was first started on Android devices!
 
 ### Note
 All claimed features may not be available or may be only halfway done. Instability and bugs are expected until this note is removed.
