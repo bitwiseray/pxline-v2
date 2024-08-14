@@ -16,8 +16,6 @@ const io = require('socket.io')(socket, {
 
 require('dotenv').config();
 require('./sockets/listeners')(io);
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'public/views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
