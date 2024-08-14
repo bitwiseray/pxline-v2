@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A minimalistic vanilla chat app made in Node.js" />
+    <meta name="robots" content="follow, index" />
+    <meta name="author" content="PxLine Team" />
+    <meta name="theme-color" content="#7A2FFF" />
+    <meta name="keywords" content="chat app, nodejs chat app" />
+    <meta property="og:site_name" content="PxLine" />
+    <meta property="og:image" content="/assets/preview-logo.jpg" />
+    <meta name="mobile-web-app-capable" content="no">
+    <meta property="og:locale" content="en_US" />
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/nav-bar.css">
+    <link rel="stylesheet" href="/css/people-box.css">
+    <link rel="shortcut icon" href="img.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js" integrity="sha512-4F1cxYdMiAW98oomSLaygEwmCnIP38pb4Kx70yQYqRwLVCs3DbRumfBq82T08g/4LJ/smbFGFpmeFlQgoDccgg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Pixy UI</title>
+</head>
+
+<body>
+    <div class="hero">
+        <div class="nav-bar">
+            <label class="nav-item">
+                <img src="https://github.com/bitwiseray/pxline-v2/blob/main/public/assets/profile-pic.png?raw=true" alt="Profile" class="nav-icon profile-icon">
+            </label>
+            <label class="nav-item">
+                <input type="checkbox" class="nav-checkbox">
+                <span class="material-symbols-outlined">chat_bubble</span>
+            </label>
+            <label class="nav-item">
+                <input type="checkbox" class="nav-checkbox">
+                <span class="material-symbols-outlined">person</span>
+            </label>
+            <label class="nav-item">
+                <input type="checkbox" class="nav-checkbox">
+                <span class="material-symbols-outlined">settings</span>
+            </label>
+            <label class="nav-item logout-icon">
+                <input type="checkbox" class="nav-checkbox">
+                <span class="material-symbols-outlined">logout</span>
+            </label>
+        </div>
+        <div class="people-box">
+            <div class="search-bar">
+                <input type="text" placeholder="Search Conversations">
+                <span class="material-symbols-outlined">add</span>
+            </div>
+            <div class="recent-label">
+                <span>Recent</span>
+                <span class="material-symbols-outlined">expand_more</span>
+            </div>
+            <div class="chat-list">
+                <div class="chat-item" id="some-id">
+                    <img src="img.jpg" alt="Profile" class="chat-pic">
+                    <div class="chat-info">
+                        <div class="chat-name">
+                            <span>Miyuki Amane</span>
+                            <span class="chat-time">Now</span>
+                        </div>
+                        <div class="chat-message">Hey man, I wanted to ask...</div>
+                        <!-- <div class="chat-status">2</div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="header-info">
+                    <img src="img.jpg" alt="Profile Picture" class="profile-pic">
+                    <div class="user-details">
+                        <span class="username">Miyuki Amane</span>
+                        <span class="last-seen online">Online</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <span class="material-symbols-outlined">more_vert</span>
+                </div>
+            </div>
+            <div class="chat-content">
+                <p class="divider">Today</p>
+                <div class="message">
+                    <img src="img.jpg" alt="Profile Picture" class="message-pic">
+                    <div class="message-bubble" style="border-radius: 16.5px;">
+                        <p>How's my new profile picture!</p>
+                        <img src="img.jpg" alt="City View" class="message-image">
+                        <span class="timestamp">1:07 AM</span>
+                    </div>
+                </div>
+                <div class="message me">
+                    <div class="message-bubble">
+                        <p>Good Good...</p>
+                        <span class="timestamp">11:54 PM</span>
+                    </div>
+                </div>
+                <div class="message">
+                    <img src="img.jpg" alt="Profile Picture" class="message-pic">
+                    <div class="message-bubble">
+                        <p>So nonchalant!</p>
+                        <span class="timestamp">5:31 PM</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <span class="material-symbols-outlined icon">add_a_photo</span>
+                <span class="material-symbols-outlined icon">attach_file_add</span>
+                <textarea name="message-input" class="input-field" placeholder="Type a message..."></textarea>
+            </div>
+        </div>
+    </div>
+    <script src="/scripts/main.js"></script>
+    <script src="/scripts/manageUI.js"></script>
+</body>
+
+</html>
