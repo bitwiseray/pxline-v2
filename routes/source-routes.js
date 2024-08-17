@@ -3,7 +3,7 @@ const multer = require('multer');
 const router = express.Router();
 const RoomSources = require('../utils/sourcing/Rooms');
 const UserSources = require('../utils/sourcing/Users');
-const { getIndexes, uploadMedia, getLastMessages, loadFriends, checkChats } = require('../utils/sourcing');
+const { getIndexes, uploadMedia, getLastMessages, loadFriends, checkChats, checkIdType } = require('../utils/sourcing');
 const { checkAuth, checkNotAuth } = require('../preval/validators');
 const { storage, clearCache } = require('../utils/upload-sys');
 const fs = require('fs');
@@ -42,7 +42,7 @@ router.get('/indexes', checkAuth, async (request, reply) => {
 router.get('/chat/:id/', checkAuth, async (request, reply) => {
   try {
     const id = request.params.id;
-    const type = await id.checkIdType();
+    const type = await checkIdType(id);
     if (type === 'room') {
       const offload = await RoomSources.loadRoom(id);
       const toSendData = { 
