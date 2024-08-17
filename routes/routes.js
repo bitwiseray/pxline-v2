@@ -78,7 +78,7 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
 });
 
 router.get('/create-room', checkAuth, (request, reply) => {
-  reply.render('create-room');
+  reply.sendFile(getViewFilePath('create-room.html'));
 });
 
 router.post('/create-room', checkAuth, upload.single('image'), async (request, reply) => {
@@ -169,7 +169,7 @@ router.delete('/leave/:id', checkAuth, async (request, reply) => {
   }
 });
 
-router.delete('/logout', checkAuth, (request, reply) => {
+router.get('/logout', checkAuth, (request, reply) => {
   request.logOut((err) => {
     if (err) {
       request.flash('error', 'Something went wrong');
