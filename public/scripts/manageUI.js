@@ -50,16 +50,16 @@ class HandleUI {
     }
 }
 
+const addedChats = new Set();
 class IndexCatcher {
     static handleChatTiles(user, lastMessages, extrooms, extusers) {
-        const addedChats = new Set();
         if (extrooms.length >= 1) {
             extrooms.forEach((context) => {
                 const last = lastMessages.find(chat => chat.lastFor === context.chats.chat_id);
                 if (last?.sender && !addedChats.has(context.chats.chat_id)) {
                     const content = `${last.sender === user.display_name ? 'You' : last.sender}: ${last.content}`;
                     HandleUI.appendChatTile(context._id, context.icon, context.title, content, timeAgo(last.createdAt));
-                    addedChats.add(context.chats.chat_id);
+                    addedChats.add(context._id);
                 }
             });
         }
@@ -70,7 +70,7 @@ class IndexCatcher {
                     if (last?.sender && !addedChats.has(chat.chat_id)) {
                         const content = `${last.sender === user.display_name ? 'You' : last.sender}: ${last.content}`;
                         HandleUI.appendChatTile(context._id, context.image, context.display_name, content, timeAgo(last.createdAt));
-                        addedChats.add(chat.chat_id);
+                        addedChats.add(chat._id);
                     }
                 });
             });
@@ -79,13 +79,19 @@ class IndexCatcher {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const response = await fetch('/source/indexes', {
-        method: 'GET'
-    });
+    const response = await fetch('/source/indexes');
     if (response.ok) {
         const data = await response.json();
         const { extrooms, extusers, user, friends, lastMessages } = data;
         HandleUI.setNavIconImage(user.image);
         IndexCatcher.handleChatTiles(user, lastMessages, extrooms, extusers);
+        const firstKey = Array.from(addedChats)[0];
+        console.log(`firstKey === '661b9b08540c21c45b15f6f5'`)
+        const chatResponse = await fetch(`/source/chat/${firstKey.toString()}`);
+        if (chatResponse.ok) {
+          const chatData = await chatResponse.json();
+          const { chats, extusers, room, type, user } = chatData;
+          HandleUI.createHeader(room.title, 'Room', room.icon);
+        }
     }
 });
