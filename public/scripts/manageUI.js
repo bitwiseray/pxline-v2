@@ -1,8 +1,9 @@
 class HandleUI {
-    static setNavIconImage(url) {
+    static setNavIconImage(url, id) {
         const navIcon = document.querySelector('.nav-icon');
         if (navIcon) {
             navIcon.src = url;
+            navIcon.id = id;
         } else {
             console.error('Nav icon element not found.');
         }
@@ -48,6 +49,35 @@ class HandleUI {
             lastSeen.classList.remove('online');
         }
     }
+    static bucketFill(chats, members, user) {
+        const myId = document.querySelector('.nav-icon').id;
+        const chatContent = document.querySelector('.chat-content');
+        if (chatContent) {
+            chats.forEach((chat) => {
+                const { content, sender } = chat;
+                const isMe = sender === myId;
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                const senderUser = chat.sender === user._id ? user : members.find(member => member._id === chat.sender);
+                if (isMe) {
+                    messageDiv.classList.add('me');
+                } else {
+                    const profilePic = document.createElement('img');
+                    profilePic.src = senderUser.image;
+                    profilePic.alt = `${senderUser.display_name}'s profile picture`;
+                    profilePic.classList.add('message-pic');
+                    messageDiv.appendChild(profilePic);
+                }
+                const messageBubble = document.createElement('div');
+                messageBubble.classList.add('message-bubble');
+                messageBubble.innerHTML = `<p>${content.text}</p><span class="timestamp">${formatTimestamp(content.timestamp)}</span>`;
+                messageDiv.appendChild(messageBubble);
+                chatContent.appendChild(messageDiv);
+            });
+        } else {
+            console.error('.chat-content element not found.');
+        }
+    }
 }
 
 const addedChats = new Set();
@@ -83,15 +113,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (response.ok) {
         const data = await response.json();
         const { extrooms, extusers, user, friends, lastMessages } = data;
-        HandleUI.setNavIconImage(user.image);
+        HandleUI.setNavIconImage(user.image, user._id);
         IndexCatcher.handleChatTiles(user, lastMessages, extrooms, extusers);
         const firstKey = Array.from(addedChats)[0];
-        console.log(`firstKey === '661b9b08540c21c45b15f6f5'`)
         const chatResponse = await fetch(`/source/chat/${firstKey.toString()}`);
         if (chatResponse.ok) {
           const chatData = await chatResponse.json();
           const { chats, extusers, room, type, user } = chatData;
           HandleUI.createHeader(room.title, 'Room', room.icon);
+          HandleUI.bucketFill(chats.svd_chats, extusers, user);
         }
     }
 });
