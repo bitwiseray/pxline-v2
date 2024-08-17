@@ -34,7 +34,7 @@ router.post('/login', checkNotAuth, passport.authenticate('local', {
 }));
 
 router.get('/chat', checkAuth, async (request, reply) => {
-  reply.render('chat');
+  reply.sendFile(getViewFilePath('index.html'));
 });
 
 router.get('/signup', checkNotAuth, (request, reply) => {
