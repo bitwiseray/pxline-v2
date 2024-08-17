@@ -30,11 +30,11 @@ function formatTimestamp(timestamp, compact) {
     const now = moment();
     const date = moment(timestamp);
     if (now.isSame(date, 'day')) {
-      return `Today at ${date.format('h:mm A')}`;
+      return `Today ${date.format('h:mm A')}`;
     } else if (now.subtract(1, 'days').isSame(date, 'day')) {
-      return `Yesterday at ${date.format('h:mm A')}`;
+      return `Yesterday ${date.format('h:mm A')}`;
     } else {
-      return date.format('MMMM D, YYYY');
+      return date.format('MMMM, YYYY');
     }
   } else {
     return moment(timestamp).format('h:mm A');
