@@ -52,11 +52,14 @@ class HandleUI {
     static bucketFill(chats, members, user, type) {
         const myId = document.querySelector('.nav-icon').id;
         const chatContent = document.querySelector('.chat-content');
+        
         if (chatContent) {
             chats.forEach((chat) => {
-                const { content, sender } = chat;
+                const { content, sender, attachments } = chat;
                 const isMe = sender === myId;
                 const messageDiv = document.createElement('div');
+                const messageBubble = document.createElement('div');
+                messageBubble.classList.add('message-bubble');
                 messageDiv.classList.add('message');
                 let senderUser;
                 if (type === 'room') {
@@ -73,16 +76,27 @@ class HandleUI {
                     profilePic.classList.add('message-pic');
                     messageDiv.appendChild(profilePic);
                 }
-                const messageBubble = document.createElement('div');
-                messageBubble.classList.add('message-bubble');
-                messageBubble.innerHTML = `<p>${content.text}</p><span class="timestamp">${formatTimestamp(content.timestamp)}</span>`;
+                const messageText = document.createElement('p');
+                messageText.textContent = content.text;
+                messageBubble.appendChild(messageText);
+                if (attachments) {
+                    console.log(attachments);
+                    const attachImg = document.createElement('img');
+                    attachImg.src = attachments;
+                    attachImg.classList.add('message-image');
+                    messageBubble.appendChild(attachImg);
+                }
+                const timestampSpan = document.createElement('span');
+                timestampSpan.classList.add('timestamp');
+                timestampSpan.textContent = formatTimestamp(content.timestamp);
+                messageBubble.appendChild(timestampSpan);
                 messageDiv.appendChild(messageBubble);
                 chatContent.appendChild(messageDiv);
             });
         } else {
             console.error('.chat-content element not found.');
         }
-    }
+    }    
 }
 
 const addedChats = new Set();
