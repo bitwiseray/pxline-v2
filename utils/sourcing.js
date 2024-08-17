@@ -89,14 +89,14 @@ async function uploadMedia(type, offload, stream, request) {
   });
 }
 
-async function checkIdType() {
+async function checkIdType(id) {
   try {
-    if (!this.match(/^[0-9a-fA-F]{24}$/)) return;
-    const user = await profiler.findOne({ _id: this });
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) return;
+    const user = await profiler.findOne({ _id: id });
     if (user) {
       return 'user';
     }
-    const room = await Room.findOne({ _id: this });
+    const room = await Room.findOne({ _id: id });
     if (room && room.members) {
       return 'room';
     }
@@ -127,5 +127,4 @@ async function getLastMessages(entityIds) {
   return toReturnArray;
 }
 
-String.prototype.checkIdType = checkIdType;
-module.exports = { getIndexes, uploadMedia, getLastMessages, loadFriends, checkChats };
+module.exports = { getIndexes, uploadMedia, getLastMessages, loadFriends, checkChats, checkIdType };
