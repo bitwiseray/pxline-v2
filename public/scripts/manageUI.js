@@ -58,7 +58,6 @@ class HandleUI {
                 const isMe = sender === myId;
                 const messageDiv = document.createElement('div');
                 messageDiv.classList.add('message');
-                console.log(chat)
                 let senderUser;
                 if (type === 'room') {
                     senderUser = chat.sender === user._id ? user : members.find(member => member._id === chat.sender);
@@ -134,12 +133,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const { chats, extusers, room, type, user } = chatData;
                 if (type === 'room') {
                     HandleUI.createHeader(room.title, 'Room', room.icon, 'room');
+                    HandleUI.bucketFill(chats.svd_chats, extusers, user, 'room');
+                    document.title = `Pxline - ${room.title}`;
                 } else {
                     HandleUI.createHeader(extusers.display_name, 'Hi', extusers.image, 'user');
+                    HandleUI.bucketFill(chats.svd_chats, extusers, user, 'user');
+                    document.title = `Pxline - ${extusers.display_name}`;
                 }
-                HandleUI.bucketFill(chats.svd_chats, extusers, user);
             }
         }
+        const chatItems = document.querySelectorAll('.chat-item');
+        chatItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const chatId = item.id;
+                window.location.href = `/chat?id=${chatId}`;
+            });
+        });
     }
 });
 
