@@ -49,7 +49,7 @@ class HandleUI {
             lastSeen.classList.remove('online');
         }
     }
-    static bucketFill(chats, members, user) {
+    static bucketFill(chats, members, user, type) {
         const myId = document.querySelector('.nav-icon').id;
         const chatContent = document.querySelector('.chat-content');
         if (chatContent) {
@@ -58,7 +58,13 @@ class HandleUI {
                 const isMe = sender === myId;
                 const messageDiv = document.createElement('div');
                 messageDiv.classList.add('message');
-                const senderUser = chat.sender === user._id ? user : members.find(member => member._id === chat.sender);
+                console.log(chat)
+                let senderUser;
+                if (type === 'room') {
+                    senderUser = chat.sender === user._id ? user : members.find(member => member._id === chat.sender);
+                } else {
+                    senderUser = chat.sender === user._id ? user : members;
+                }
                 if (isMe) {
                     messageDiv.classList.add('me');
                 } else {
@@ -126,7 +132,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (chatResponse.ok) {
                 const chatData = await chatResponse.json();
                 const { chats, extusers, room, type, user } = chatData;
-                HandleUI.createHeader(room.title, 'Room', room.icon);
+                if (type === 'room') {
+                    HandleUI.createHeader(room.title, 'Room', room.icon, 'room');
+                } else {
+                    HandleUI.createHeader(extusers.display_name, 'Hi', extusers.image, 'user');
+                }
                 HandleUI.bucketFill(chats.svd_chats, extusers, user);
             }
         }
