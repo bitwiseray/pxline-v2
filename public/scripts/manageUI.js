@@ -115,13 +115,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         const { extrooms, extusers, user, friends, lastMessages } = data;
         HandleUI.setNavIconImage(user.image, user._id);
         IndexCatcher.handleChatTiles(user, lastMessages, extrooms, extusers);
-        const firstKey = Array.from(addedChats)[0];
-        const chatResponse = await fetch(`/source/chat/${firstKey.toString()}`);
-        if (chatResponse.ok) {
-          const chatData = await chatResponse.json();
-          const { chats, extusers, room, type, user } = chatData;
-          HandleUI.createHeader(room.title, 'Room', room.icon);
-          HandleUI.bucketFill(chats.svd_chats, extusers, user);
+        const chatId = new URLSearchParams(window.location.search).get('id');
+        if (!chatId) {
+            const firstKey = Array.from(addedChats)[0];
+            if (firstKey) {
+                window.location.href = `/chat?id=${firstKey}`;
+            }
+        } else {
+            const chatResponse = await fetch(`/source/chat/${chatId}`);
+            if (chatResponse.ok) {
+                const chatData = await chatResponse.json();
+                const { chats, extusers, room, type, user } = chatData;
+                HandleUI.createHeader(room.title, 'Room', room.icon);
+                HandleUI.bucketFill(chats.svd_chats, extusers, user);
+            }
         }
     }
 });
+
