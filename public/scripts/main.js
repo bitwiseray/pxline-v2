@@ -24,3 +24,19 @@ function timeAgo(timestamp) {
   }
   return timeAgo;
 }
+
+function formatTimestamp(timestamp, compact) {
+  if (!compact) {
+    const now = moment();
+    const date = moment(timestamp);
+    if (now.isSame(date, 'day')) {
+      return `Today at ${date.format('h:mm A')}`;
+    } else if (now.subtract(1, 'days').isSame(date, 'day')) {
+      return `Yesterday at ${date.format('h:mm A')}`;
+    } else {
+      return date.format('MMMM D, YYYY');
+    }
+  } else {
+    return moment(timestamp).format('h:mm A');
+  }
+}
