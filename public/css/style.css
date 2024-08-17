@@ -97,6 +97,15 @@ body {
     max-height: 900px;
 }
 
+.chat-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-content::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: #aaa;
+}
+
 .divider {
     display: flex;
     align-items: center;
@@ -142,10 +151,11 @@ body {
 }
 
 .message-pic {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     margin-right: 10px;
+    object-fit: cover;
 }
 
 .message.me .message-pic {
@@ -185,13 +195,13 @@ body {
     border-radius: 10px;
     margin-top: 5px;
     cursor: pointer;
+    object-fit: cover;
 }
 
 .chat-input {
     display: flex;
     align-items: center;
     padding: 10px 15px;
-    /* border-top: 1px solid #ddd; */
 }
 
 .chat-input>textarea {
