@@ -1,0 +1,55 @@
+.nav-bar {
+    width: 70px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    position: relative;
+    border-right: 1px solid #aaa;
+}
+
+.nav-item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px 0;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    position: relative;
+}
+
+.nav-checkbox {
+    display: none;
+}
+
+.nav-item:hover {
+    background-color: #dcdcdc;
+}
+
+.nav-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.profile-icon {
+    border: 2px solid #ffffff;
+    padding: 2px;
+    background-color: #fff;
+}
+
+.nav-item span {
+    font-size: 30px;
+    color: #9e81a2;
+}
+
+.logout-icon {
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

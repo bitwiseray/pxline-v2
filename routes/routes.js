@@ -17,12 +17,14 @@ const RoomSources = require('../utils/sourcing/Rooms');
 const UserSources = require('../utils/sourcing/Users');
 
 initGateway();
+const getViewFilePath = (fileName) => path.resolve(__dirname, '..', 'public', 'views', fileName);
+
 router.get('/', checkAuth, async (request, reply) => {
-  reply.render('index', { user: request.user });
+  reply.sendFile(getViewFilePath('index.html'));
 });
 
 router.get('/login', checkNotAuth, (request, reply) => {
-  reply.render('login');
+  reply.sendFile(getViewFilePath('login.html'));
 });
 
 router.post('/login', checkNotAuth, passport.authenticate('local', {
@@ -76,7 +78,7 @@ router.post('/signup', checkNotAuth, upload.single('image'), async (request, rep
 });
 
 router.get('/create-room', checkAuth, (request, reply) => {
-  reply.render('create-room');
+  reply.sendFile(getViewFilePath('create-room.html'));
 });
 
 router.post('/create-room', checkAuth, upload.single('image'), async (request, reply) => {
@@ -167,7 +169,7 @@ router.delete('/leave/:id', checkAuth, async (request, reply) => {
   }
 });
 
-router.delete('/logout', checkAuth, (request, reply) => {
+router.get('/logout', checkAuth, (request, reply) => {
   request.logOut((err) => {
     if (err) {
       request.flash('error', 'Something went wrong');
