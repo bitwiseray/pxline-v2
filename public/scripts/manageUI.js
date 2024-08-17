@@ -58,7 +58,7 @@ class IndexCatcher {
                 const last = lastMessages.find(chat => chat.lastFor === context.chats.chat_id);
                 if (last?.sender && !addedChats.has(context.chats.chat_id)) {
                     const content = `${last.sender === user.display_name ? 'You' : last.sender}: ${last.content}`;
-                    HandleUI.appendChatTile(context.forLast, context.icon, context.title, content, timeAgo(last.createdAt));
+                    HandleUI.appendChatTile(context._id, context.icon, context.title, content, timeAgo(last.createdAt));
                     addedChats.add(context.chats.chat_id);
                 }
             });
@@ -69,7 +69,7 @@ class IndexCatcher {
                     const last = lastMessages.find(message => message.lastFor === chat.chat_id);
                     if (last?.sender && !addedChats.has(chat.chat_id)) {
                         const content = `${last.sender === user.display_name ? 'You' : last.sender}: ${last.content}`;
-                        HandleUI.appendChatTile(chat.chat_id, context.image, context.display_name, content, timeAgo(last.createdAt));
+                        HandleUI.appendChatTile(context._id, context.image, context.display_name, content, timeAgo(last.createdAt));
                         addedChats.add(chat.chat_id);
                     }
                 });
