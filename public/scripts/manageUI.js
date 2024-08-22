@@ -153,6 +153,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     HandleUI.bucketFill(chats.svd_chats, extusers, user, 'user');
                     document.title = `Pxline - ${extusers.display_name}`;
                 }
+              localStorage.setItem('ext', JSON.stringify(chatData));  
             }
         }
         const chatItems = document.querySelectorAll('.chat-item');
