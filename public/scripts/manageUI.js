@@ -52,7 +52,6 @@ class HandleUI {
     static bucketFill(chats, members, user, type) {
         const myId = document.querySelector('.nav-icon').id;
         const chatContent = document.querySelector('.chat-content');
-        
         if (chatContent) {
             chats.forEach((chat) => {
                 const { content, sender, attachments } = chat;
@@ -61,6 +60,7 @@ class HandleUI {
                 const messageBubble = document.createElement('div');
                 messageBubble.classList.add('message-bubble');
                 messageDiv.classList.add('message');
+                messageDiv.id = chat._id;
                 let senderUser;
                 if (type === 'room') {
                     senderUser = chat.sender === user._id ? user : members.find(member => member._id === chat.sender);
@@ -80,7 +80,6 @@ class HandleUI {
                 messageText.textContent = content.text;
                 messageBubble.appendChild(messageText);
                 if (attachments) {
-                    console.log(attachments);
                     const attachImg = document.createElement('img');
                     attachImg.src = attachments;
                     attachImg.classList.add('message-image');
