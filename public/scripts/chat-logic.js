@@ -11,20 +11,18 @@ if (type) {
     const chat = extusers.chats.find(chat => chat.user_id === user._id);
     if (chat) {
       loadId = chat.chat_id;
-      console.log('DM')
     }
   }
-  if (roomId) {
+  if (loadId) {
     socket.emit('joinRoom', { _id: loadId, chatLoad: chatId });
  } else {
     popToast('error', 'Failed to connect to the room');
     console.log('User not found in the chats array.');
  }
 }
-console.log(loadId);
 
 socket.on('messageCreate', (message) => {
-  MessageHandler.fillMessage(message.author.displayname, message.author.image, message.content.text, message.attachments, message.content.timestamp);
+  MessageHandler.fillMessage(message.author.displayname, message.author.image, message.content.text, message.attachments, message.content.timestamp, message.author.id);
 });
 
 socket.on('messageDelete', (obj) => {
@@ -69,7 +67,7 @@ async function sendMessage() {
     attachments: url?.data?.url || null,
   });
   input.value = '';
-  clearMediaFeedback();
+  // clearMediaFeedback();
 }
 
 function deleteMessage(id) {
