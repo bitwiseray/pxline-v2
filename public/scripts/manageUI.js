@@ -91,6 +91,7 @@ class HandleUI {
                 messageBubble.appendChild(timestampSpan);
                 messageDiv.appendChild(messageBubble);
                 chatContent.appendChild(messageDiv);
+                chatContent.scrollTop = chatContent.scrollHeight;
             });
         } else {
             console.error('.chat-content element not found.');
