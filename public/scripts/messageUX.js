@@ -1,4 +1,5 @@
 class MessageHandler {
+    static firstTime = true;
     static fillMessage(senderName, image, content, attachment, timestamp, id) {
         const isMe = id === document.querySelector('.nav-icon').id;
         const messageDiv = document.createElement('div');
@@ -16,20 +17,18 @@ class MessageHandler {
             const attachImg = document.createElement('img');
             attachImg.src = attachment;
             attachImg.classList.add('message-image');
+            messageDiv.appendChild(attachImg);
         }
         const messageBubble = document.createElement('div');
         messageBubble.classList.add('message-bubble');
         messageBubble.innerHTML = `<p>${content}</p><span class="timestamp">${formatTimestamp(timestamp)}</span>`;
         messageDiv.appendChild(messageBubble);
-        chatContent.appendChild(messageDiv);
-        messageDiv.offsetHeight;
         messageDiv.classList.add('animate');
-        let firstTime;
-        if (firstTime) {
+        let container = document.querySelector('.chat-content');
+        container.appendChild(messageDiv);
+        if (MessageHandler.firstTime || container.scrollTop + container.clientHeight === container.scrollHeight) {
             container.scrollTop = container.scrollHeight;
-            firstTime = false;
-        } else if (container.scrollTop + container.clientHeight === container.scrollHeight) {
-            container.scrollTop = container.scrollHeight;
+            MessageHandler.firstTime = false;
         }
     }
 }
