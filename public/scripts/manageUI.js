@@ -35,18 +35,21 @@ class HandleUI {
             console.error('.chat-list element not found.');
         }
     }
-    static createHeader(title, status, imageSrc) {
+    static createHeader(title, imageSrc) {
         const chatHeader = document.querySelector('.chat-header');
         const profilePic = chatHeader.querySelector('.profile-pic');
         profilePic.src = imageSrc;
         const username = chatHeader.querySelector('.user-details .username');
         username.textContent = title;
-        const lastSeen = chatHeader.querySelector('.user-details .last-seen');
-        lastSeen.textContent = status;
-        if (status.toLowerCase() === 'online') {
+    }
+    static subLine(contents, status) {
+        const lastSeen = document.querySelector('.chat-header').querySelector('.user-details .last-seen');
+        if (status = 'ONLINE') {
             lastSeen.classList.add('online');
-        } else {
-            lastSeen.classList.remove('online');
+            lastSeen.textContent = contents;
+        } else if (status = 'ERROR') {
+            lastSeen.classList.add('error');
+            lastSeen.textContent = contents;
         }
     }
     static bucketFill(chats, members, user, type) {

@@ -74,6 +74,10 @@ body {
     font-weight: 600;
 }
 
+.last-seen.error {
+    color: rgb(212, 24, 24);
+}
+
 .header-actions {
     display: flex;
     gap: 10px;

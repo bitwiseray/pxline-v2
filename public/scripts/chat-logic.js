@@ -7,6 +7,7 @@ class ChatHandler {
     static chatId;
     static input = document.querySelector('.input-field');
     static initialize() {
+        HandleUI.subLine('Connecting...', 'STANDBY');
         if (type) {
             if (type === 'room') {
                 ChatHandler.loadId = room._id;
@@ -19,9 +20,9 @@ class ChatHandler {
             }
             if (ChatHandler.loadId) {
                 socket.emit('joinRoom', { _id: ChatHandler.loadId, chatLoad: ChatHandler.chatId });
+                HandleUI.subLine('Connected', 'ONLINE');
             } else {
-                ChatHandler.popToast('error', 'Failed to connect to the room');
-                console.log('User not found in the chats array.');
+                HandleUI.subLine('Failed to connect this chat', 'ERROR');
             }
         }
         socket.on('messageCreate', ChatHandler.handleMessageCreate);
