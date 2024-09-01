@@ -84,3 +84,21 @@ function showFullSizeImage(src) {
   overlay.appendChild(closeButton);
   document.body.appendChild(overlay);
 }
+
+function unloader(loading, error = {}) {
+  const fr = document.querySelector('.unload');
+  const note = document.querySelector('.note');
+  if (!fr || !note) return;
+
+  if (loading) {
+      fr.style.display = 'flex';
+      if (error.status) {
+          note.textContent = error.message || 'Failed to connect to the server, try again later...';
+          note.style.display = 'block';
+      } else {
+          note.style.display = 'none';
+      }
+  } else {
+      fr.style.display = 'none';
+  }
+}

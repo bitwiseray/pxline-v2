@@ -18,6 +18,32 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+.unload {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 1;
+    background-color: #fff;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.unload img {
+    max-width: 30%;
+    animation: scaleRIX 4s ease-in-out infinite;    
+}
+
+@keyframes scaleRIX {
+    0%, 100% {
+        transform: scale(1.3);
+    }
+    50% {
+        transform: scale(1);
+    }
+}
+
 .hero {
     display: flex;
     width: 100%;

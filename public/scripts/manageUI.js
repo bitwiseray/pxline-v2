@@ -169,5 +169,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         });
     }
+    unloader(false);
 });
 
