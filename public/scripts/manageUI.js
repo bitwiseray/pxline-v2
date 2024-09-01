@@ -131,44 +131,53 @@ class IndexCatcher {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const response = await fetch('/source/indexes');
-    if (response.ok) {
-        const data = await response.json();
-        const { extrooms, extusers, user, friends, lastMessages } = data;
-        HandleUI.setNavIconImage(user.image, user._id);
-        IndexCatcher.handleChatTiles(user, lastMessages, extrooms, extusers);
-        const chatId = new URLSearchParams(window.location.search).get('id');
-        if (!chatId) {
-            const firstKey = Array.from(addedChats)[0];
-            if (firstKey) {
-                window.location.href = `/chat?id=${firstKey}`;
-            }
-        } else {
-            const chatResponse = await fetch(`/source/chat/${chatId}`);
-            if (chatResponse.ok) {
-                const chatData = await chatResponse.json();
-                const { chats, extusers, room, type, user } = chatData;
-                if (type === 'room') {
-                    HandleUI.createHeader(room.title, room.icon);
-                    HandleUI.bucketFill(chats.svd_chats, extusers, user, 'room');
-                    document.title = `Pxline - ${room.title}`;
-                } else {
-                    HandleUI.createHeader(extusers.display_name, extusers.image);
-                    HandleUI.bucketFill(chats.svd_chats, extusers, user, 'user');
-                    document.title = `Pxline - ${extusers.display_name}`;
+    try {
+        const response = await fetch('/source/indexes');
+        if (response.ok) {
+            const data = await response.json();
+            const { extrooms, extusers, user, friends, lastMessages } = data;
+            HandleUI.setNavIconImage(user.image, user._id);
+            IndexCatcher.handleChatTiles(user, lastMessages, extrooms, extusers);
+            const chatId = new URLSearchParams(window.location.search).get('id');
+            if (!chatId) {
+                const firstKey = Array.from(addedChats)[0];
+                if (firstKey) {
+                    window.location.href = `/chat?id=${firstKey}`;
                 }
-              localStorage.setItem('ext', JSON.stringify(chatData));
-              ChatHandler.initialize();
+            } else {
+                const chatResponse = await fetch(`/source/chat/${chatId}`);
+                if (chatResponse.ok) {
+                    const chatData = await chatResponse.json();
+                    const { chats, extusers, room, type, user } = chatData;
+                    if (type === 'room') {
+                        HandleUI.createHeader(room.title, 'Room', room.icon, 'room');
+                        HandleUI.bucketFill(chats.svd_chats, extusers, user, 'room');
+                        document.title = `Pxline - ${room.title}`;
+                    } else {
+                        HandleUI.createHeader(extusers.display_name, 'Hi', extusers.image, 'user');
+                        HandleUI.bucketFill(chats.svd_chats, extusers, user, 'user');
+                        document.title = `Pxline - ${extusers.display_name}`;
+                    }
+                    localStorage.setItem('ext', JSON.stringify(chatData));
+                    ChatHandler.initialize();
+                } else {
+                    unloader(true, { status: true, message: 'Something went wrong, please try again later or contact support' });
+                    return;
+                }
             }
-        }
-        const chatItems = document.querySelectorAll('.chat-item');
-        chatItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const chatId = item.id;
-                window.location.href = `/chat?id=${chatId}`;
+            const chatItems = document.querySelectorAll('.chat-item');
+            chatItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const chatId = item.id;
+                    window.location.href = `/chat?id=${chatId}`;
+                });
             });
-        });
+        } else {
+            unloader(true, { status: true, message: 'Failed to load chats, please try again later' });
+            return;
+        }
+        unloader(false);
+    } catch (error) {
+        unloader(true, { status: true, message: 'An unexpected error occurred. Please try again later or contact support.' });
     }
-    unloader(false);
 });
-
