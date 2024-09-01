@@ -21,7 +21,7 @@ class MessageHandler {
         }
         const messageBubble = document.createElement('div');
         messageBubble.classList.add('message-bubble');
-        messageBubble.innerHTML = `<p>${content}</p><span class="timestamp">${formatTimestamp(timestamp)}</span>`;
+        messageBubble.innerHTML = `<p>${content}</p><span class="timestamp">${formatTimestamp(timestamp, true)}</span>`;
         messageDiv.appendChild(messageBubble);
         messageDiv.classList.add('animate');
         let container = document.querySelector('.chat-content');
