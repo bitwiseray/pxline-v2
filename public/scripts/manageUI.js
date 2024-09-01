@@ -150,11 +150,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const chatData = await chatResponse.json();
                     const { chats, extusers, room, type, user } = chatData;
                     if (type === 'room') {
-                        HandleUI.createHeader(room.title, 'Room', room.icon, 'room');
+                        HandleUI.createHeader(room.title, room.icon);
                         HandleUI.bucketFill(chats.svd_chats, extusers, user, 'room');
                         document.title = `Pxline - ${room.title}`;
                     } else {
-                        HandleUI.createHeader(extusers.display_name, 'Hi', extusers.image, 'user');
+                        HandleUI.createHeader(extusers.display_name, extusers.image);
                         HandleUI.bucketFill(chats.svd_chats, extusers, user, 'user');
                         document.title = `Pxline - ${extusers.display_name}`;
                     }
