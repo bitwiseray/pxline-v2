@@ -1,6 +1,6 @@
 .people-box {
     width: 20%;
-    border-right: 1px solid #aaa;
+    border-right: 1px solid #ddd;
     height: 100vh;
     display: flex;
     flex-direction: column;
