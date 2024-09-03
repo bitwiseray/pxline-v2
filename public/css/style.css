@@ -208,6 +208,7 @@ body {
 }
 
 .timestamp {
+    display: none;
     font-size: 11px;
     color: #aaa;
     position: absolute;
