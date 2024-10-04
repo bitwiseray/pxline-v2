@@ -78,20 +78,24 @@
     display: flex;
     justify-content: space-between;
     color: #000;
+    font-size: 17.2px;
     font-weight: bold;
 }
 
 .chat-message {
     color: #b6a3b8;
-    font-size: 15px;
+    font-size: 15.8x;
+    max-width: 214px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    margin-top: 2px;
 }
 
 .chat-message.unread {
     color: #000;
-    font-weight: 600;
+    font-weight: 550;
+    font-size: 15px;
 }
 
 .chat-time {
